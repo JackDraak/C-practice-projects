@@ -11,26 +11,29 @@ using namespace std;
 // function prototypes
 void PrintIntro();
 string GetGuess();
+void PrintGuess(string);
 
-// Application Entry-Point
+// application entry-point
 int main()
 {
     string sGuess = "";
+    constexpr int cMaxGuesses = 5;
 
     PrintIntro();
-    sGuess = GetGuess();
 
-    // Repeat Player Guess
-    cout << "\nYour guess was: " << sGuess << ", was it not?";
-    cout << endl;
-
+    for (int i = 1; i <= cMaxGuesses; i++)
+    {
+        sGuess = GetGuess();
+        PrintGuess(sGuess);
+        cout << endl;
+    }
+ 
     return 0;
 }
 
-// Implementation of functions
+// method implenentations
 void PrintIntro()
 {
-    // Game Intro
     int iWordLen = 9; // TODO iWordLen should be determined based on player level and/or score 
     cout << "INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
     cout << " - what is an isogram?\n";
@@ -40,9 +43,14 @@ void PrintIntro()
     cout << endl;
 }
 
+void PrintGuess(string sGuess)
+{
+    cout << "\nYour guess was: " << sGuess << ", was it not?";
+    cout << endl;
+}
+
 string GetGuess() 
 {
-    // Get Player Guess
     string sGuess = "";
     cout << "Please, enter your guess now: ";
     getline(cin, sGuess);
