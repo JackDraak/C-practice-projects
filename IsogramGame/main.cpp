@@ -10,16 +10,15 @@ using namespace std;
 
 // function prototypes
 void PrintIntro();
+string GetGuess();
 
 // Application Entry-Point
 int main()
 {
-    PrintIntro();
-
-    // Get Player Guess
     string sGuess = "";
-    cout << "Please, enter your guess now: ";
-    getline(cin, sGuess);
+
+    PrintIntro();
+    sGuess = GetGuess();
 
     // Repeat Player Guess
     cout << "\nYour guess was: " << sGuess << ", was it not?";
@@ -39,4 +38,14 @@ void PrintIntro()
     cout << "...details, detials... We'll get to that later!\n\n";
     cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
     cout << endl;
+}
+
+string GetGuess() 
+{
+    // Get Player Guess
+    string sGuess = "";
+    cout << "Please, enter your guess now: ";
+    getline(cin, sGuess);
+    string Valid_Guess = sGuess; // TODO implement validation
+    return Valid_Guess;
 }
