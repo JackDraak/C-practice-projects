@@ -23,10 +23,20 @@ int main()
     // Get Player Guess
     string sGuess = "";
     cout << "Please, enter your guess now: ";
-    cin >> sGuess;
+    getline(cin, sGuess);
 
     // Repeat Player Guess
-    cout << "\nYour guess was " << sGuess << " was it not?\n";
+    cout << "\nYour guess was: " << sGuess << ", was it not?";
+    cout << endl;
+
+    // Get Player Guess Again
+    cout << "Please, enter your next guess now: ";
+    getline(cin, sGuess);
+
+    // Repeat Player Guess
+    cout << "\nYour guess was: " << sGuess << ", was it not?";
+    cout << endl;
+
 
     return 0;
 }
