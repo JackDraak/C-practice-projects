@@ -1,7 +1,10 @@
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
-    std::cout << "Hello, W O R L D\n";
+    cout << "Hello, W O R L D";
+    cout << endl;
     return 0;
 }
