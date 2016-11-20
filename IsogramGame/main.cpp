@@ -6,24 +6,19 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 // function prototypes
 void PrintIntro();
 void PlayGame();
-string GetGuess();
-void PrintGuess(string);
+std::string GetGuess();
+void PrintGuess(std::string);
 bool bContinuePlaying();
 
 // application entry-point
 int main()
 {
     PrintIntro();
-    do 
-    {
-        PlayGame();
-    } 
-    while (bContinuePlaying() == true);
+    do { PlayGame(); } 
+    while (bContinuePlaying());
 
     return 0;
 }
@@ -31,13 +26,13 @@ int main()
 void PlayGame()
 {
     constexpr int cMaxGuesses = 5;
-    string sGuess = "";
+    std::string sGuess = "";
 
     for (int i = 1; i <= cMaxGuesses; i++)
     {
         sGuess = GetGuess();
         PrintGuess(sGuess);
-        cout << endl;
+        std::cout << std::endl;
     }
 }
 
@@ -45,9 +40,9 @@ void PlayGame()
 // method implenentations
 bool bContinuePlaying()
 {
-    cout << "\nWould you like to continue playing?\n";
-    string sResponce = "";
-    getline(cin, sResponce);
+    std::cout << "\nWould you like to continue playing? (y/n) ";
+    std::string sResponce = "";
+    getline(std::cin, sResponce);
     if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) { return true; }
     return false; // implicit else
 }
@@ -55,25 +50,25 @@ bool bContinuePlaying()
 void PrintIntro()
 {
     int iWordLen = 9; // TODO iWordLen should be determined based on player level and/or score 
-    cout << "INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
-    cout << " - what is an isogram?\n";
-    cout << " - how do I play?\n";
-    cout << "...details, detials... We'll get to that later!\n\n";
-    cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
-    cout << endl;
+    std::cout << "INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
+    std::cout << " - what is an isogram?\n";
+    std::cout << " - how do I play?\n";
+    std::cout << "...details, detials... We'll get to that later!\n\n";
+    std::cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
+    std::cout << std::endl;
 }
 
-void PrintGuess(string sGuess)
+void PrintGuess(std::string sGuess)
 {
-    cout << "\nYour guess was: " << sGuess << ", was it not?";
-    cout << endl;
+    std::cout << "\nYour guess was: " << sGuess << ", was it not?";
+    std::cout << std::endl;
 }
 
-string GetGuess() 
+std::string GetGuess() 
 {
-    string sGuess = "";
-    cout << "Please, enter your guess now: ";
-    getline(cin, sGuess);
-    string Valid_Guess = sGuess; // TODO implement validation
+    std::string sGuess = "";
+    std::cout << "Please, enter your guess now: ";
+    getline(std::cin, sGuess);
+    std::string Valid_Guess = sGuess; // TODO implement validation
     return Valid_Guess;
 }
