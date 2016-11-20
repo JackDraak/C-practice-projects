@@ -10,16 +10,28 @@ using namespace std;
 
 // function prototypes
 void PrintIntro();
+void PlayGame();
 string GetGuess();
 void PrintGuess(string);
+bool bContinuePlaying();
 
 // application entry-point
 int main()
 {
-    string sGuess = "";
-    constexpr int cMaxGuesses = 5;
-
     PrintIntro();
+    do 
+    {
+        PlayGame();
+    } 
+    while (bContinuePlaying() == true);
+
+    return 0;
+}
+
+void PlayGame()
+{
+    constexpr int cMaxGuesses = 5;
+    string sGuess = "";
 
     for (int i = 1; i <= cMaxGuesses; i++)
     {
@@ -27,11 +39,19 @@ int main()
         PrintGuess(sGuess);
         cout << endl;
     }
- 
-    return 0;
 }
 
+
 // method implenentations
+bool bContinuePlaying()
+{
+    cout << "\nWould you like to continue playing?\n";
+    string sResponce = "";
+    getline(cin, sResponce);
+    if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) { return true; }
+    return false; // implicit else
+}
+
 void PrintIntro()
 {
     int iWordLen = 9; // TODO iWordLen should be determined based on player level and/or score 
