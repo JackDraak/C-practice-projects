@@ -1,17 +1,25 @@
-/*
+/* 
     Isogram Game
     based on https://www.udemy.com/unrealcourse/ by Ben Tristem (Thanks, Ben!)
     coded by Jack Draak
+
+    requires: 
+        main.cpp        - this source code, used for Input/Output with user/console
+        IsogramGamne.h  - shared header file
+        IsogramGame.cpp - game mechanics source code as a class called IsogramGame
 */
 #include <iostream>
 #include <string>
+#include "IsogramGame.h"
 
 // function prototypes
+bool bContinuePlaying();
+std::string GetGuess();
 void PrintIntro();
 void PlayGame();
-std::string GetGuess();
 void PrintGuess(std::string);
-bool bContinuePlaying();
+
+IsogramGame LiveGame;
 
 // application entry-point
 int main()
@@ -64,6 +72,9 @@ void PrintGuess(std::string sGuess)
 std::string GetGuess() 
 {
     std::string sGuess = "";
+    std::cout << "Isogram Length: " << LiveGame.iGetIsogramLength();
+    std::cout << ", turn #" << LiveGame.iGetCurrentGuessNumber();
+    std::cout << " of " << LiveGame.iGetMaxGuesses();
     std::cout << "Please, enter your guess now: ";
     getline(std::cin, sGuess);
     std::string Valid_Guess = sGuess; // TODO implement validation
