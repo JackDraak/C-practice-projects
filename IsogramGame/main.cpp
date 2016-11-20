@@ -19,7 +19,6 @@ int main()
     PrintIntro();
     do { PlayGame(); } 
     while (bContinuePlaying());
-
     return 0;
 }
 
@@ -27,7 +26,6 @@ void PlayGame()
 {
     constexpr int cMaxGuesses = 5;
     std::string sGuess = "";
-
     for (int i = 1; i <= cMaxGuesses; i++)
     {
         sGuess = GetGuess();
@@ -35,7 +33,6 @@ void PlayGame()
         std::cout << std::endl;
     }
 }
-
 
 // method implenentations
 bool bContinuePlaying()

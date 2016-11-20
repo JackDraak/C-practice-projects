@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 //this class does not need to be named the same as the .cpp file.....
 //this file may also contain more than one class.
