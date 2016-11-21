@@ -8,13 +8,13 @@ coded by Jack Draak
 #include "IsogramGame.h"
 
 // function prototypes
-void PrintIntro();
-void PlayGame();
-std::string GetGuess();
-void PrintGuess(std::string);
 bool bContinuePlaying();
+void PlayGame();
+void PrintGuess(std::string);
+void PrintIntro();
+std::string GetGuess();
 
-// create instance object of class
+// instantiate an object of the class named ActiveGame
 IsogramGame ActiveGame;
 
 // application entry-point
@@ -53,32 +53,29 @@ bool bContinuePlaying()
         ActiveGame.Reset();
         return true;
     }
-   
     // implicit else
     return false; 
 }
 
 void PrintIntro()
 {
-    int iWordLen = 9; // TODO iWordLen should be determined based on player level and/or score 
-    std::cout << "INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
+    int iWordLen = ActiveGame.iGetIsogramLength();
+    std::cout << "\n\nINTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
     std::cout << " - what is an isogram?\n";
-    std::cout << " - how do I play?\n";
-    std::cout << "...details, detials... We'll get to that later!\n\n";
+    std::cout << " - how do I play?\n\n";
+    std::cout << "...details, detials... We'll get to that later!\n";
     std::cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
-    std::cout << std::endl;
 }
 
 void PrintGuess(std::string sGuess)
 {
-    std::cout << "\nYour guess was: " << sGuess << ", was it not?";
-    std::cout << std::endl;
+    std::cout << "\nYour guess was: \"" << sGuess << "\", was it not?";
 }
 
 std::string GetGuess()
 {
     std::string sGuess = "";
-    std::cout << "Please, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
+    std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
     getline(std::cin, sGuess);
     std::string Valid_Guess = sGuess; // TODO implement validation
     ActiveGame.IncrementGuess();

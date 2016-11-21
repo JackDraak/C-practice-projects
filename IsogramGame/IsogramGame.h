@@ -1,17 +1,16 @@
 #pragma once
 
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
-//this class does not need to be named the same as the .cpp file.....
-//this file may also contain more than one class.
 class IsogramGame {
 public:
     IsogramGame(); // constructor 
 
     void Reset();
-    void IncrementGuess();
     void EvaluateGuess() const;
-    int iGetMaxGuesses() const;
+    void IncrementGuess();
     int iGetCurrentGuess() const;
+    int iGetIsogramLength() const;
+    int iGetMaxGuesses() const;
     bool bIsIsogramRevealed() const;
     //NewType ScoreValidGuess();
 
@@ -19,4 +18,9 @@ public:
 private:
     int iCurrentGuess;
     int iMaxGuesses;
+    int iIsogramLength;
+    int iScore;
+    int iWinCount;
+    int iLossCount;
+    bool bInitialized;
 };
