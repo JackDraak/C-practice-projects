@@ -1,8 +1,19 @@
 #include "IsogramGame.h"
 
-void IsogramGame::Reset() {}
-void IsogramGame::IncrementGuess() { iCurrentGuess++; }
-void IsogramGame::EvaluateGuess() {}
-int IsogramGame::iGetMaxGuesses() { return iMaxGuesses; }
-int IsogramGame::iGetCurrentGuess() { return iCurrentGuess; }
-bool IsogramGame::bGuessSuccess() { return false; }
+void IsogramGame::IncrementGuess()          { iCurrentGuess++; }
+void IsogramGame::EvaluateGuess() const     { return; }
+int IsogramGame::iGetMaxGuesses() const     { return iMaxGuesses; }
+int IsogramGame::iGetCurrentGuess() const   { return iCurrentGuess; }
+bool IsogramGame::bIsIsogramRevealed() const { return false; }
+
+IsogramGame::IsogramGame()
+{
+    Reset();
+}
+
+void IsogramGame::Reset()
+{
+    iCurrentGuess = 1;
+    iMaxGuesses = 4;
+    return;
+}

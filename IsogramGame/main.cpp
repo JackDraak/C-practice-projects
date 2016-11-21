@@ -14,10 +14,12 @@ std::string GetGuess();
 void PrintGuess(std::string);
 bool bContinuePlaying();
 
+// create instance object of class
+IsogramGame ActiveGame;
+
 // application entry-point
 int main()
 {
-
     PrintIntro();
     do { PlayGame(); } while (bContinuePlaying());
     return 0;
@@ -25,13 +27,9 @@ int main()
 
 void PlayGame()
 {
-    // create instance object of class
-    IsogramGame ActiveGame;
-
-   // constexpr int cMaxGuesses = 4;
-   int cMaxGuesses = ActiveGame.iGetMaxGuesses();
-
+    int cMaxGuesses = ActiveGame.iGetMaxGuesses();
     std::string sGuess = "";
+
     for (int i = 1; i <= cMaxGuesses; i++)
     {
         sGuess = GetGuess();
@@ -46,8 +44,14 @@ bool bContinuePlaying()
     std::cout << "\nWould you like to continue playing? (y/n) ";
     std::string sResponce = "";
     getline(std::cin, sResponce);
-    if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) { return true; }
-    return false; // implicit else
+    if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) 
+    {
+        ActiveGame.Reset();
+        return true;
+    }
+   
+    // implicit else
+    return false; 
 }
 
 void PrintIntro()
@@ -70,8 +74,9 @@ void PrintGuess(std::string sGuess)
 std::string GetGuess()
 {
     std::string sGuess = "";
-    std::cout << "Please, enter your guess now: ";
+    std::cout << "Please, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
     getline(std::cin, sGuess);
     std::string Valid_Guess = sGuess; // TODO implement validation
+    ActiveGame.IncrementGuess();
     return Valid_Guess;
 }

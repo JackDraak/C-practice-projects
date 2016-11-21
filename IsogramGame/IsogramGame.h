@@ -5,15 +5,17 @@
 //this file may also contain more than one class.
 class IsogramGame {
 public:
-    void Reset(); // TODO enhanced return value, i.e. int iWordLength
-    void IncrementGuess();
-    void EvaluateGuess();
-    int iGetMaxGuesses();
-    int iGetCurrentGuess();
-    bool bGuessSuccess();
+    IsogramGame(); // constructor 
 
-    // ignore this area for now.....
+    void Reset();
+    void IncrementGuess();
+    void EvaluateGuess() const;
+    int iGetMaxGuesses() const;
+    int iGetCurrentGuess() const;
+    bool bIsIsogramRevealed() const;
+
+    // see constructor for initialization
 private:
-    int iCurrentGuess = 1;
-    int iMaxGuesses = 4;
+    int iCurrentGuess;
+    int iMaxGuesses;
 };
