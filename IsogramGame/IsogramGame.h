@@ -14,7 +14,7 @@ public:
     bool bIsIsogramRevealed() const;
     //NewType ScoreValidGuess();
 
-    // see constructor for initialization
+    // see IsogramGame::IsogramGame() definition for initialization
 private:
     int iCurrentGuess;
     int iMaxGuesses;

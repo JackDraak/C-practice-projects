@@ -14,7 +14,7 @@ void PrintGuess(std::string);
 void PrintIntro();
 std::string GetGuess();
 
-// instantiate an object of the class named ActiveGame
+// instantiate an object of the Isogramgame class named: ActiveGame
 IsogramGame ActiveGame;
 
 // application entry-point
@@ -25,6 +25,7 @@ int main()
     return 0;
 }
 
+// method implenentations
 void PlayGame()
 {
     int cMaxGuesses = ActiveGame.iGetMaxGuesses();
@@ -42,7 +43,6 @@ void PlayGame()
     // TODO summarize game phase
 }
 
-// method implenentations
 bool bContinuePlaying()
 {
     std::cout << "\nWould you like to continue playing? (y/n) ";
