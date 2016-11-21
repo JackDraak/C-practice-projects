@@ -30,12 +30,16 @@ void PlayGame()
     int cMaxGuesses = ActiveGame.iGetMaxGuesses();
     std::string sGuess = "";
 
+    // TODO use while once validating input
     for (int i = 1; i <= cMaxGuesses; i++)
     {
-        sGuess = GetGuess();
+        sGuess = GetGuess(); // TODO validate input
+        // TODO submit valid guess to game engine
+        // TODO print results of the guess
         PrintGuess(sGuess);
         std::cout << std::endl;
     }
+    // TODO summarize game phase
 }
 
 // method implenentations

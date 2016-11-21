@@ -13,6 +13,7 @@ public:
     int iGetMaxGuesses() const;
     int iGetCurrentGuess() const;
     bool bIsIsogramRevealed() const;
+    //NewType ScoreValidGuess();
 
     // see constructor for initialization
 private:
