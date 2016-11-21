@@ -5,6 +5,7 @@ coded by Jack Draak
 */
 #include <iostream>
 #include <string>
+#include "IsogramGame.h"
 
 // function prototypes
 void PrintIntro();
@@ -16,6 +17,7 @@ bool bContinuePlaying();
 // application entry-point
 int main()
 {
+
     PrintIntro();
     do { PlayGame(); } while (bContinuePlaying());
     return 0;
@@ -23,7 +25,12 @@ int main()
 
 void PlayGame()
 {
-    constexpr int cMaxGuesses = 5;
+    // create instance object of class
+    IsogramGame ActiveGame;
+
+   // constexpr int cMaxGuesses = 4;
+   int cMaxGuesses = ActiveGame.iGetMaxGuesses();
+
     std::string sGuess = "";
     for (int i = 1; i <= cMaxGuesses; i++)
     {

@@ -1,5 +1,6 @@
 #pragma once
 
+// CLASS IsogramGame -- functions that manage the core of the Isogram Game
 //this class does not need to be named the same as the .cpp file.....
 //this file may also contain more than one class.
 class IsogramGame {
@@ -13,6 +14,6 @@ public:
 
     // ignore this area for now.....
 private:
-    int iCurrentGuess;
-    int iMaxGuesses;
+    int iCurrentGuess = 1;
+    int iMaxGuesses = 4;
 };
