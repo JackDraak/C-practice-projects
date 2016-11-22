@@ -81,6 +81,7 @@ FText GetGuess()
     FText sGuess = "";
     std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
     getline(std::cin, sGuess);
+ //   sGuess = sGuess.tolower();
     FText Valid_Guess = sGuess; // TODO implement validation
     ActiveGame.IncrementGuess();
     return Valid_Guess;

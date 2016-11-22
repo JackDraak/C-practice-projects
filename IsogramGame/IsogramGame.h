@@ -11,12 +11,22 @@ struct Analysis
     bool bDoesGuessMatchIsogram = false;
 };
 
+enum class eGuessValidation
+{
+    OK,
+    Not_Alpha,
+    Not_Isogram,
+    Too_Short,
+    Too_Long
+};
+
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
 class IsogramGame {
 public:
     IsogramGame(); // constructor 
 
     Analysis AnalyzeGuess(FString); // requires validated input
+    eGuessValidation ValidateGuess(FString) const;
  //   bool bIsIsogramRevealed() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;

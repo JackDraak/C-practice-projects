@@ -4,6 +4,13 @@
 using int32 = int;
 
 // bool IsogramGame::bIsIsogramRevealed() const    { return ; } 
+
+eGuessValidation IsogramGame::ValidateGuess(FString sGuess) const 
+{
+   // if (sGuess) {} // TODO 1st priority
+    return eGuessValidation::OK; // TODO finish tests
+}
+
 int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const    { return sIsogram.length(); }
 int32 IsogramGame::iGetMaxGuesses() const       { return iMaxGuesses; }
