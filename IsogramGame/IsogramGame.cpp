@@ -1,3 +1,4 @@
+#include<string>
 #include "IsogramGame.h"
 
 void IsogramGame::IncrementGuess()          { iCurrentGuess++; }
@@ -14,6 +15,11 @@ IsogramGame::IsogramGame()
     Reset();
 }
 
+std::string IsogramGame::SelectIsogram()
+{
+    return std::string("isogram"); // TODO y'know, more isograms!
+}
+
 void IsogramGame::Reset()
 {
     if (!bInitialized) 
@@ -24,7 +30,7 @@ void IsogramGame::Reset()
         iLossCount = 0;
     }
     iCurrentGuess = 1;
-    // build and call function to select new isogram
-    iIsogramLength = 6; // TODO make this what it says it is
+    sIsogram = SelectIsogram();
+    iIsogramLength = sIsogram.length();
     return;
 }

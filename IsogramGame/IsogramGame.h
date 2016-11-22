@@ -5,14 +5,15 @@ class IsogramGame {
 public:
     IsogramGame(); // constructor 
 
+    bool bIsIsogramRevealed() const;
     void Reset();
     void EvaluateGuess() const;
     void IncrementGuess();
     int iGetCurrentGuess() const;
     int iGetIsogramLength() const;
     int iGetMaxGuesses() const;
-    bool bIsIsogramRevealed() const;
     //NewType ScoreValidGuess();
+    std::string SelectIsogram();
 
     // see IsogramGame::IsogramGame() definition for initialization
 private:
@@ -23,4 +24,5 @@ private:
     int iWinCount;
     int iLossCount;
     bool bInitialized;
+    std::string sIsogram;
 };
