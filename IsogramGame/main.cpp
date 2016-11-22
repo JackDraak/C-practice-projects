@@ -28,13 +28,6 @@ IsogramGame ActiveGame;
 // -- Application entry-point
 int main()
 {
-    /*
-    std::cout << "\nTrue: " << true;
-    std::cout << "\nFalse: " << false;
-    std::cout << "\n(((true || false) && true) || false): " << (((true || false) && true) || false);
-    std::cout << "\n(true || false): " << (true || false);
-    */
-
     PrintIntro();
     do { PlayGame(); } while (bContinuePlaying());
     return 0;
@@ -51,9 +44,8 @@ void PlayGame()
     for (int32 i = 1; i <= cMaxGuesses; i++)
     {
         sGuess = GetGuess(); // TODO validate input
-        // TODO submit valid guess to game engine
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
-        // TODO print results of the guess
+        // TODO enhance printed results of the guess
         std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
         std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches;
     }

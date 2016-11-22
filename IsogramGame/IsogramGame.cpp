@@ -3,9 +3,9 @@
 
 using int32 = int;
 
-bool IsogramGame::bIsIsogramRevealed() const    { return bIsIsogramMatched; } 
+// bool IsogramGame::bIsIsogramRevealed() const    { return ; } 
 int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
-int32 IsogramGame::iGetIsogramLength() const    { return iIsogramLength; }
+int32 IsogramGame::iGetIsogramLength() const    { return sIsogram.length(); }
 int32 IsogramGame::iGetMaxGuesses() const       { return iMaxGuesses; }
 void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
 
@@ -18,6 +18,7 @@ IsogramGame::IsogramGame()
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis; // setup return variable
+    int32 iIsogramLength = sIsogram.length();
 
     for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
         for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
@@ -37,12 +38,13 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     if (analysis.iPositionMatches == iIsogramLength) 
     {
         // TODO need to settle on one of these rather than doing both....
-        bIsIsogramMatched = true;
+  //      bIsIsogramMatched = true;
         analysis.bDoesGuessMatchIsogram = true;
+        
     }
     else {
         // TODO need to settle on one of these rather than doing both....
-        bIsIsogramMatched = false;
+  //      bIsIsogramMatched = false;
         analysis.bDoesGuessMatchIsogram = false;
     }
     return analysis;
@@ -62,9 +64,8 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
-    bIsIsogramMatched = false;
+//    bIsIsogramMatched = false;
     iCurrentGuess = 1;
     sIsogram = SelectIsogram();
-    iIsogramLength = sIsogram.length();
     return;
 }

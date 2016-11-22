@@ -17,7 +17,7 @@ public:
     IsogramGame(); // constructor 
 
     Analysis AnalyzeGuess(FString); // requires validated input
-    bool bIsIsogramRevealed() const;
+ //   bool bIsIsogramRevealed() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
@@ -28,10 +28,9 @@ public:
     // see IsogramGame::IsogramGame() definition for initialization
 private:
     bool bInitialized;
-    bool bIsIsogramMatched;
+ //   bool bIsIsogramMatched;
     FString sIsogram;
     int32 iCurrentGuess;
-    int32 iIsogramLength;
     int32 iLossCount;
     int32 iMaxGuesses;
     int32 iScore;
