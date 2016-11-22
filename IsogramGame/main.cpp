@@ -3,11 +3,13 @@ Isogram Game
 based on https://www.udemy.com/unrealcourse/ by Ben Tristem (Thanks, Ben!)
 coded by Jack Draak
 */
+
 #include <iostream>
 #include <string>
 #include "IsogramGame.h"
 
-// function prototypes
+// -- Function prototypes follow:
+
 bool bContinuePlaying();
 void PlayGame();
 void PrintGuess(std::string);
@@ -17,15 +19,21 @@ std::string GetGuess();
 // instantiate an object of the Isogramgame class named: ActiveGame
 IsogramGame ActiveGame;
 
-// application entry-point
+// -- Application entry-point
 int main()
 {
+    std::cout << "\nTrue: " << true;
+    std::cout << "\nFalse: " << false;
+    std::cout << "\n(((true || false) && true) || false): " << (((true || false) && true) || false);
+    std::cout << "\n(((true || false): " << (true || false);
+
     PrintIntro();
     do { PlayGame(); } while (bContinuePlaying());
     return 0;
 }
 
-// method implenentations
+// -- Method implementations follow:
+
 void PlayGame()
 {
     int cMaxGuesses = ActiveGame.iGetMaxGuesses();
@@ -37,8 +45,7 @@ void PlayGame()
         sGuess = GetGuess(); // TODO validate input
         // TODO submit valid guess to game engine
         // TODO print results of the guess
-        PrintGuess(sGuess);
-        std::cout << std::endl;
+        PrintGuess(sGuess); // TODO ditch this once printing results
     }
     // TODO summarize game phase
 }
