@@ -19,7 +19,6 @@ using int32 = int;
 
 bool bContinuePlaying();
 void PlayGame();
-void PrintGuess(FText);
 void PrintIntro();
 FText GetGuess();
 
@@ -55,10 +54,8 @@ void PlayGame()
         // TODO submit valid guess to game engine
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         // TODO print results of the guess
-    //    PrintGuess(sGuess); // TODO ditch this once printing results
         std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
         std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches;
-        ActiveGame.IncrementGuess(); // given validated input, increment the turn
     }
     // TODO summarize game phase
 }
@@ -87,17 +84,12 @@ void PrintIntro()
     std::cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
 }
 
-void PrintGuess(FText sGuess)
-{
-    std::cout << "\nYour guess was: \"" << sGuess << "\", was it not?";
-}
-
 FText GetGuess()
 {
     FText sGuess = "";
     std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
     getline(std::cin, sGuess);
     FText Valid_Guess = sGuess; // TODO implement validation
-   // ActiveGame.IncrementGuess(); // following lecture 32, doing this in isogramgame.cpp ?? (not working)
+    ActiveGame.IncrementGuess();
     return Valid_Guess;
 }
