@@ -53,7 +53,7 @@ void PlayGame()
     {
         sGuess = GetGuess(); // TODO validate input
         // TODO submit valid guess to game engine
-        Analysis analysis = ActiveGame.AnalizeGuess(sGuess);
+        Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         // TODO print results of the guess
     //    PrintGuess(sGuess); // TODO ditch this once printing results
         std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
