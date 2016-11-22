@@ -1,14 +1,18 @@
 #include<string>
+#include<iostream>
 #include "IsogramGame.h"
 
 using int32 = int;
 
-// bool IsogramGame::bIsIsogramRevealed() const    { return ; } 
-
 eGuessValidation IsogramGame::ValidateGuess(FString sGuess) const 
 {
-   // if (sGuess) {} // TODO 1st priority
-    return eGuessValidation::OK; // TODO finish tests
+    // TODO 1st priority
+    if (!bIsAlpha(sGuess))                      { return eGuessValidation::Not_Alpha; }
+    if (!bIsIsogram(sGuess))                    { return eGuessValidation::Not_Isogram; }
+    std::cout << "\nDEBUG: " << sIsogram << " " << sIsogram.length(); // DEBUG
+    if (sGuess.length() > sIsogram.length())    { return eGuessValidation::Too_Long; }
+    if (sGuess.length() < sIsogram.length())    { return eGuessValidation::Too_Short; }
+    return eGuessValidation::Okay; // default return
 }
 
 int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
@@ -20,6 +24,29 @@ IsogramGame::IsogramGame()
 {
     iMaxGuesses = 4;
     Reset();
+}
+
+bool IsogramGame::bIsAlpha(FString sTestString) const // TODO finish test
+{
+    int iLength = sTestString.length();
+    for (int i = 0; i < iLength; i++)
+    {
+        if (!isalpha(sTestString[i])) return false;
+    }
+    return true;
+}
+
+bool IsogramGame::bIsIsogram(FString sTestString) const // TODO finish test
+{
+    int iLength = sTestString.length();
+    for (int i = 0; i < iLength; i++) 
+    {
+        for (int j = 0; j < iLength; j++)
+        {
+            if (sTestString[i] == sTestString[j]) { return false; }
+        }
+    }
+    return true;
 }
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
@@ -44,14 +71,8 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 
     if (analysis.iPositionMatches == iIsogramLength) 
     {
-        // TODO need to settle on one of these rather than doing both....
-  //      bIsIsogramMatched = true;
-        analysis.bDoesGuessMatchIsogram = true;
-        
-    }
-    else {
-        // TODO need to settle on one of these rather than doing both....
-  //      bIsIsogramMatched = false;
+        analysis.bDoesGuessMatchIsogram = true; 
+    } else {
         analysis.bDoesGuessMatchIsogram = false;
     }
     return analysis;
@@ -62,6 +83,8 @@ std::string IsogramGame::SelectIsogram()
     return std::string("isogram"); // TODO y'know, more isograms!
 }
 
+
+
 void IsogramGame::Reset()
 {
     if (!bInitialized) 
@@ -71,7 +94,6 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
-//    bIsIsogramMatched = false;
     iCurrentGuess = 1;
     sIsogram = SelectIsogram();
     return;

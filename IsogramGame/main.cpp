@@ -62,7 +62,6 @@ bool bContinuePlaying()
         ActiveGame.Reset();
         return true;
     }
-    // implicit else
     return false; 
 }
 
@@ -78,11 +77,25 @@ void PrintIntro()
 
 FText GetGuess()
 {
+  //  EGuessQuality Status = EGuessQuality::Invalid_Status;
     FText sGuess = "";
-    std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
-    getline(std::cin, sGuess);
- //   sGuess = sGuess.tolower();
+   // do {
+        std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
+        getline(std::cin, sGuess);
+     //   ActiveGame.IsogramGame::AnalyzeGuess(sGuess);
+    // } while (IsogramGame::ValidateGuess(sGuess));
+
     FText Valid_Guess = sGuess; // TODO implement validation
     ActiveGame.IncrementGuess();
     return Valid_Guess;
 }
+/*
+// Provide meaningful feedback if the guess is invalid:
+Status = BCGame.CheckGuessValidity(Guess);
+switch (Status)
+{
+case EGuessQuality::Length_Mismatch:
+    std::cout << "\nOops, that won't work! `" << Guess << "` has " << Guess.length() << " letters.\n";
+    break;
+
+    */

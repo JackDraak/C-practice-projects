@@ -13,11 +13,11 @@ struct Analysis
 
 enum class eGuessValidation
 {
-    OK,
     Not_Alpha,
     Not_Isogram,
+    Too_Long,
     Too_Short,
-    Too_Long
+    Okay
 };
 
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
@@ -27,7 +27,8 @@ public:
 
     Analysis AnalyzeGuess(FString); // requires validated input
     eGuessValidation ValidateGuess(FString) const;
- //   bool bIsIsogramRevealed() const;
+    bool bIsIsogram(FString) const;
+    bool bIsAlpha(FString) const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
@@ -38,7 +39,6 @@ public:
     // see IsogramGame::IsogramGame() definition for initialization
 private:
     bool bInitialized;
- //   bool bIsIsogramMatched;
     FString sIsogram;
     int32 iCurrentGuess;
     int32 iLossCount;
