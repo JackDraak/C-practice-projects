@@ -1,11 +1,13 @@
 #include<string>
 #include "IsogramGame.h"
 
+using int32 = int;
+
 void IsogramGame::IncrementGuess()          { iCurrentGuess++; }
 void IsogramGame::EvaluateGuess() const     { return; } // TODO code this
-int IsogramGame::iGetMaxGuesses() const     { return iMaxGuesses; }
-int IsogramGame::iGetCurrentGuess() const   { return iCurrentGuess; }
-int IsogramGame::iGetIsogramLength() const  { return iIsogramLength; }
+int32 IsogramGame::iGetMaxGuesses() const     { return iMaxGuesses; }
+int32 IsogramGame::iGetCurrentGuess() const   { return iCurrentGuess; }
+int32 IsogramGame::iGetIsogramLength() const  { return iIsogramLength; }
 bool IsogramGame::bIsIsogramRevealed() const { return false; } // TODO code this
 
 
