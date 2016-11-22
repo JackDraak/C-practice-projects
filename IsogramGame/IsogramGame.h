@@ -4,6 +4,13 @@
 using FString = std::string;
 using int32 = int;
 
+struct Analysis
+{
+    int32 iLetterMatches = 0;
+    int32 iPositionMatches = 0;
+    bool bDoesGuessMatchIsogram = false;
+};
+
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
 class IsogramGame {
 public:
@@ -16,7 +23,7 @@ public:
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
     int32 iGetMaxGuesses() const;
-    //NewType ScoreValidGuess();
+    Analysis AnalyzeGuess(FString); // requires validated input
     FString SelectIsogram();
 
     // see IsogramGame::IsogramGame() definition for initialization

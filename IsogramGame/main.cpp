@@ -53,8 +53,12 @@ void PlayGame()
     {
         sGuess = GetGuess(); // TODO validate input
         // TODO submit valid guess to game engine
+        Analysis analysis = ActiveGame.AnalizeGuess(sGuess);
         // TODO print results of the guess
-        PrintGuess(sGuess); // TODO ditch this once printing results
+    //    PrintGuess(sGuess); // TODO ditch this once printing results
+        std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
+        std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches;
+        ActiveGame.IncrementGuess(); // given validated input, increment the turn
     }
     // TODO summarize game phase
 }
@@ -94,6 +98,6 @@ FText GetGuess()
     std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
     getline(std::cin, sGuess);
     FText Valid_Guess = sGuess; // TODO implement validation
-    ActiveGame.IncrementGuess();
+   // ActiveGame.IncrementGuess(); // following lecture 32, doing this in isogramgame.cpp ?? (not working)
     return Valid_Guess;
 }

@@ -10,6 +10,25 @@ int32 IsogramGame::iGetCurrentGuess() const   { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const  { return iIsogramLength; }
 bool IsogramGame::bIsIsogramRevealed() const { return false; } // TODO code this
 
+Analysis IsogramGame::AnalyzeGuess(FString)
+{
+    // increment turn 
+ //   iCurrentGuess++; // why here? was working from main.cpp.. have put it back there for now
+
+    // setup return variable
+    Analysis analysis;
+
+    // loop through all letters in the guess
+    for (int32 i = 0; i < iIsogramLength; i++) {
+        // compare guess letters against isogram letters
+
+            // if they match then
+                // increment position matches if apropriate
+                // otherwise increment letter matches
+    }
+    return analysis;
+}
+
 
 IsogramGame::IsogramGame()
 {
