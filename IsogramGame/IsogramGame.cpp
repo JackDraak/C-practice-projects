@@ -15,16 +15,11 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     // setup return variable
     Analysis analysis;
 
-    // loop through all letters in the guess
     for (int32 iGuessLetter = 0; iGuessLetter < iIsogramLength; iGuessLetter++) {
-        // compare guess letters against isogram letters
         for (int32 iIsogramLetter = 0; iIsogramLetter < iIsogramLength; iIsogramLetter++) {
-            // if they match then
-            if (sGuess[iGuessLetter] == sIsogram[iIsogramLetter] && iGuessLetter == iIsogramLetter) {
-                // increment position matches if apropriate
+            if (sGuess[iGuessLetter] == sIsogram[iIsogramLetter] && iGuessLetter == iIsogramLetter) { // could be cleaner on more lines
                 analysis.iPositionMatches++;
             } else if (iGuessLetter != iIsogramLetter && sGuess[iGuessLetter] == sIsogram[iIsogramLetter]) {
-                // otherwise increment letter matches
                 analysis.iLetterMatches++;
             }
         }
