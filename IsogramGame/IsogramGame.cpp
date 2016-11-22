@@ -19,10 +19,10 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis; // setup return variable
 
-    for (int32 iGuessLetter = 0; iGuessLetter < iIsogramLength; iGuessLetter++) {
-        for (int32 iIsogramLetter = 0; iIsogramLetter < iIsogramLength; iIsogramLetter++) {
-            if (sGuess[iGuessLetter] == sIsogram[iIsogramLetter]) {
-                if (iGuessLetter == iIsogramLetter) 
+    for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
+        for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
+            if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {
+                if (GuessLetter == IsogramLetter) 
                 {
                     analysis.iPositionMatches++; // TODO score
                 }
