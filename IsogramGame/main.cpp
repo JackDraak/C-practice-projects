@@ -13,7 +13,6 @@ Game logic operates from IsogramGame.cpp
 #include <string>
 #include "IsogramGame.h"
 
-using FText = std::string;
 using int32 = int;
 
 enum class eGuessValidation
@@ -35,8 +34,8 @@ bool bIsIsogram(FString);
 bool bContinuePlaying();
 void PlayGame();
 void PrintIntro();
-FText sGetValidGuess();
-FText sStringToLower(FString);
+FString sGetValidGuess();
+FString sStringToLower(FString);
 
 // instantiate an object of the IsogramGame class named: ActiveGame
 IsogramGame ActiveGame;
@@ -56,7 +55,7 @@ int main()
 void PlayGame()
 {
     int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
-    FText sGuess = "";
+    FString sGuess = "";
 
     for (int32 i = 1; i <= cMaxGuesses; i++)
     {
@@ -74,9 +73,10 @@ void PlayGame()
     // ----- Output round results ----- //
     std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
     std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
+    return;
 }
 
-FText sStringToLower(FString convertString)
+FString sStringToLower(FString convertString)
 {
     int iLength = convertString.length();
     for (int i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
@@ -94,7 +94,7 @@ bool bIsAlpha(FString sTestString)
     return true;
 }
 
-bool bIsIsogram(FString sTestString)
+bool bIsIsogram(FString sTestString) // order of sort: (n^2 -n) /2 .. // TODO but can use hash table for order n
 {
     int iLength = sTestString.length();
     for (int i = 0; i < iLength; i++) {
@@ -107,7 +107,7 @@ bool bIsIsogram(FString sTestString)
 bool bContinuePlaying()
 {
     std::cout << "\nWould you like to continue playing? (y/n) ";
-    FText sResponce = "";
+    FString sResponce = "";
     getline(std::cin, sResponce);
     if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) {
         ActiveGame.Reset();
@@ -123,12 +123,13 @@ void PrintIntro()
     std::cout << " - how do I play?\n\n";
     std::cout << "...details, detials... We'll get to that later!\n";
     std::cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
+    return;
 }
 
-FText sGetValidGuess()
+FString sGetValidGuess()
 {
     eGuessValidation Status = eGuessValidation::Invalid_Status;
-    FText sGuess = "";
+    FString sGuess = "";
 
     do {
         std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";

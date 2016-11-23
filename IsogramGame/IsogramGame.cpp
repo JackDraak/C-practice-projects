@@ -45,7 +45,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess) // Note: requires validated i
     return analysis;
 }
 
-std::string IsogramGame::SelectIsogram()
+FString IsogramGame::SelectIsogram()
 {
     return std::string("isogram"); // TODO y'know, more isograms!
 }
