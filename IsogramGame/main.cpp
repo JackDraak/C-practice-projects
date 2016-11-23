@@ -61,11 +61,17 @@ void PlayGame()
     {
         sGuess = sGetValidGuess();
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
-        // TODO enhance printed results of the guess
+        if (analysis.bDoesGuessMatchIsogram) { break; }
+        ActiveGame.IncrementGuess();
+
+        // ----- Output phase (turn) results ----- //
         std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
         std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches;
     }
-    // TODO summarize game phase
+
+    // ----- Output round results ----- //
+    std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
+    std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
 }
 
 bool bIsAlpha(FString sTestString)
@@ -141,10 +147,10 @@ FText sGetValidGuess()
         case eGuessValidation::Okay:
             std::cout << "\nYour submission was, \"" << sGuess << "\"";
             break;
+        default:
+            break;
         }
     } while (Status != eGuessValidation::Okay);
-
-    ActiveGame.IncrementGuess();
     return sGuess;
 }
 
