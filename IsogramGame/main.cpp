@@ -17,6 +17,7 @@ using int32 = int;
 
 enum class eGuessValidation
 {
+    Invalid_Status,
     Not_Alpha,
     Not_Isogram,
     Too_Long,
@@ -111,28 +112,35 @@ void PrintIntro()
 
 FText GetGuess()
 {
-  //  EGuessQuality Status = EGuessQuality::Invalid_Status;
+    eGuessValidation Status = eGuessValidation::Invalid_Status;
     FText sGuess = "";
-   // do {
+    do {
         std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
         getline(std::cin, sGuess);
-     //   ActiveGame.IsogramGame::AnalyzeGuess(sGuess);
-    // } while (IsogramGame::ValidateGuess(sGuess));
-
-    FText Valid_Guess = sGuess; // TODO implement validation
+        Status = ValidateGuess(sGuess);
+        switch (Status)
+        {
+        case eGuessValidation::Not_Alpha:
+            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains non-alpha input.";
+            break;
+        case eGuessValidation::Not_Isogram:
+            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains repeating characters.";
+            break;
+        case eGuessValidation::Too_Long:
+            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too long.";
+            std::cout << " Please use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
+            break;
+        case eGuessValidation::Too_Short:
+            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains non-alpha input.";
+            break;
+        case eGuessValidation::Okay:
+            std::cout << "\nYour submission was, \"" << sGuess << "\"";
+            break;
+        }
+    } while (Status != eGuessValidation::Okay);
     ActiveGame.IncrementGuess();
-    return Valid_Guess;
+    return sGuess;
 }
-/*
-// Provide meaningful feedback if the guess is invalid:
-Status = BCGame.CheckGuessValidity(Guess);
-switch (Status)
-{
-case EGuessQuality::Length_Mismatch:
-    std::cout << "\nOops, that won't work! `" << Guess << "` has " << Guess.length() << " letters.\n";
-    break;
-
-    */
 
 eGuessValidation ValidateGuess(FString sGuess)
 {
