@@ -167,26 +167,22 @@ eGuessValidation ValidateGuess(FString sGuess)
     else                                              return eGuessValidation::Okay;
 }
 
-bool bIsIsogramN(FString sTestString) // N-order sort/test, vastly better than N2 with larger sets; overkill here, but good to know
+bool bIsIsogramN(FString sTestString) // N-order sort/test, vastly better than N2* with larger sets; overkill here, but good to know
 {
     int iLength = sTestString.length();
     sTestString = sStringToLower(sTestString);
     std::map<char, bool> observedLetter;
     for (int i = 0; i < iLength; i++) {
-// debug output //        std::cout << "\nNi: " << i;
         if (!observedLetter[sTestString[i]]) { observedLetter[sTestString[i]] = true; }
         else return false;
     } return true;
 }
 
-bool bIsIsogramN2(FString sTestString) // order of sort: (n^2 -n) /2 .. // depreciated but allowed to remain for posterity
+bool bIsIsogramN2(FString sTestString) // order of sort: [(n^2 -n) /2] .. // depreciated but allowed to remain for posterity
 {
     int iLength = sTestString.length();
-//    int cDebug = 0;
     for (int i = 0; i < iLength; i++) {
         for (int j = 0; j < iLength; j++) {
-//            cDebug++;
-// debug output //            std::cout << "\nN2 Debug: " << cDebug;
             if (i != j && sTestString[i] == sTestString[j]) { return false; }
         }
     } return true;
