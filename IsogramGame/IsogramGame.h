@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <map>
 
 using FString = std::string;
 using int32 = int;
@@ -11,8 +10,6 @@ struct Analysis
     int32 iPositionMatches = 0;
     bool bDoesGuessMatchIsogram = false;
 };
-
-//std::map <int32 Key, char Letter> observedLetter;
 
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
 class IsogramGame {
