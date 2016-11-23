@@ -167,7 +167,8 @@ eGuessValidation ValidateGuess(FString sGuess)
     else                                              return eGuessValidation::Okay;
 }
 
-bool bIsIsogramN(FString sTestString) // N-order sort/test, vastly better than N2* with larger sets; overkill here, but good to know
+// theoretical minimum/maximum itterations: 2-26
+bool bIsIsogramN(FString sTestString)
 {
     sTestString = sStringToLower(sTestString);
     std::map<char, bool> observedLetter;
@@ -178,7 +179,8 @@ bool bIsIsogramN(FString sTestString) // N-order sort/test, vastly better than N
     } return true;
 }
 
-bool bIsIsogramN2(FString sTestString) // order of sort: [(n^2 -n) /2] .. // depreciated but allowed to remain for posterity
+// theoretical minimum/maximum itterations: 2-702
+bool bIsIsogramN2(FString sTestString) // Depreciated. Historical artifact status granted.
 {
     int iLength = sTestString.length();
     for (int i = 0; i < iLength; i++) {
