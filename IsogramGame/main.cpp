@@ -36,6 +36,7 @@ bool bContinuePlaying();
 void PlayGame();
 void PrintIntro();
 FText sGetValidGuess();
+FText sStringToLower(FString);
 
 // instantiate an object of the IsogramGame class named: ActiveGame
 IsogramGame ActiveGame;
@@ -60,6 +61,7 @@ void PlayGame()
     for (int32 i = 1; i <= cMaxGuesses; i++)
     {
         sGuess = sGetValidGuess();
+        sGuess = sStringToLower(sGuess);
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         if (analysis.bDoesGuessMatchIsogram) { break; }
         ActiveGame.IncrementGuess();
@@ -72,6 +74,13 @@ void PlayGame()
     // ----- Output round results ----- //
     std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
     std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
+}
+
+FText sStringToLower(FString convertString)
+{
+    int iLength = convertString.length();
+    for (int i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
+    return convertString;
 }
 
 bool bIsAlpha(FString sTestString)

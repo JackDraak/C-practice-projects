@@ -16,7 +16,7 @@ class IsogramGame {
 public:
     IsogramGame(); // constructor 
 
-    Analysis AnalyzeGuess(FString); // requires validated input
+    Analysis AnalyzeGuess(FString); // Note: requires validated input
     FString sGetIsogram() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;

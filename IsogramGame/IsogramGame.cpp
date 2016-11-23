@@ -16,7 +16,7 @@ IsogramGame::IsogramGame()
     Reset();
 }
 
-Analysis IsogramGame::AnalyzeGuess(FString sGuess)
+Analysis IsogramGame::AnalyzeGuess(FString sGuess) // Note: requires validated input
 {
     Analysis analysis; // setup return variable
     int32 iIsogramLength = sIsogram.length();
