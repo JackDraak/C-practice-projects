@@ -8,6 +8,7 @@ acts as the view in an MVC pattern and is responsible for all user interaction.
 Game logic operates from IsogramGame.cpp
 */
 
+
 #include <iostream>
 #include <string>
 #include "IsogramGame.h"
@@ -25,7 +26,9 @@ enum class eGuessValidation
     Okay
 };
 
-// -- Function prototypes follow:
+
+// ----- Function prototypes follow ----- //
+
 eGuessValidation ValidateGuess(FString);
 bool bIsAlpha(FString);
 bool bIsIsogram(FString);
@@ -34,10 +37,12 @@ void PlayGame();
 void PrintIntro();
 FText sGetValidGuess();
 
-// instantiate an object of the Isogramgame class named: ActiveGame
+// instantiate an object of the IsogramGame class named: ActiveGame
 IsogramGame ActiveGame;
 
-// -- Application entry-point
+
+// ----- Application entry-point ----- //
+
 int main()
 {
     PrintIntro();
@@ -45,7 +50,7 @@ int main()
     return 0;
 }
 
-// -- Method implementations follow:
+// ----- Method implementations follow ----- //
 
 void PlayGame()
 {
@@ -109,6 +114,7 @@ FText sGetValidGuess()
 {
     eGuessValidation Status = eGuessValidation::Invalid_Status;
     FText sGuess = "";
+
     do {
         std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
         getline(std::cin, sGuess);
@@ -137,6 +143,7 @@ FText sGetValidGuess()
             break;
         }
     } while (Status != eGuessValidation::Okay);
+
     ActiveGame.IncrementGuess();
     return sGuess;
 }
