@@ -32,7 +32,7 @@ bool bIsIsogram(FString);
 bool bContinuePlaying();
 void PlayGame();
 void PrintIntro();
-FText GetGuess();
+FText sGetValidGuess();
 
 // instantiate an object of the Isogramgame class named: ActiveGame
 IsogramGame ActiveGame;
@@ -54,7 +54,7 @@ void PlayGame()
 
     for (int32 i = 1; i <= cMaxGuesses; i++)
     {
-        sGuess = GetGuess();
+        sGuess = sGetValidGuess();
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         // TODO enhance printed results of the guess
         std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
@@ -68,22 +68,22 @@ bool bIsAlpha(FString sTestString)
     int iLength = sTestString.length();
     for (int i = 0; i < iLength; i++)
     {
-        if (!isalpha(sTestString[i])) { return true; } // TODO obv needs to be false, set TRUE now to move on
+        char thisChar = tolower(sTestString[i]);
+        if (!(thisChar >= 'a' && thisChar <= 'z')) { return false; } 
     }
-
     return true;
 }
 
-bool bIsIsogram(FString sTestString) // presently broken, as it checks pos 1 vs pos 1, etc.....
+bool bIsIsogram(FString sTestString)
 {
     int iLength = sTestString.length();
     for (int i = 0; i < iLength; i++)
     {
         for (int j = 0; j < iLength; j++)
         {
-            if (sTestString[i] == sTestString[j]) { 
-                std::cout << "\nGuessChar " << i << ":" << sTestString[i] << " == GuessChar " << j << ":" << sTestString[j];
-                return true; } // TODO obv needs to be false, set TRUE now to move on
+            if (i != j && sTestString[i] == sTestString[j]) { 
+                // debug output // std::cout << "\nMATCH --> GuessChar " << i << ":" << sTestString[i] << " == GuessChar " << j << ":" << sTestString[j];
+                return false; }
         }
     }
     return true;
@@ -112,7 +112,7 @@ void PrintIntro()
     std::cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
 }
 
-FText GetGuess()
+FText sGetValidGuess()
 {
     eGuessValidation Status = eGuessValidation::Invalid_Status;
     FText sGuess = "";
@@ -124,16 +124,20 @@ FText GetGuess()
         {
         case eGuessValidation::Not_Alpha:
             std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains non-alpha input.";
+            std::cout << "\nPlease use only letters (this *is* a word-game, y'know! [think Scrabble].)";
             break;
         case eGuessValidation::Not_Isogram:
-            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains repeating characters.";
+            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains repeated characters.";
+            std::cout << "\nPlease enter an isogram (a word comprised of all unique letters,";
+            std::cout << "\ni.e.book:NO, but bark : YES.)";
             break;
         case eGuessValidation::Too_Long:
             std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too long.";
             std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Too_Short:
-            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains non-alpha input.";
+            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too short.";
+            std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Okay:
             std::cout << "\nYour submission was, \"" << sGuess << "\"";
@@ -148,17 +152,16 @@ eGuessValidation ValidateGuess(FString sGuess)
 {
     FString sIsogram = ActiveGame.sGetIsogram();
     if (!bIsAlpha(sGuess)) { 
-        std::cout << "\nbIsAlpha(sGuess) for " << sGuess << " :" << bIsAlpha(sGuess); // DEBUG
-        return eGuessValidation::Not_Alpha; 
-    }
-    else if (sGuess.length() > sIsogram.length()) { 
-        std::cout << "\nsGuess.length() for " << sGuess << " :" << sGuess.length(); // DEBUG
-        return eGuessValidation::Too_Long; }
-    else if (sGuess.length() < sIsogram.length()) { 
-        std::cout << "\nsGuess.length() for " << sGuess << " :" << sGuess.length(); // DEBUG
-        return eGuessValidation::Too_Short; }
+        // debug output // std::cout << "\nbIsAlpha(sGuess) for " << sGuess << " :" << bIsAlpha(sGuess); // DEBUG
+        return eGuessValidation::Not_Alpha; }
     else if (!bIsIsogram(sGuess)) { 
-        std::cout << "\nsbIsIsogram(sGuess) for " << sGuess << " :" << bIsIsogram(sGuess); // DEBUG
+        // debug output // std::cout << "\nsbIsIsogram(sGuess) for " << sGuess << " :" << bIsIsogram(sGuess); // DEBUG
         return eGuessValidation::Not_Isogram; }
+    else if (sGuess.length() < sIsogram.length()) { 
+        // debug output // std::cout << "\nsGuess.length() for " << sGuess << " :" << sGuess.length(); // DEBUG
+        return eGuessValidation::Too_Short; }
+    else if (sGuess.length() > sIsogram.length()) { 
+        // debug output // std::cout << "\nsGuess.length() for " << sGuess << " :" << sGuess.length(); // DEBUG
+        return eGuessValidation::Too_Long; }
     else return eGuessValidation::Okay; // default return
 }
