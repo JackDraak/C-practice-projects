@@ -169,11 +169,11 @@ eGuessValidation ValidateGuess(FString sGuess)
 
 bool bIsIsogramN(FString sTestString) // N-order sort/test, vastly better than N2* with larger sets; overkill here, but good to know
 {
-    int iLength = sTestString.length();
     sTestString = sStringToLower(sTestString);
     std::map<char, bool> observedLetter;
-    for (int i = 0; i < iLength; i++) {
-        if (!observedLetter[sTestString[i]]) { observedLetter[sTestString[i]] = true; }
+
+    for (auto Letter : sTestString) {
+        if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
         else return false;
     } return true;
 }
