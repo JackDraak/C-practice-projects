@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 
 using FString = std::string;
 using int32 = int;
@@ -11,12 +12,14 @@ struct Analysis
     bool bDoesGuessMatchIsogram = false;
 };
 
+//std::map <int32 Key, char Letter> observedLetter;
+
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
 class IsogramGame {
 public:
     IsogramGame(); // constructor 
 
-    Analysis AnalyzeGuess(FString); // Note: requires validated input
+    Analysis AnalyzeGuess(FString);
     FString sGetIsogram() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
@@ -25,7 +28,7 @@ public:
     void IncrementGuess();
     void Reset();
 
-    // see IsogramGame::IsogramGame() definition for initialization
+    // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
     bool bInitialized;
     FString sIsogram;

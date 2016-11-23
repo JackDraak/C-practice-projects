@@ -30,7 +30,8 @@ enum class eGuessValidation
 
 eGuessValidation ValidateGuess(FString);
 bool bIsAlpha(FString);
-bool bIsIsogram(FString);
+bool bIsIsogramN(FString);
+bool bIsIsogramN2(FString);
 bool bContinuePlaying();
 void PlayGame();
 void PrintIntro();
@@ -94,13 +95,28 @@ bool bIsAlpha(FString sTestString)
     return true;
 }
 
-bool bIsIsogram(FString sTestString) // order of sort: (n^2 -n) /2 .. // TODO but can use hash table for order n
+bool bIsIsogramN2(FString sTestString) // order of sort: (n^2 -n) /2 .. // TODO but can use hash table for order n
 {
     int iLength = sTestString.length();
+    int cDebug = 0;
     for (int i = 0; i < iLength; i++) {
         for (int j = 0; j < iLength; j++) {
+            cDebug++;
+            std::cout << "\nN2 Debug: " << cDebug;
             if (i != j && sTestString[i] == sTestString[j]) { return false; }
         }
+    } return true;
+}
+
+bool bIsIsogramN(FString sTestString) // N-order sort/test, vastly better than N2 with larger sets; overkill here, but good to know
+{
+    int iLength = sTestString.length();
+    sTestString = sStringToLower(sTestString);
+    std::map<char, bool> observedLetter;
+    for (int i = 0; i < iLength; i++) {
+        std::cout << "\nNi: " << i;
+        if (!observedLetter[sTestString[i]]) { observedLetter[sTestString[i]] = true; }
+        else return false;
     } return true;
 }
 
@@ -169,7 +185,9 @@ eGuessValidation ValidateGuess(FString sGuess)
     FString sIsogram = ActiveGame.sGetIsogram();
 
     if (!bIsAlpha(sGuess))                          { return eGuessValidation::Not_Alpha; }
-    else if (!bIsIsogram(sGuess))                   { return eGuessValidation::Not_Isogram; }
+    else if (!bIsIsogramN2(sGuess)) {
+        if (!bIsIsogramN(sGuess)) { return eGuessValidation::Not_Isogram; }
+    }
     else if (sGuess.length() < sIsogram.length())   { return eGuessValidation::Too_Short; }
     else if (sGuess.length() > sIsogram.length())   { return eGuessValidation::Too_Long; }
     else                                              return eGuessValidation::Okay;
