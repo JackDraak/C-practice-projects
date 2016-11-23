@@ -15,8 +15,19 @@ Game logic operates from IsogramGame.cpp
 using FText = std::string;
 using int32 = int;
 
-// -- Function prototypes follow:
+enum class eGuessValidation
+{
+    Not_Alpha,
+    Not_Isogram,
+    Too_Long,
+    Too_Short,
+    Okay
+};
 
+// -- Function prototypes follow:
+eGuessValidation ValidateGuess(FString);
+bool bIsAlpha(FString);
+bool bIsIsogram(FString);
 bool bContinuePlaying();
 void PlayGame();
 void PrintIntro();
@@ -50,6 +61,29 @@ void PlayGame()
         std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches;
     }
     // TODO summarize game phase
+}
+
+bool bIsAlpha(FString sTestString) // TODO finish test
+{
+    int iLength = sTestString.length();
+    for (int i = 0; i < iLength; i++)
+    {
+        if (!isalpha(sTestString[i])) return false;
+    }
+    return true;
+}
+
+bool bIsIsogram(FString sTestString) // TODO finish test
+{
+    int iLength = sTestString.length();
+    for (int i = 0; i < iLength; i++)
+    {
+        for (int j = 0; j < iLength; j++)
+        {
+            if (sTestString[i] == sTestString[j]) { return false; }
+        }
+    }
+    return true;
 }
 
 bool bContinuePlaying()
@@ -99,3 +133,15 @@ case EGuessQuality::Length_Mismatch:
     break;
 
     */
+
+eGuessValidation ValidateGuess(FString sGuess)
+{
+    FString sIsogram = ActiveGame.sGetIsogram();
+    // TODO 1st priority
+    if (!bIsAlpha(sGuess)) { return eGuessValidation::Not_Alpha; }
+    if (!bIsIsogram(sGuess)) { return eGuessValidation::Not_Isogram; }
+    std::cout << "\nDEBUG: " << sIsogram << " " << sIsogram.length(); // Output for DEBUG
+    if (sGuess.length() > sIsogram.length()) { return eGuessValidation::Too_Long; }
+    if (sGuess.length() < sIsogram.length()) { return eGuessValidation::Too_Short; }
+    return eGuessValidation::Okay; // default return
+}
