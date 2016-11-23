@@ -50,8 +50,6 @@ std::string IsogramGame::SelectIsogram()
     return std::string("isogram"); // TODO y'know, more isograms!
 }
 
-
-
 void IsogramGame::Reset()
 {
     if (!bInitialized) 
@@ -65,5 +63,3 @@ void IsogramGame::Reset()
     sIsogram = SelectIsogram();
     return;
 }
-
-

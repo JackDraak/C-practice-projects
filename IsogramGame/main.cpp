@@ -77,16 +77,11 @@ bool bIsAlpha(FString sTestString)
 bool bIsIsogram(FString sTestString)
 {
     int iLength = sTestString.length();
-    for (int i = 0; i < iLength; i++)
-    {
-        for (int j = 0; j < iLength; j++)
-        {
-            if (i != j && sTestString[i] == sTestString[j]) { 
-                // debug output // std::cout << "\nMATCH --> GuessChar " << i << ":" << sTestString[i] << " == GuessChar " << j << ":" << sTestString[j];
-                return false; }
+    for (int i = 0; i < iLength; i++) {
+        for (int j = 0; j < iLength; j++) {
+            if (i != j && sTestString[i] == sTestString[j]) { return false; }
         }
-    }
-    return true;
+    } return true;
 }
 
 bool bContinuePlaying()
@@ -94,12 +89,10 @@ bool bContinuePlaying()
     std::cout << "\nWould you like to continue playing? (y/n) ";
     FText sResponce = "";
     getline(std::cin, sResponce);
-    if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) 
-    {
+    if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) {
         ActiveGame.Reset();
         return true;
-    }
-    return false; 
+    } return false; 
 }
 
 void PrintIntro()
@@ -151,17 +144,10 @@ FText sGetValidGuess()
 eGuessValidation ValidateGuess(FString sGuess)
 {
     FString sIsogram = ActiveGame.sGetIsogram();
-    if (!bIsAlpha(sGuess)) { 
-        // debug output // std::cout << "\nbIsAlpha(sGuess) for " << sGuess << " :" << bIsAlpha(sGuess); // DEBUG
-        return eGuessValidation::Not_Alpha; }
-    else if (!bIsIsogram(sGuess)) { 
-        // debug output // std::cout << "\nsbIsIsogram(sGuess) for " << sGuess << " :" << bIsIsogram(sGuess); // DEBUG
-        return eGuessValidation::Not_Isogram; }
-    else if (sGuess.length() < sIsogram.length()) { 
-        // debug output // std::cout << "\nsGuess.length() for " << sGuess << " :" << sGuess.length(); // DEBUG
-        return eGuessValidation::Too_Short; }
-    else if (sGuess.length() > sIsogram.length()) { 
-        // debug output // std::cout << "\nsGuess.length() for " << sGuess << " :" << sGuess.length(); // DEBUG
-        return eGuessValidation::Too_Long; }
-    else return eGuessValidation::Okay; // default return
+
+    if (!bIsAlpha(sGuess))                          { return eGuessValidation::Not_Alpha; }
+    else if (!bIsIsogram(sGuess))                   { return eGuessValidation::Not_Isogram; }
+    else if (sGuess.length() < sIsogram.length())   { return eGuessValidation::Too_Short; }
+    else if (sGuess.length() > sIsogram.length())   { return eGuessValidation::Too_Long; }
+    else                                              return eGuessValidation::Okay;
 }
