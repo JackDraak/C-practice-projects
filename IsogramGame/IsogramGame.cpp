@@ -1,12 +1,9 @@
+#pragma once
 #include "IsogramGame.h"
 
 using int32 = int;
 
-IsogramGame::IsogramGame()
-{
- //   iMaxGuesses = 4;
-    Reset();
-}
+IsogramGame::IsogramGame()                      { Reset(); }
 
 void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
 FString IsogramGame::sGetIsogram() const        { return sIsogram; }
@@ -16,8 +13,11 @@ bool IsogramGame::bGetGuessMatch() const        { return bGuessMatch; }
 
 int32 IsogramGame::iGetMaxGuesses() const 
 {
-    std::map <int32, int32> mapWordSizeToGuessCount{ { 3,6 },{ 4,7 },{ 5,8 },{ 6,9 },{ 7,8 },{ 8,7 },{ 9,6 },{ 10,5 },{ 11,4 },{12,3},{ 13,3 },{ 14,3 } };
-    // TODO depreciate maxGuesses , give a mapped return    return iMaxGuesses; 
+    std::map <int32, int32> mapWordSizeToGuessCount { 
+        { 3,4 }, { 4,6 }, { 5,8 }, { 6,9 }, { 7,10 },
+        { 8,9 }, { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 },
+        { 13,4 }, { 14,3 } 
+    };
     return mapWordSizeToGuessCount[sGetIsogram().length()];
 }
 
@@ -58,7 +58,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 
 FString IsogramGame::SelectIsogram()
 {
-    FString Dictionary[] = {
+    FString Dictionary[] = { // TODO feature request 3-7 letter words
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks",
         "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact",
         "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift",

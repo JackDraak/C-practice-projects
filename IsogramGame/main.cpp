@@ -11,10 +11,11 @@ Built in VisualStudio 2015, ostensibly for Windows, but it should be easy to por
 assuming anyone would desire to do so.
 */
 
-
+#pragma once
 #include <iostream>
 #include "IsogramGame.h"
 
+// substitutions to maintain UnrealEngine compatability
 using int32 = int;
 
 enum class eGuessValidation

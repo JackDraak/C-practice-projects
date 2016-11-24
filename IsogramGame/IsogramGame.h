@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 
+// substitutions to maintain UnrealEngine compatability
 using FString = std::string;
 using int32 = int;
 
