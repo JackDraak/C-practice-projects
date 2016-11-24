@@ -48,10 +48,10 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 
     if (analysis.iPositionMatches == iIsogramLength) 
     {
-        analysis.bDoesGuessMatchIsogram = true; 
+   //     analysis.bDoesGuessMatchIsogram = true; 
         bGuessMatch = true;
     } else {
-        analysis.bDoesGuessMatchIsogram = false;
+  //      analysis.bDoesGuessMatchIsogram = false;
         bGuessMatch = false;
     }
     return analysis;

@@ -9,7 +9,7 @@ struct Analysis
     int32 iLetterMatches = 0;
     int32 iPositionMatches = 0;
     FString sHint = "";
-    bool bDoesGuessMatchIsogram = false;
+ //   bool bDoesGuessMatchIsogram = false;
 };
 
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game

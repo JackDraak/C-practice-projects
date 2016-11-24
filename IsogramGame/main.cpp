@@ -64,7 +64,8 @@ void PlayGame()
         sGuess = sGetValidGuess();
         sGuess = sStringToLower(sGuess);
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
-        if (analysis.bDoesGuessMatchIsogram) { break; } // TODO replace use of analysis here to reduce duplication
+//        if (analysis.bDoesGuessMatchIsogram) { break; } // TODO replace use of analysis here to reduce duplication
+        if (ActiveGame.bGetGuessMatch()) { break; } // TODO replace use of analysis here to reduce duplication
         ActiveGame.IncrementGuess();
 
         // ----- Output phase (turn) results ----- //
