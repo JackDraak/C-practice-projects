@@ -109,22 +109,24 @@ bool bContinuePlaying()
 
 void PrintIntro()
 {
-    int32 iWordLen = ActiveGame.iGetIsogramLength();
-    std::cout << "\n\nINTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
+    std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+    std::cout << "\nINTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
     std::cout << " - what is an isogram?\n";
     std::cout << " - how do I play?\n\n";
     std::cout << "...details, detials... We'll get to that later!\n";
-    std::cout << "Can you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
     return;
 }
 
 FString sGetValidGuess()
 {
     eGuessValidation Status = eGuessValidation::Invalid_Status;
+    int32 iWordLen = ActiveGame.iGetIsogramLength();
     FString sGuess = "";
 
     do {
-        std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess() << ") now: ";
+        std::cout << "\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
+        std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess();
+        std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
         Status = ValidateGuess(sGuess);
         switch (Status)
@@ -136,7 +138,7 @@ FString sGetValidGuess()
         case eGuessValidation::Not_Isogram:
             std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains repeated characters.";
             std::cout << "\nPlease enter an isogram (a word comprised of all unique letters,";
-            std::cout << "\ni.e.book:NO, but bark : YES.)";
+            std::cout << "\ni.e. book:INVALID, two 'o's, but bark:GREAT!.)";
             break;
         case eGuessValidation::Too_Long:
             std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too long.";
@@ -167,7 +169,7 @@ eGuessValidation ValidateGuess(FString sGuess)
     else                                              return eGuessValidation::Okay;
 }
 
-// theoretical minimum/maximum itterations: 2-26
+// Theoretical minimum/maximum itterations: 2-26
 bool bIsIsogramN(FString sTestString)
 {
     sTestString = sStringToLower(sTestString);
@@ -179,8 +181,9 @@ bool bIsIsogramN(FString sTestString)
     } return true;
 }
 
-// theoretical minimum/maximum itterations: 2-702
-bool bIsIsogramN2(FString sTestString) // Depreciated. Historical artifact status granted.
+// Depreciated. Historical artifact status granted.
+// Theoretical minimum/maximum itterations: 2-702
+bool bIsIsogramN2(FString sTestString)
 {
     int iLength = sTestString.length();
     for (int i = 0; i < iLength; i++) {

@@ -1,5 +1,8 @@
-#include<string>
-#include<iostream>
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+#include <string>
+#include <iostream>
 #include "IsogramGame.h"
 
 using int32 = int;
@@ -12,7 +15,7 @@ void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
 
 IsogramGame::IsogramGame()
 {
-    iMaxGuesses = 4;
+    iMaxGuesses = 7;
     Reset();
 }
 
@@ -47,7 +50,21 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess) // Note: requires validated i
 
 FString IsogramGame::SelectIsogram()
 {
-    return std::string("isogram"); // TODO y'know, more isograms!
+    FString Dictionary[] = {
+        "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks",
+        "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact",
+        "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift",
+        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos",
+        "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine",
+        "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase",
+        "isogram"
+    };
+    int DICTIONARY_SIZE = 61;
+    int iSelection;
+    srand(time(NULL));
+    iSelection = rand() % DICTIONARY_SIZE;
+    FString sSelection = Dictionary[iSelection];
+    return sSelection; // TODO y'know, more isograms!
 }
 
 void IsogramGame::Reset()
