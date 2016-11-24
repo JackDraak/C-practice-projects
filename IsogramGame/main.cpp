@@ -3,14 +3,16 @@ Isogram Game
 based on https://www.udemy.com/unrealcourse/ by Ben Tristem (Thanks, Ben!)
 coded by Jack Draak
 
-A rudimentary console-based application used in learning about C++, which
-acts as the view in an MVC pattern and is responsible for all user interaction.
-Game logic operates from IsogramGame.cpp
+A rudimentary console-based application used in learning about C++. Main.cpp, which
+acts as the view in an MVC pattern and is responsible for all user interaction also 
+utilizes Isogramgame.cpp for game logic operations.
+
+Built in VisualStudio 2015, ostensibly for Windows, but it should be easy to port,
+assuming anyone would desire to do so.
 */
 
 
 #include <iostream>
-#include <map>
 #include "IsogramGame.h"
 
 using int32 = int;

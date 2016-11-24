@@ -2,17 +2,23 @@
 
 using int32 = int;
 
+IsogramGame::IsogramGame()
+{
+ //   iMaxGuesses = 4;
+    Reset();
+}
+
 void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
 FString IsogramGame::sGetIsogram() const        { return sIsogram; }
 int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const    { return sIsogram.length(); }
-int32 IsogramGame::iGetMaxGuesses() const       { return iMaxGuesses; }
 bool IsogramGame::bGetGuessMatch() const        { return bGuessMatch; }
 
-IsogramGame::IsogramGame()
+int32 IsogramGame::iGetMaxGuesses() const 
 {
-    iMaxGuesses = 4;
-    Reset();
+    std::map <int32, int32> mapWordSizeToGuessCount{ { 3,6 },{ 4,7 },{ 5,8 },{ 6,9 },{ 7,8 },{ 8,7 },{ 9,6 },{ 10,5 },{ 11,4 },{12,3},{ 13,3 },{ 14,3 } };
+    // TODO depreciate maxGuesses , give a mapped return    return iMaxGuesses; 
+    return mapWordSizeToGuessCount[sGetIsogram().length()];
 }
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
