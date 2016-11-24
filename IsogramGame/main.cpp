@@ -64,31 +64,39 @@ void PlayGame()
         sGuess = sGetValidGuess();
         sGuess = sStringToLower(sGuess);
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
-        if (analysis.bDoesGuessMatchIsogram) { break; }
+        if (analysis.bDoesGuessMatchIsogram) { break; } // TODO replace use of analysis here to reduce duplication
         ActiveGame.IncrementGuess();
 
         // ----- Output phase (turn) results ----- //
         std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
-        std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches;
+        std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches << ".";
+        if (true) { // TODO if hints are enabled, otherwise do not print
+            std::cout << "\nHINT: '" << analysis.sHint << "'";
+        }
     }
 
-    // ----- Output round results ----- //
-    std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
-    std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
-    return;
+        // ----- Output round results ----- //
+        if (ActiveGame.bGetGuessMatch()) {
+            std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
+            std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
+        }
+        else {
+            std::cout << "\nBummer! You didn't guess the secret isogram: " << ActiveGame.sGetIsogram() << ".";
+            std::cout << "\n(You had " << (ActiveGame.iGetCurrentGuess() - 1) << " guesses.)";
+    } return;
 }
 
 FString sStringToLower(FString convertString)
 {
-    int iLength = convertString.length();
-    for (int i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
+    int32 iLength = convertString.length();
+    for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
     return convertString;
 }
 
 bool bIsAlpha(FString sTestString)
 {
-    int iLength = sTestString.length();
-    for (int i = 0; i < iLength; i++)
+    int32 iLength = sTestString.length();
+    for (int32 i = 0; i < iLength; i++)
     {
         char thisChar = tolower(sTestString[i]);
         if (!(thisChar >= 'a' && thisChar <= 'z')) { return false; } 
@@ -109,7 +117,7 @@ bool bContinuePlaying()
 
 void PrintIntro()
 {
-    std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+    std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     std::cout << "\nINTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
     std::cout << " - what is an isogram?\n";
     std::cout << " - how do I play?\n\n";
@@ -185,9 +193,9 @@ bool bIsIsogramN(FString sTestString)
 // Theoretical minimum/maximum itterations: 2-702
 bool bIsIsogramN2(FString sTestString)
 {
-    int iLength = sTestString.length();
-    for (int i = 0; i < iLength; i++) {
-        for (int j = 0; j < iLength; j++) {
+    int32 iLength = sTestString.length();
+    for (int32 i = 0; i < iLength; i++) {
+        for (int32 j = 0; j < iLength; j++) {
             if (i != j && sTestString[i] == sTestString[j]) { return false; }
         }
     } return true;

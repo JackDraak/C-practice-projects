@@ -8,6 +8,7 @@ struct Analysis
 {
     int32 iLetterMatches = 0;
     int32 iPositionMatches = 0;
+    FString sHint = "";
     bool bDoesGuessMatchIsogram = false;
 };
 
@@ -24,9 +25,11 @@ public:
     int32 iGetMaxGuesses() const;
     void IncrementGuess();
     void Reset();
+    bool bGetGuessMatch() const;
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
+    bool bGuessMatch;
     bool bInitialized;
     FString sIsogram;
     int32 iCurrentGuess;
