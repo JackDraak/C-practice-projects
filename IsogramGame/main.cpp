@@ -10,7 +10,6 @@ Game logic operates from IsogramGame.cpp
 
 
 #include <iostream>
-#include <string>
 #include <map>
 #include "IsogramGame.h"
 
@@ -56,6 +55,7 @@ int main()
 
 void PlayGame()
 {
+    srand(unsigned(time(NULL)));
     int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
     FString sGuess = "";
 
@@ -68,10 +68,14 @@ void PlayGame()
         ActiveGame.IncrementGuess();
 
         // ----- Output phase (turn) results ----- //
-        std::cout << "\nCorrect letters in the wrong position(s): " << analysis.iLetterMatches;
-        std::cout << "\nCorrect letters in the proper position(s): " << analysis.iPositionMatches << ".";
+        std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
         if (true) { // TODO if hints are enabled, otherwise do not print
-            std::cout << "\nHINT: '" << analysis.sHint << "'";
+            std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
+            std::cout << ". [shuffled hint: '" << analysis.sLetterHint << "']";
+        }
+        std::cout << "\n...Correct letters in the proper position(s): " << analysis.iPositionMatches << ".";
+        if (true) { // TODO if hints are enabled, otherwise do not print
+            std::cout << "      [hint: '" << analysis.sPositionHint << "']";
         }
     }
 
@@ -117,11 +121,12 @@ bool bContinuePlaying()
 
 void PrintIntro()
 {
-    std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-    std::cout << "\nINTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
-    std::cout << " - what is an isogram?\n";
-    std::cout << " - how do I play?\n\n";
-    std::cout << "...details, detials... We'll get to that later!\n";
+    std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+    std::cout << "\n      INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
+    std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+    std::cout << "\n                         - what is an isogram?\n";
+    std::cout << "                         - how do I play?\n\n";
+    std::cout << "...details, detials... We'll get to that later!";
     return;
 }
 
@@ -132,7 +137,7 @@ FString sGetValidGuess()
     FString sGuess = "";
 
     do {
-        std::cout << "\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
+        std::cout << "\n\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
         std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess();
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);

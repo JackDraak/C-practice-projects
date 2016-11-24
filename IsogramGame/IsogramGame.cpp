@@ -1,9 +1,3 @@
-#include <stdio.h>      /* printf, scanf, puts, NULL */
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
-#include <algorithm>    /* std::random_shuffle */
-#include <string>
-#include <iostream>
 #include "IsogramGame.h"
 
 using int32 = int;
@@ -23,24 +17,25 @@ IsogramGame::IsogramGame()
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
-    srand(unsigned(time(NULL)));
-    Analysis analysis; // setup return variable
-    int32 iIsogramLength = sIsogram.length();
+    Analysis analysis;
+
     char guessHash = '-';
-    analysis.sHint = FString(iIsogramLength, guessHash);
+    int32 iIsogramLength = sIsogram.length();
+    analysis.sPositionHint = FString(iIsogramLength, guessHash);
+    analysis.sLetterHint = analysis.sPositionHint;
 
     for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
         for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
             if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {
                 if (GuessLetter == IsogramLetter) 
                 {
-                    analysis.iPositionMatches++; // TODO score
-                    analysis.sHint[GuessLetter] = sGuess[GuessLetter];
+                    analysis.iPositionMatches++; // TODO calculate a score
+                    analysis.sPositionHint[GuessLetter] = sGuess[GuessLetter];
                 }
                 else // implicit: if (iGuessLetter != iIsogramLetter) {
                 { 
-                    analysis.iLetterMatches++; // TODO score
-       // TODO finish letter hints            std::random_shuffle(myvector.begin(), myvector.end());
+                    analysis.iLetterMatches++; // TODO calculate a score
+                    analysis.sLetterHint[GuessLetter] = sGuess[GuessLetter];
                 }
             }
         }
@@ -73,7 +68,6 @@ FString IsogramGame::SelectIsogram()
     FString sSelection = Dictionary[iSelection];
     return sSelection; 
 }
-
 
 void IsogramGame::Reset()
 {

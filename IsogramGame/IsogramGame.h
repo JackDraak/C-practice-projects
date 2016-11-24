@@ -1,4 +1,6 @@
 #pragma once
+#include <time.h>
+#include <algorithm>
 #include <string>
 
 using FString = std::string;
@@ -8,7 +10,8 @@ struct Analysis
 {
     int32 iLetterMatches = 0;
     int32 iPositionMatches = 0;
-    FString sHint = "";
+    FString sPositionHint = "";
+    FString sLetterHint = "";
 };
 
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
