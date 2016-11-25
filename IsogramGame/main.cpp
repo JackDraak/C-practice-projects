@@ -135,8 +135,8 @@ void PrintIntro()
     std::cout << "           - step: is an isogram, each letter is unique in the word\n";
     std::cout << "           - book: is NOT an isogram; it contains two 'o's\n";
     std::cout << "\n";
-    std::cout << "         - how do I play?\n\n";
-    std::cout << "         ...details, details... We'll get to that!";
+    std::cout << "      - how do I play?\n";
+    std::cout << "        ...details, details... We'll get to that!";
     return;
 }
 

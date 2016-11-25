@@ -14,6 +14,21 @@ int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const    { return sIsogram.length(); }
 bool IsogramGame::bGetGuessMatch() const        { return bGuessMatch; }
 
+void IsogramGame::Reset()
+{
+    if (!bInitialized) 
+    {
+        bValidDictionary = false;
+        bInitialized = true;
+        iLossCount = 0;
+        iScore = 0;
+        iWinCount = 0;
+    }
+    iCurrentGuess = 1;
+    sIsogram = SelectIsogram();
+    return;
+}
+
 int32 IsogramGame::iGetMaxGuesses() const 
 {
     std::map <int32, int32> mapWordSizeToGuessCount { 
@@ -61,7 +76,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 
 FString IsogramGame::SelectIsogram()
 {
-    std::vector<FString> Dictionary = { 
+    std::vector<FString> Dictionary = {
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
         "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
@@ -71,56 +86,60 @@ FString IsogramGame::SelectIsogram()
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks",
         "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact",
         "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift",
-        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos",
+        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "angel",
         "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine",
         "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
         "isogram", "mindful",
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
-        "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt", "apple"
+        "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
     };
-//    int32 DICTIONARY_SIZE = 153;
-    int32 iNumberOfIsograms = size(Dictionary); 
+    int32 iNumberOfIsograms = size(Dictionary);
+
     // ----- validate dictionary ONCE ONLY ----- //
-    if (!bValidDictionary)
+    // this is somewhat anachronistic, as now the secret word is validated immediately prior to use (as well)
+    // but there's no harm keeping it for extra data in a case where new words are added to the dictionary...
+    // in one run of the program they will all be immediately flagged on the colsole.
+    if (!bValidDictionary) // invalid dictionaries re-validate between rounds... not a high priority to fix, really
     {
-        std::cout << "V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
         bValidDictionary = true;
         FString sTestString;
+        bool oops = true;
 
-        // check each for isogram validation
-        for (int32 i = 0; i <= iNumberOfIsograms; i++)
+        // check each secret word for isogram validation
+        for (int32 i = 0; i < iNumberOfIsograms; i++)
         {
             sTestString = Dictionary[i];
             if (!bIsIsogram(sTestString))
             {
-                std::cout << "\nINTERNAL ERROR 13: Dictionary validation failure -- INDEX_" << i << "_" << sTestString << std::endl;
                 bValidDictionary = false;
-                break;
+                // in the case of invalid entries, explain the forthcomming errors
+                if (oops)
+                {
+                    std::cout << "E R R O R . V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
+                    std::cout << "INTERNAL ERROR 13: Dictionary validation failures:\n";
+                    oops = false;
+                }
+                // enumerate all (if any) flagged [non-isogram] entries in the dictionary
+                std::cout << " -- Dictionary[" << i << "] = \"" << sTestString << "\"\n";
             }
         }
+        // summary in the event of an invalid dictionary
+        if (!oops)
+        {
+            std::cout << "\nWARNING: Any words listed above will be ignored as unplayable.\n\n";
+        }
     }
-    // ----- return ----- //
-    int32 iSelection;
-    srand(unsigned(time(NULL)));
-    iSelection = rand() % iNumberOfIsograms; // TODO does this need to be -1?
-    FString sSelection = Dictionary[iSelection];
-    return sSelection; 
-}
 
-void IsogramGame::Reset()
-{
-    if (!bInitialized) 
-    {
-        bValidDictionary = false;
-        bInitialized = true;
-        iLossCount = 0;
-        iScore = 0;
-        iWinCount = 0;
-    }
-    iCurrentGuess = 1;
-    sIsogram = SelectIsogram();
-    return;
+    // ----- return ----- //
+    FString sSelection;
+    int32 iSelection;
+    do {
+        srand(unsigned(time(NULL)));
+        iSelection = rand() % iNumberOfIsograms;
+        sSelection = Dictionary[iSelection];
+    } while (!bIsIsogram(sSelection));
+    return sSelection;
 }
 
 // Theoretical minimum/maximum itterations: 2-26
