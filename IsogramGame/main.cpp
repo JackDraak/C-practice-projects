@@ -70,7 +70,10 @@ void PlayGame()
         if (ActiveGame.bGetGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
 
-        // ----- Output phase (turn) results ----- //
+        // ----- Output phase (turn) results ----- //              admutz
+
+        // TODO track letter's used for the player:  "              a b c d e f g h i j k l m n o p q r s t u v w x y z" 
+        //                                           "             |x| |x| |x|x| |x|x| | | |x| | |x| |x| |x|x|x| |x| |x|" a = 16, z = 66
         std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
         if (true) { // TODO if hints are enabled, otherwise do not print
             std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
@@ -127,9 +130,13 @@ void PrintIntro()
     std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     std::cout << "\n      INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
     std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-    std::cout << "\n                         - what is an isogram?\n";
-    std::cout << "                         - how do I play?\n\n";
-    std::cout << "...details, detials... We'll get to that later!";
+    std::cout << "\n      - what is an isogram?\n";
+    std::cout << "        An isogram is a word comprised of unique letters, for example:\n";
+    std::cout << "           - step: is an isogram, each letter is unique in the word\n";
+    std::cout << "           - book: is NOT an isogram; it contains two 'o's\n";
+    std::cout << "\n";
+    std::cout << "         - how do I play?\n\n";
+    std::cout << "         ...details, details... We'll get to that!";
     return;
 }
 
@@ -154,7 +161,7 @@ FString sGetValidGuess()
         case eGuessValidation::Not_Isogram:
             std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains repeated characters.";
             std::cout << "\nPlease enter an isogram (a word comprised of all unique letters,";
-            std::cout << "\ni.e. book:INVALID, two 'o's, but bark:GREAT!.)";
+            std::cout << "\ni.e. book:INVALID, two 'o's, but bark:GREAT!)";
             break;
         case eGuessValidation::Too_Long:
             std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too long.";
