@@ -36,6 +36,7 @@ bool bIsAlpha(FString);
 bool bIsIsogramN(FString);
 bool bIsIsogramN2(FString);
 bool bContinuePlaying();
+int main();
 void PlayGame();
 void PrintIntro();
 FString sGetValidGuess();
@@ -44,11 +45,11 @@ FString sStringToLower(FString);
 // instantiate an object of the IsogramGame class named: ActiveGame
 IsogramGame ActiveGame;
 
-
 // ----- Application entry-point ----- //
 
 int main()
 {
+//    ActiveGame.bValidateDictionary();
     PrintIntro();
     do { PlayGame(); } while (bContinuePlaying());
     return 0;

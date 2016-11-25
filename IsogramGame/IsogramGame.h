@@ -30,11 +30,13 @@ public:
     void IncrementGuess();
     void Reset();
     bool bGetGuessMatch() const;
+ //   bool bValidateDictionary() const;
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
     bool bGuessMatch;
     bool bInitialized;
+    bool bValidDictionary;
     FString sIsogram;
     int32 iCurrentGuess;
     int32 iLossCount;

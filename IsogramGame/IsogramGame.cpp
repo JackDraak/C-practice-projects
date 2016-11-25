@@ -58,8 +58,11 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 
 FString IsogramGame::SelectIsogram()
 {
-    FString Dictionary[] = { // TODO feature request 3-7 letter words
-        "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk",
+    FString Dictionary[] = { 
+        "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
+        "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
+        "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
+        "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo",
         "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast",
         "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn",
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks",
@@ -73,7 +76,32 @@ FString IsogramGame::SelectIsogram()
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
         "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt"
     };
-    int32 DICTIONARY_SIZE = 123;
+    int32 DICTIONARY_SIZE = 153;
+    bool bValidatedDictionary;
+    // ----- validate dictionary ONCE ONLY ----- //
+
+    FString sTestString;
+    for (int32 i; i <= DICTIONARY_SIZE; i++)
+    {
+        sTestString = Dictionary[i];
+        int32 iLength = sTestString.length();
+      
+
+        // check each for isogram validation
+    }
+    /*
+        for (int32 i = 0; i < iLength; i++) { sTestString[i] = tolower(sTestString[i]); }
+
+
+        std::map<char, bool> observedLetter;
+        for (auto Letter : sTestString) {
+            if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
+            else return false;
+        }
+    return;
+    }
+    */
+    // ----- return ----- //
     int32 iSelection;
     srand(unsigned(time(NULL)));
     iSelection = rand() % DICTIONARY_SIZE;
