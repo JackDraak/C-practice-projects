@@ -3,6 +3,9 @@
 
 using int32 = int;
 
+bool bIsIsogram(FString);
+FString sStringsToLower(FString);
+
 IsogramGame::IsogramGame()                      { Reset(); }
 
 void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
@@ -58,7 +61,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 
 FString IsogramGame::SelectIsogram()
 {
-    FString Dictionary[] = { 
+    std::vector<FString> Dictionary = { 
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
         "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
@@ -74,37 +77,33 @@ FString IsogramGame::SelectIsogram()
         "isogram", "mindful",
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
-        "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt"
+        "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt", "apple"
     };
-    int32 DICTIONARY_SIZE = 153;
-    bool bValidatedDictionary;
+//    int32 DICTIONARY_SIZE = 153;
+    int32 iNumberOfIsograms = size(Dictionary); 
     // ----- validate dictionary ONCE ONLY ----- //
-
-    FString sTestString;
-    for (int32 i; i <= DICTIONARY_SIZE; i++)
+    if (!bValidDictionary)
     {
-        sTestString = Dictionary[i];
-        int32 iLength = sTestString.length();
-      
+        std::cout << "V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
+        bValidDictionary = true;
+        FString sTestString;
 
         // check each for isogram validation
-    }
-    /*
-        for (int32 i = 0; i < iLength; i++) { sTestString[i] = tolower(sTestString[i]); }
-
-
-        std::map<char, bool> observedLetter;
-        for (auto Letter : sTestString) {
-            if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
-            else return false;
+        for (int32 i = 0; i <= iNumberOfIsograms; i++)
+        {
+            sTestString = Dictionary[i];
+            if (!bIsIsogram(sTestString))
+            {
+                std::cout << "\nINTERNAL ERROR 13: Dictionary validation failure -- INDEX_" << i << "_" << sTestString << std::endl;
+                bValidDictionary = false;
+                break;
+            }
         }
-    return;
     }
-    */
     // ----- return ----- //
     int32 iSelection;
     srand(unsigned(time(NULL)));
-    iSelection = rand() % DICTIONARY_SIZE;
+    iSelection = rand() % iNumberOfIsograms; // TODO does this need to be -1?
     FString sSelection = Dictionary[iSelection];
     return sSelection; 
 }
@@ -113,6 +112,7 @@ void IsogramGame::Reset()
 {
     if (!bInitialized) 
     {
+        bValidDictionary = false;
         bInitialized = true;
         iLossCount = 0;
         iScore = 0;
@@ -122,3 +122,23 @@ void IsogramGame::Reset()
     sIsogram = SelectIsogram();
     return;
 }
+
+// Theoretical minimum/maximum itterations: 2-26
+bool bIsIsogram(FString sTestString)
+{
+    sTestString = sStringsToLower(sTestString);
+    std::map<char, bool> observedLetter;
+
+    for (auto Letter : sTestString) {
+        if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
+        else return false;
+    } return true;
+}
+
+FString sStringsToLower(FString convertString)
+{
+    int32 iLength = convertString.length();
+    for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
+    return convertString;
+}
+

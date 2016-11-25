@@ -1,8 +1,10 @@
 #pragma once
-#include <map>
-#include <time.h>
 #include <algorithm>
+#include <iostream>
+#include <map>
 #include <string>
+#include <time.h>
+#include <vector>
 
 // substitutions to maintain UnrealEngine compatability
 using FString = std::string;
@@ -30,7 +32,6 @@ public:
     void IncrementGuess();
     void Reset();
     bool bGetGuessMatch() const;
- //   bool bValidateDictionary() const;
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:

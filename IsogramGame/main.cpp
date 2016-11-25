@@ -12,7 +12,6 @@ assuming anyone would desire to do so.
 */
 
 #pragma once
-#include <iostream>
 #include "IsogramGame.h"
 
 // substitutions to maintain UnrealEngine compatability
