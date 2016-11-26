@@ -28,7 +28,7 @@ enum class eGuessValidation
 };
 
 
-// ----- Function prototypes follow ----- //
+// ----- Function prototypes ----- //
 
 eGuessValidation ValidateGuess(FString);
 bool bIsAlpha(FString);
@@ -44,17 +44,14 @@ FString sStringToLower(FString);
 // instantiate an object of the IsogramGame class named: ActiveGame
 IsogramGame ActiveGame;
 
-// ----- Application entry-point ----- //
-
 int main()
 {
-//    ActiveGame.bValidateDictionary();
     PrintIntro();
     do { PlayGame(); } while (bContinuePlaying());
     return 0;
 }
 
-// ----- Method implementations follow ----- //
+// ----- Method implementations ----- //
 
 void PlayGame()
 {
@@ -70,7 +67,7 @@ void PlayGame()
         if (ActiveGame.bGetGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
 
-        // ----- Output phase (turn) results ----- //              admutz
+        // ----- Output phase (turn) results ----- //
 
         // TODO track letter's used for the player:  "              a b c d e f g h i j k l m n o p q r s t u v w x y z" 
         //                                           "             |x| |x| |x|x| |x|x| | | |x| | |x| |x| |x|x|x| |x| |x|" a = 16, z = 66
@@ -89,10 +86,13 @@ void PlayGame()
         if (ActiveGame.bGetGuessMatch()) {
             std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
             std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
+            std::cout << "\nSCORE: " << ActiveGame.iGetScore() << " (win/loss " << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
         }
         else {
+            ActiveGame.IncrementLoss();
             std::cout << "\nBummer! You didn't guess the secret isogram: " << ActiveGame.sGetIsogram() << ".";
             std::cout << "\n(You had " << (ActiveGame.iGetCurrentGuess() - 1) << " guesses.)";
+            std::cout << "\nTotal Score: " << ActiveGame.iGetScore() << " (total wins/losses " << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
     } return;
 }
 

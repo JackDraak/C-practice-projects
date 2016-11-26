@@ -8,11 +8,15 @@ FString sStringsToLower(FString);
 
 IsogramGame::IsogramGame()                      { Reset(); }
 
-void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
+bool IsogramGame::bGetGuessMatch() const        { return bGuessMatch; }
 FString IsogramGame::sGetIsogram() const        { return sIsogram; }
 int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const    { return sIsogram.length(); }
-bool IsogramGame::bGetGuessMatch() const        { return bGuessMatch; }
+int32 IsogramGame::iGetLossCount() const        { return iLossCount; }
+int32 IsogramGame::iGetScore() const            { return iScore; }
+int32 IsogramGame::iGetWinCount() const         { return iWinCount; }
+void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
+void IsogramGame::IncrementLoss()               { iLossCount++; }
 
 void IsogramGame::Reset()
 {
@@ -32,9 +36,9 @@ void IsogramGame::Reset()
 int32 IsogramGame::iGetMaxGuesses() const 
 {
     std::map <int32, int32> mapWordSizeToGuessCount { 
-        { 3,4 }, { 4,6 }, { 5,8 }, { 6,9 }, { 7,10 },
-        { 8,9 }, { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 },
-        { 13,4 }, { 14,3 } 
+        { 3,4 }, { 4,6 }, { 5,8 }, { 6,9 }, 
+        { 7,10 }, { 8,9 }, { 9,8 }, { 10,7 }, 
+        { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 } 
     };
     return mapWordSizeToGuessCount[sGetIsogram().length()];
 }
@@ -43,9 +47,8 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
 
-    char guessHash = '-';
     int32 iIsogramLength = sIsogram.length();
-    analysis.sPositionHint = FString(iIsogramLength, guessHash);
+    analysis.sPositionHint = FString(iIsogramLength, '-');
     analysis.sLetterHint = analysis.sPositionHint;
 
     for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
@@ -53,12 +56,14 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
             if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {
                 if (GuessLetter == IsogramLetter) 
                 {
-                    analysis.iPositionMatches++; // TODO calculate a score
+                    analysis.iPositionMatches++;
+                    iScore++;
                     analysis.sPositionHint[GuessLetter] = sGuess[GuessLetter];
                 }
-                else // implicit: if (iGuessLetter != iIsogramLetter) {
+                else
                 { 
-                    analysis.iLetterMatches++; // TODO calculate a score
+                    analysis.iLetterMatches++;
+                    iScore = iScore + 3;
                     analysis.sLetterHint[GuessLetter] = sGuess[GuessLetter];
                 }
             }
@@ -68,6 +73,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     if (analysis.iPositionMatches == iIsogramLength) 
     {
         bGuessMatch = true;
+        iWinCount++;
     } else {
         bGuessMatch = false;
     }
@@ -93,6 +99,7 @@ FString IsogramGame::SelectIsogram()
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
         "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
+        "wasp"
     };
     int32 iNumberOfIsograms = size(Dictionary);
 
@@ -100,38 +107,32 @@ FString IsogramGame::SelectIsogram()
     // this is somewhat anachronistic, as now the secret word is validated immediately prior to use (as well)
     // but there's no harm keeping it for extra data in a case where new words are added to the dictionary...
     // in one run of the program they will all be immediately flagged on the colsole.
-    if (!bValidDictionary) // invalid dictionaries re-validate between rounds... not a high priority to fix, really
+    if (!bValidDictionary) // TODO: invalid dictionaries re-validate between rounds... not a high priority to fix, really
     {
         bValidDictionary = true;
         FString sTestString;
         bool oops = true;
 
-        // check each secret word for isogram validation
         for (int32 i = 0; i < iNumberOfIsograms; i++)
         {
             sTestString = Dictionary[i];
             if (!bIsIsogram(sTestString))
             {
                 bValidDictionary = false;
-                // in the case of invalid entries, explain the forthcomming errors
                 if (oops)
                 {
                     std::cout << "E R R O R . V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
                     std::cout << "INTERNAL ERROR 13: Dictionary validation failures:\n";
                     oops = false;
                 }
-                // enumerate all (if any) flagged [non-isogram] entries in the dictionary
                 std::cout << " -- Dictionary[" << i << "] = \"" << sTestString << "\"\n";
             }
         }
-        // summary in the event of an invalid dictionary
         if (!oops)
         {
             std::cout << "\nWARNING: Any words listed above will be ignored as unplayable.\n\n";
         }
     }
-
-    // ----- return ----- //
     FString sSelection;
     int32 iSelection;
     do {
@@ -142,7 +143,6 @@ FString IsogramGame::SelectIsogram()
     return sSelection;
 }
 
-// Theoretical minimum/maximum itterations: 2-26
 bool bIsIsogram(FString sTestString)
 {
     sTestString = sStringsToLower(sTestString);
