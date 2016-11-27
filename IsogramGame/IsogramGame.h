@@ -25,6 +25,7 @@ public:
 
     Analysis AnalyzeGuess(FString);
     FString sGetIsogram() const;
+    FString sGetSubmittedLetters() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
@@ -48,4 +49,5 @@ private:
     int32 iMaxGuesses;
     int32 iScore;
     int32 iWinCount;
+    std::vector<char> SubmittedLetters;
 };

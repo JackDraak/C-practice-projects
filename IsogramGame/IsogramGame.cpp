@@ -28,9 +28,21 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
+    SubmittedLetters.std::vector<char>::clear();
     iCurrentGuess = 1;
     sIsogram = SelectIsogram();
     return;
+}
+
+FString IsogramGame::sGetSubmittedLetters() const
+{
+    int32 iSubmittedCount = size(SubmittedLetters);
+    FString returnString = FString(iSubmittedCount, '#');
+    for (auto Letter : SubmittedLetters)
+    {
+        returnString[Letter] = SubmittedLetters[Letter];
+    }
+    return returnString;
 }
 
 int32 IsogramGame::iGetMaxGuesses() const 
@@ -69,7 +81,6 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
             }
         }
     }
-
     if (analysis.iPositionMatches == iIsogramLength) 
     {
         bGuessMatch = true;
@@ -143,6 +154,8 @@ FString IsogramGame::SelectIsogram()
     return sSelection;
 }
 
+// ----- Internal Functions ----- //
+
 bool bIsIsogram(FString sTestString)
 {
     sTestString = sStringsToLower(sTestString);
@@ -160,4 +173,3 @@ FString sStringsToLower(FString convertString)
     for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
     return convertString;
 }
-
