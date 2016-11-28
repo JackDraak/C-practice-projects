@@ -80,7 +80,6 @@ void PlayGame()
         if (true) { // TODO if hints are enabled, otherwise do not print (no facility to toggle hints yet)
             std::cout << "      [hint: '" << analysis.sPositionHint << "']";
         }
-        std::cout << "\nLetter Tracker -> " << ActiveGame.sGetSubmittedLetters();
     }
 
         // ----- Output round results ----- //

@@ -28,21 +28,9 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
-    SubmittedLetters.std::vector<char>::clear();
     iCurrentGuess = 1;
     sIsogram = SelectIsogram();
     return;
-}
-
-FString IsogramGame::sGetSubmittedLetters() const
-{
-    int32 iSubmittedCount = size(SubmittedLetters);
-    FString returnString = FString(iSubmittedCount, '#');
-    for (auto Letter : SubmittedLetters)
-    {
-        returnString[Letter] = SubmittedLetters[Letter];
-    }
-    return returnString;
 }
 
 int32 IsogramGame::iGetMaxGuesses() const 
@@ -59,7 +47,6 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
 
-    UpdateSubmittedLetters(sGuess);
     int32 iIsogramLength = sIsogram.length();
     analysis.sPositionHint = FString(iIsogramLength, '-');
     analysis.sLetterHint = analysis.sPositionHint;
@@ -91,27 +78,6 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     }
     return analysis;
 }
-
-void IsogramGame::UpdateSubmittedLetters(FString sGuess)
-{
-    for (auto Letter : sGuess)
-    {
-        bool itsInThere = false;
-        int32 additions = 0;
-        for (int32 i = 0; i < iSubmittedCount; i++)
-        {
-            if (sGuess[Letter] == SubmittedLetters[i])
-            {
-                itsInThere = true;
-            }
-        }
-        if (!itsInThere)
-        {
-            additions++;
-            SubmittedLetters[(Letter + additions)] = sGuess[Letter];
-        }
-    }
-} // alternative method: map <Type, bool> where Type is 'c_alpha' a, b, c, d, e, ... on or off ??
 
 FString IsogramGame::SelectIsogram()
 {
