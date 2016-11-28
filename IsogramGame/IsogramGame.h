@@ -24,6 +24,7 @@ public:
     IsogramGame(); // constructor 
 
     Analysis AnalyzeGuess(FString);
+    bool bGetGuessMatch() const;
     FString sGetIsogram() const;
     FString sGetSubmittedLetters() const;
     FString SelectIsogram();
@@ -36,7 +37,7 @@ public:
     void IncrementGuess();
     void IncrementLoss();
     void Reset();
-    bool bGetGuessMatch() const;
+    void UpdateSubmittedLetters(FString);
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
@@ -48,6 +49,7 @@ private:
     int32 iLossCount;
     int32 iMaxGuesses;
     int32 iScore;
+    int32 iSubmittedCount;
     int32 iWinCount;
     std::vector<char> SubmittedLetters;
 };
