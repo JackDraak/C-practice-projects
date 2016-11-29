@@ -24,6 +24,7 @@ public:
     IsogramGame(); // constructor 
 
     Analysis AnalyzeGuess(FString);
+    bool bDisplayHints;
     bool bGetGuessMatch() const;
     FString sGetIsogram() const;
     FString sGetSubmittedLetters() const;

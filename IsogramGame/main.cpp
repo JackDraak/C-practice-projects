@@ -71,15 +71,17 @@ void PlayGame()
 
         // TODO track letter's used for the player:  "              a b c d e f g h i j k l m n o p q r s t u v w x y z" 
         //                                           "             |x| |x| |x|x| |x|x| | | |x| | |x| |x| |x|x|x| |x| |x|" a = 16, z = 66
-        std::cout << "\nComplement of letters used this round: " << ActiveGame.sGetSubmittedLetters();
+
+//        std::cout << "\nComplement of letters used this round: " << ActiveGame.sGetSubmittedLetters();
+
         std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
-        if (true) { // TODO if hints are enabled, otherwise do not print (no facility to toggle hints yet)
+        if (ActiveGame.bDisplayHints) {
             std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
-            std::cout << ". [shuffled hint: '" << analysis.sLetterHint << "']";
+            std::cout << "  [shuffled hint: '" << analysis.sLetterHint << "']";
         }
-        std::cout << "\n...Correct letters in the proper position(s): " << analysis.iPositionMatches << ".";
-        if (true) { // TODO if hints are enabled, otherwise do not print (no facility to toggle hints yet)
-            std::cout << "      [hint: '" << analysis.sPositionHint << "']";
+        std::cout << "\n...Correct letters in the proper position(s): " << analysis.iPositionMatches;
+        if (ActiveGame.bDisplayHints) {
+            std::cout << "       [hint: '" << analysis.sPositionHint << "']";
         }
     }
 
@@ -117,13 +119,19 @@ bool bIsAlpha(FString sTestString)
 
 bool bContinuePlaying()
 {
-    std::cout << "\nWould you like to continue playing? (y/n) ";
-    FString sResponce = "";
-    getline(std::cin, sResponce);
-    if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) {
-        ActiveGame.Reset();
-        return true;
-    } return false; 
+    bool bContinue = true;
+    do {
+        FString sResponce = "";
+        std::cout << "\nPlease enter (Q)uit, toggle (H)ints ";
+        if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
+        std::cout << ", or (Y)es to continue playing...";
+        getline(std::cin, sResponce);
+
+        if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
+        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; break; }
+        else if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) { ActiveGame.Reset(); break; }
+    } while (true);
+    if (bContinue) { return true; } else { return false; }
 }
 
 void PrintIntro()

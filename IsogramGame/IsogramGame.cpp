@@ -25,6 +25,7 @@ void IsogramGame::Reset()
     {
         bValidDictionary = false;
         bInitialized = true;
+        bDisplayHints = true;
         iLossCount = 0;
         iScore = 0;
         iWinCount = 0;
@@ -49,7 +50,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
 
-    FString letterComplement = sSubmittedLetters;
+/*    FString letterComplement = sSubmittedLetters;
     FString newLetters = "";
     for (auto guessLetter : sGuess)
     {
@@ -69,8 +70,9 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     {
         letterComplement += newLetters;
     }
-    std::sort(letterComplement.begin(), letterComplement.end());
+//    std::sort(letterComplement.begin(), letterComplement.end());
     sSubmittedLetters = letterComplement;    
+    */
 
     int32 iIsogramLength = sIsogram.length();
     analysis.sPositionHint = FString(iIsogramLength, '-');
