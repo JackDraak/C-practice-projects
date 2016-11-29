@@ -22,9 +22,9 @@ struct Analysis
 class IsogramGame {
 public:
     IsogramGame(); // constructor 
+    bool bDisplayHints;
 
     Analysis AnalyzeGuess(FString);
-    bool bDisplayHints;
     bool bGetGuessMatch() const;
     FString sGetIsogram() const;
     FString sGetSubmittedLetters() const;

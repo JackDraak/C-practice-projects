@@ -14,9 +14,6 @@ assuming anyone would desire to do so.
 #pragma once
 #include "IsogramGame.h"
 
-// substitutions to maintain UnrealEngine compatability
-using int32 = int;
-
 enum class eGuessValidation
 {
     Invalid_Status,
@@ -26,7 +23,6 @@ enum class eGuessValidation
     Too_Short,
     Okay
 };
-
 
 // ----- Function prototypes ----- //
 
@@ -122,14 +118,15 @@ bool bContinuePlaying()
     bool bContinue = true;
     do {
         FString sResponce = "";
-        std::cout << "\nPlease enter (Q)uit, toggle (H)ints ";
+        std::cout << "\nPlease enter (P)lay again, toggle (H)ints ";
         if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
-        std::cout << ", or (Y)es to continue playing...";
+        std::cout << ", (R)epeat intro, or (Q)uit...";
         getline(std::cin, sResponce);
 
         if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
         else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; break; }
-        else if ((sResponce[0] == 'y') || (sResponce[0] == 'Y')) { ActiveGame.Reset(); break; }
+        else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); break; }
+        else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { PrintIntro(); }
     } while (true);
     if (bContinue) { return true; } else { return false; }
 }

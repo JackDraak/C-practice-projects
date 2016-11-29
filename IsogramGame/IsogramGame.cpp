@@ -1,8 +1,6 @@
 #pragma once
 #include "IsogramGame.h"
 
-using int32 = int;
-
 bool bIsIsogram(FString);
 FString sStringsToLower(FString);
 
@@ -131,8 +129,8 @@ FString IsogramGame::SelectIsogram()
 
     // ----- validate dictionary ONCE ONLY ----- //
     // this is somewhat anachronistic, as now the secret word is validated immediately prior to use (as well)
-    // but there's no harm keeping it for extra data in a case where new words are added to the dictionary...
-    // in one run of the program they will all be immediately flagged on the colsole.
+    // but there's no harm keeping it for extra data, i.e. in a case where new words are added to the dictionary...
+    // in one run of the program they will all be immediately flagged on the console.
     if (!bValidDictionary) // TODO: invalid dictionaries re-validate between rounds... not a high priority to fix, really
     {
         bValidDictionary = true;
@@ -148,7 +146,7 @@ FString IsogramGame::SelectIsogram()
                 if (oops)
                 {
                     std::cout << "E R R O R . V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
-                    std::cout << "INTERNAL ERROR 13: Dictionary validation failures:\n";
+                    std::cout << "INTERNAL ERROR z-13: Dictionary validation failures detected:\n";
                     oops = false;
                 }
                 std::cout << " -- Dictionary[" << i << "] = \"" << sTestString << "\"\n";
