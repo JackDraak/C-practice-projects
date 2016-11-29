@@ -49,8 +49,28 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
 
-    sSubmittedLetters += sGuess;
-    std::unique(sSubmittedLetters.begin(), sSubmittedLetters.end());
+    FString letterComplement = sSubmittedLetters;
+    FString newLetters = "";
+    for (auto guessLetter : sGuess)
+    {
+        bool letterMatch = false;
+        for (auto complementLetter : letterComplement) 
+        {
+            if (sGuess[guessLetter] == letterComplement[complementLetter]) { letterMatch = true; }
+        }
+        if (!letterMatch) 
+        {
+            FString matchLetter = "";
+            matchLetter[0] = sGuess[guessLetter];
+            newLetters += matchLetter;
+        }
+    }
+    if (newLetters != "")
+    {
+        letterComplement += newLetters;
+    }
+    std::sort(letterComplement.begin(), letterComplement.end());
+    sSubmittedLetters = letterComplement;    
 
     int32 iIsogramLength = sIsogram.length();
     analysis.sPositionHint = FString(iIsogramLength, '-');
