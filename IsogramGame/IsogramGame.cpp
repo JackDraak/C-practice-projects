@@ -6,17 +6,18 @@ using int32 = int;
 bool bIsIsogram(FString);
 FString sStringsToLower(FString);
 
-IsogramGame::IsogramGame()                      { Reset(); }
+IsogramGame::IsogramGame()                          { Reset(); }
 
-bool IsogramGame::bGetGuessMatch() const        { return bGuessMatch; }
-FString IsogramGame::sGetIsogram() const        { return sIsogram; }
-int32 IsogramGame::iGetCurrentGuess() const     { return iCurrentGuess; }
-int32 IsogramGame::iGetIsogramLength() const    { return sIsogram.length(); }
-int32 IsogramGame::iGetLossCount() const        { return iLossCount; }
-int32 IsogramGame::iGetScore() const            { return iScore; }
-int32 IsogramGame::iGetWinCount() const         { return iWinCount; }
-void IsogramGame::IncrementGuess()              { iCurrentGuess++; }
-void IsogramGame::IncrementLoss()               { iLossCount++; }
+bool IsogramGame::bGetGuessMatch() const            { return bGuessMatch; }
+FString IsogramGame::sGetIsogram() const            { return sIsogram; }
+FString IsogramGame::sGetSubmittedLetters() const   { return sSubmittedLetters; }
+int32 IsogramGame::iGetCurrentGuess() const         { return iCurrentGuess; }
+int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
+int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
+int32 IsogramGame::iGetScore() const                { return iScore; }
+int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
+void IsogramGame::IncrementGuess()                  { iCurrentGuess++; }
+void IsogramGame::IncrementLoss()                   { iLossCount++; }
 
 void IsogramGame::Reset()
 {
@@ -29,6 +30,7 @@ void IsogramGame::Reset()
         iWinCount = 0;
     }
     iCurrentGuess = 1;
+    sSubmittedLetters = "";
     sIsogram = SelectIsogram();
     return;
 }
@@ -47,10 +49,13 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
 
+    sSubmittedLetters += sGuess;
+    std::unique(sSubmittedLetters.begin(), sSubmittedLetters.end());
+
     int32 iIsogramLength = sIsogram.length();
     analysis.sPositionHint = FString(iIsogramLength, '-');
     analysis.sLetterHint = analysis.sPositionHint;
-
+    
     for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
         for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
             if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {

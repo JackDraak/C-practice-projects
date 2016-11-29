@@ -26,6 +26,7 @@ public:
     Analysis AnalyzeGuess(FString);
     bool bGetGuessMatch() const;
     FString sGetIsogram() const;
+    FString sGetSubmittedLetters() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
@@ -43,6 +44,7 @@ private:
     bool bInitialized;
     bool bValidDictionary;
     FString sIsogram;
+    FString sSubmittedLetters;
     int32 iCurrentGuess;
     int32 iLossCount;
     int32 iMaxGuesses;

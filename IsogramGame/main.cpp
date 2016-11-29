@@ -71,6 +71,7 @@ void PlayGame()
 
         // TODO track letter's used for the player:  "              a b c d e f g h i j k l m n o p q r s t u v w x y z" 
         //                                           "             |x| |x| |x|x| |x|x| | | |x| | |x| |x| |x|x|x| |x| |x|" a = 16, z = 66
+        std::cout << "\nComplement of letters used this round: " << ActiveGame.sGetSubmittedLetters();
         std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
         if (true) { // TODO if hints are enabled, otherwise do not print (no facility to toggle hints yet)
             std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
