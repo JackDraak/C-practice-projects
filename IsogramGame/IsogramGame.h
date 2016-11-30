@@ -41,6 +41,7 @@ public:
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
+    bool bFirstGuess;
     bool bGuessMatch;
     bool bInitialized;
     bool bValidDictionary;

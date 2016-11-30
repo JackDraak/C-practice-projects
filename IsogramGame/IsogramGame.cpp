@@ -29,6 +29,7 @@ void IsogramGame::Reset()
         iWinCount = 0;
     }
     iCurrentGuess = 1;
+    bFirstGuess = true;
     sSubmittedLetters = "";
     sIsogram = SelectIsogram();
     return;
@@ -48,26 +49,43 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
 
+    if (bFirstGuess)
+    {
+        bFirstGuess = false;
+        sSubmittedLetters = sGuess;
+    }
+
     FString letterComplement = sSubmittedLetters;
     FString carryLetter = "";
     FString newLetters = ""; 
-    
-    for (auto Letter : sGuess)
+  
+  //  sTestString = sStringsToLower(sTestString);
+    std::map<char, bool> observedLetter;
+
+    for (auto Letter : sGuess) {
+        if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
+       // else return false;
+    } 
+    for (auto Letter : observedLetter) {
+        newLetters += Letter.first;
+    }
+    sSubmittedLetters = newLetters;    
+
+/*    for (auto Letter : sGuess)
     {
         bool bMatch = false;
         for (auto complementLetter : letterComplement)
         {
-            if (sGuess[Letter] == letterComplement[complementLetter])
+            if (sGuess[Letter] == letterComplement[complementLetter]) // why is it crashing here?!?!
             {
                 bMatch = true;
             } else { carryLetter = sGuess[Letter]; }
         } if (!bMatch) { newLetters += carryLetter; }
     }
     letterComplement += newLetters;
-
+    */
 //    std::sort(letterComplement.begin(), letterComplement.end());
 //    std::unique(letterComplement.begin(), letterComplement.end());
-    sSubmittedLetters = letterComplement;    
 
     int32 iIsogramLength = sIsogram.length();
     analysis.sPositionHint = FString(iIsogramLength, '-');
