@@ -52,6 +52,7 @@ int main()
 
 void PlayGame()
 {
+    ActiveLetterBox.Reset();
     srand(unsigned(time(NULL)));
     int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
     FString sGuess = "";
@@ -60,6 +61,7 @@ void PlayGame()
     {
         sGuess = sGetValidGuess();
         sGuess = sStringToLower(sGuess);
+        for (auto Letter : sGuess) { ActiveLetterBox.SetLetter(sGuess[Letter]); }
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bGetGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
@@ -93,7 +95,9 @@ void PlayGame()
             std::cout << "\nBummer! You didn't guess the secret isogram: " << ActiveGame.sGetIsogram() << ".";
             std::cout << "\n(You had " << (ActiveGame.iGetCurrentGuess() - 1) << " guesses.)";
             std::cout << "\nTotal Score: " << ActiveGame.iGetScore() << " (total wins/losses " << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
-    } return;
+    }     
+    ActiveLetterBox.Reset(); 
+    return;
 }
 
 FString sStringToLower(FString convertString)
