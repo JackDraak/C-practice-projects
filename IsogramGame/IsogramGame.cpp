@@ -56,34 +56,16 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     }
 
     FString letterComplement = sSubmittedLetters;
+    letterComplement += sGuess;
     FString carryLetter = "";
     FString newLetters = ""; 
-  
-  //  sTestString = sStringsToLower(sTestString);
-    std::map<char, bool> observedLetter;
 
-    for (auto Letter : sGuess) {
-        if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
-       // else return false;
-    } 
-    for (auto Letter : observedLetter) {
-        newLetters += Letter.first;
-    }
-    sSubmittedLetters = newLetters;    
+/*
 
-/*    for (auto Letter : sGuess)
-    {
-        bool bMatch = false;
-        for (auto complementLetter : letterComplement)
-        {
-            if (sGuess[Letter] == letterComplement[complementLetter]) // why is it crashing here?!?!
-            {
-                bMatch = true;
-            } else { carryLetter = sGuess[Letter]; }
-        } if (!bMatch) { newLetters += carryLetter; }
-    }
-    letterComplement += newLetters;
-    */
+do something useful here
+
+*/
+
 //    std::sort(letterComplement.begin(), letterComplement.end());
 //    std::unique(letterComplement.begin(), letterComplement.end());
 
@@ -200,4 +182,39 @@ FString sStringsToLower(FString convertString)
     int32 iLength = convertString.length();
     for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
     return convertString;
+}
+
+void Tracker::SetIn() const
+{
+}
+
+void Tracker::SetOut() const
+{
+}
+
+void Tracker::SetChar(char)
+{
+}
+
+bool Tracker::bGetStatus() const
+{
+    return false;
+}
+
+char Tracker::sGetChar() const
+{
+    return 0;
+}
+
+void LetterBox::Reset() const
+{
+}
+
+FString LetterBox::sGetLetters() const
+{
+    return FString();
+}
+
+void LetterBox::SetLetter(char)
+{
 }
