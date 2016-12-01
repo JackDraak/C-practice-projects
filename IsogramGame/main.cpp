@@ -61,7 +61,7 @@ void PlayGame()
     {
         sGuess = sGetValidGuess();
         sGuess = sStringToLower(sGuess);
-        for (auto Letter : sGuess) { ActiveLetterBox.SetLetter(sGuess[Letter]); }
+        for (int32 i = 0; i < sGuess.length(); i++ ) { ActiveLetterBox.SetLetter(sGuess[i]); }
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bGetGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
@@ -71,7 +71,7 @@ void PlayGame()
         // TODO track letter's used for the player:  "              a b c d e f g h i j k l m n o p q r s t u v w x y z" 
         //                                           "             |x| |x| |x|x| |x|x| | | |x| | |x| |x| |x|x|x| |x| |x|" a = 16, z = 66
 
-//        std::cout << "\nComplement of letters used this round: " << ActiveGame.sGetSubmittedLetters();
+        std::cout << "\nComplement of letters used this round: " << ActiveLetterBox.sGetLetters();
 
         std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
         if (ActiveGame.bDisplayHints) {

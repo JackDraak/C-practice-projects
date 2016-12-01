@@ -186,6 +186,8 @@ FString sStringsToLower(FString convertString)
     return convertString;
 }
 
+// ----- Letter Box Area ----- //
+
 void LetterBox::Reset()
 {
     sBoxOfLetters = "";
@@ -200,23 +202,27 @@ void LetterBox::SetLetter(char Letter)
 {
     if (sBoxOfLetters != "")
     {
-        int32 boxSize = size(sBoxOfLetters);
+        int32 boxSize = sBoxOfLetters.length();
         int32 crossChecks = 0;
         bool bAddChar = false;
-        for (auto boxLetter : sBoxOfLetters)
+        for (int32 i = 0; i < boxSize; i++) // break here for a good time
         {
-            if (sBoxOfLetters[boxLetter] == Letter)
+            if (sBoxOfLetters[i] == Letter)
             {
-                std::cout << "\n match: " << Letter;
+//                std::cout << "\n match: " << Letter;
             }
             else
             {
-                std::cout << "\n nomat: " << Letter;
+//                std::cout << "\n nomat: " << Letter;
                 crossChecks++;
                 bAddChar = true;
             }
         }
-        if (bAddChar && (crossChecks == boxSize)) { sBoxOfLetters += Letter; }
+        if (bAddChar && (crossChecks == boxSize)) { 
+            sBoxOfLetters += Letter; 
+//            std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
+        }
     }
     else { sBoxOfLetters += Letter; }
+    std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
 }
