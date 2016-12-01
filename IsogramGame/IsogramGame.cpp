@@ -139,6 +139,8 @@ FString IsogramGame::SelectIsogram()
         iSelection = rand() % iNumberOfIsograms;
         sSelection = Dictionary[iSelection];
     } while (!bIsIsogram(sSelection));
+    // TODO word-length discrimination, leading to:
+    // TODO challenege-level system...
     return sSelection; // Break and watch here to cheat
 }
 
