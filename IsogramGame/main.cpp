@@ -39,6 +39,7 @@ FString sStringToLower(FString);
 
 // instantiate an object of the IsogramGame class named: ActiveGame
 IsogramGame ActiveGame;
+LetterBox ActiveLetterBox;
 
 int main()
 {

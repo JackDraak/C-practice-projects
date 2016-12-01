@@ -4,6 +4,7 @@
 bool bIsIsogram(FString);
 FString sStringsToLower(FString);
 
+//LetterBox::LetterBox()                              { Reset(); }
 IsogramGame::IsogramGame()                          { Reset(); }
 
 bool IsogramGame::bGetGuessMatch() const            { return bGuessMatch; }
@@ -28,6 +29,7 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
+//    LetterBox::Reset();
     iCurrentGuess = 1;
     bFirstGuess = true;
     sSubmittedLetters = "";
@@ -184,37 +186,37 @@ FString sStringsToLower(FString convertString)
     return convertString;
 }
 
-void Tracker::SetIn() const
+void LetterBox::Reset()
 {
-}
-
-void Tracker::SetOut() const
-{
-}
-
-void Tracker::SetChar(char)
-{
-}
-
-bool Tracker::bGetStatus() const
-{
-    return false;
-}
-
-char Tracker::sGetChar() const
-{
-    return 0;
-}
-
-void LetterBox::Reset() const
-{
+    sBoxOfLetters = "";
 }
 
 FString LetterBox::sGetLetters() const
 {
-    return FString();
+    return FString(sBoxOfLetters);
 }
 
-void LetterBox::SetLetter(char)
+void LetterBox::SetLetter(char Letter)
 {
+    if (sBoxOfLetters != "")
+    {
+        int32 boxSize = size(sBoxOfLetters);
+        int32 crossChecks = 0;
+        bool bAddChar = false;
+        for (auto boxLetter : sBoxOfLetters)
+        {
+            if (sBoxOfLetters[boxLetter] == Letter)
+            {
+                std::cout << "\n match: " << Letter;
+            }
+            else
+            {
+                std::cout << "\n nomat: " << Letter;
+                crossChecks++;
+                bAddChar = true;
+            }
+        }
+        if (bAddChar && (crossChecks == boxSize)) { sBoxOfLetters += Letter; }
+    }
+    else { sBoxOfLetters += Letter; }
 }

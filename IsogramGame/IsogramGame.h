@@ -57,22 +57,9 @@ private:
 
 class LetterBox {
 public:
-    void Reset() const;
     FString sGetLetters() const;
+    void Reset();
     void SetLetter(char);
 private:
     FString sBoxOfLetters;
-};
-
-class Tracker {
-public:
-    void SetIn() const;
-    void SetOut() const;
-    void SetChar(char);
-    bool bGetStatus() const;
-    char sGetChar() const;
-
-private:
-    bool bInSet;
-    char thisChar;
 };
