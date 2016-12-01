@@ -37,7 +37,7 @@ void PrintIntro();
 FString sGetValidGuess();
 FString sStringToLower(FString);
 
-// instantiate an object of the IsogramGame class named: ActiveGame
+// instantiate objects (ActiveGame & ActiveLetterBox) for manipulation
 IsogramGame ActiveGame;
 LetterBox ActiveLetterBox;
 
@@ -68,11 +68,7 @@ void PlayGame()
 
         // ----- Output phase (turn) results ----- //
 
-        // TODO track letter's used for the player:  "              a b c d e f g h i j k l m n o p q r s t u v w x y z" 
-        //                                           "             |x| |x| |x|x| |x|x| | | |x| | |x| |x| |x|x|x| |x| |x|" a = 16, z = 66
-
         std::cout << "\nComplement of letters used this round: " << ActiveLetterBox.sGetLetters();
-
         std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
         if (ActiveGame.bDisplayHints) {
             std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
@@ -85,6 +81,7 @@ void PlayGame()
     }
 
         // ----- Output round results ----- //
+
         if (ActiveGame.bGetGuessMatch()) {
             std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
             std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";

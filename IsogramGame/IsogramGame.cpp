@@ -4,12 +4,10 @@
 bool bIsIsogram(FString);
 FString sStringsToLower(FString);
 
-//LetterBox::LetterBox()                              { Reset(); }
 IsogramGame::IsogramGame()                          { Reset(); }
 
 bool IsogramGame::bGetGuessMatch() const            { return bGuessMatch; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
-FString IsogramGame::sGetSubmittedLetters() const   { return sSubmittedLetters; }
 int32 IsogramGame::iGetCurrentGuess() const         { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
@@ -29,10 +27,8 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
-//    LetterBox::Reset();
     iCurrentGuess = 1;
     bFirstGuess = true;
-    sSubmittedLetters = "";
     sIsogram = SelectIsogram();
     return;
 }
@@ -50,26 +46,6 @@ int32 IsogramGame::iGetMaxGuesses() const
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis analysis;
-
-    if (bFirstGuess)
-    {
-        bFirstGuess = false;
-        sSubmittedLetters = sGuess;
-    }
-
-    FString letterComplement = sSubmittedLetters;
-    letterComplement += sGuess;
-    FString carryLetter = "";
-    FString newLetters = ""; 
-
-/*
-
-do something useful here
-
-*/
-
-//    std::sort(letterComplement.begin(), letterComplement.end());
-//    std::unique(letterComplement.begin(), letterComplement.end());
 
     int32 iIsogramLength = sIsogram.length();
     analysis.sPositionHint = FString(iIsogramLength, '-');
@@ -163,7 +139,7 @@ FString IsogramGame::SelectIsogram()
         iSelection = rand() % iNumberOfIsograms;
         sSelection = Dictionary[iSelection];
     } while (!bIsIsogram(sSelection));
-    return sSelection;
+    return sSelection; // Break and watch here to cheat
 }
 
 // ----- Internal Functions ----- //
@@ -188,41 +164,23 @@ FString sStringsToLower(FString convertString)
 
 // ----- Letter Box Area ----- //
 
-void LetterBox::Reset()
-{
-    sBoxOfLetters = "";
-}
-
-FString LetterBox::sGetLetters() const
-{
-    return FString(sBoxOfLetters);
-}
-
+FString LetterBox::sGetLetters() const      { return FString(sBoxOfLetters); }
+void LetterBox::Reset()                     { sBoxOfLetters = ""; }
 void LetterBox::SetLetter(char Letter)
 {
-    if (sBoxOfLetters != "")
+    if (sBoxOfLetters == "") { sBoxOfLetters += Letter; }
+    else
     {
         int32 boxSize = sBoxOfLetters.length();
         int32 crossChecks = 0;
         bool bAddChar = false;
-        for (int32 i = 0; i < boxSize; i++) // break here for a good time
+        for (int32 i = 0; i < boxSize; i++) 
         {
-            if (sBoxOfLetters[i] == Letter)
-            {
-//                std::cout << "\n match: " << Letter;
-            }
-            else
-            {
-//                std::cout << "\n nomat: " << Letter;
-                crossChecks++;
-                bAddChar = true;
-            }
+            if (!(sBoxOfLetters[i] == Letter)) { crossChecks++; bAddChar = true; }
         }
         if (bAddChar && (crossChecks == boxSize)) { 
             sBoxOfLetters += Letter; 
-//            std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
         }
     }
-    else { sBoxOfLetters += Letter; }
     std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
 }
