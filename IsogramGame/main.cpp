@@ -27,10 +27,10 @@ enum class eGuessValidation
 // ----- Function prototypes ----- //
 
 eGuessValidation ValidateGuess(FString);
+bool bContinuePlaying();
 bool bIsAlpha(FString);
 bool bIsIsogramN(FString);
 bool bIsIsogramN2(FString);
-bool bContinuePlaying();
 int main();
 void PlayGame();
 void PrintIntro();
@@ -97,24 +97,6 @@ void PlayGame()
         std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
         ActiveLetterBox.Reset(); 
         return;
-}
-
-FString sStringToLower(FString convertString)
-{
-    int32 iLength = convertString.length();
-    for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
-    return convertString;
-}
-
-bool bIsAlpha(FString sTestString)
-{
-    int32 iLength = sTestString.length();
-    for (int32 i = 0; i < iLength; i++)
-    {
-        char thisChar = tolower(sTestString[i]);
-        if (!(thisChar >= 'a' && thisChar <= 'z')) { return false; } 
-    }
-    return true;
 }
 
 bool bContinuePlaying()
@@ -200,6 +182,24 @@ eGuessValidation ValidateGuess(FString sGuess)
     else if (sGuess.length() < sIsogram.length())   { return eGuessValidation::Too_Short; }
     else if (sGuess.length() > sIsogram.length())   { return eGuessValidation::Too_Long; }
     else                                              return eGuessValidation::Okay;
+}
+
+FString sStringToLower(FString convertString)
+{
+    int32 iLength = convertString.length();
+    for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
+    return convertString;
+}
+
+bool bIsAlpha(FString sTestString)
+{
+    int32 iLength = sTestString.length();
+    for (int32 i = 0; i < iLength; i++)
+    {
+        char thisChar = tolower(sTestString[i]);
+        if (!(thisChar >= 'a' && thisChar <= 'z')) { return false; }
+    }
+    return true;
 }
 
 // Theoretical minimum/maximum itterations: 2-26

@@ -30,11 +30,11 @@ public:
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
+    int32 iGetLossCount() const;
     int32 iGetRunningScore() const;
     int32 iGetScore() const;
     int32 iGetMaxGuesses() const;
     int32 iGetWinCount() const;
-    int32 iGetLossCount() const;
     void IncrementGuess();
     void IncrementLoss();
     void Reset();
@@ -55,7 +55,7 @@ private:
     int32 iWinCount;
 };
 
-// CLASS LetterBox -- container to store played characters during a round of play
+// CLASS LetterBox -- container to store characters submitted during a round of play
 class LetterBox {
 public:
     FString sGetLetters() const;

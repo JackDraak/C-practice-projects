@@ -11,8 +11,8 @@ FString IsogramGame::sGetIsogram() const            { return sIsogram; }
 int32 IsogramGame::iGetCurrentGuess() const         { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
-int32 IsogramGame::iGetScore() const                { return iScore; }
 int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
+int32 IsogramGame::iGetScore() const                { return iScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; }
@@ -21,15 +21,15 @@ void IsogramGame::Reset()
 {
     if (!bInitialized) 
     {
-        bValidDictionary = false;
-        bInitialized = true;
         bDisplayHints = true;
+        bInitialized = true;
+        bValidDictionary = false;
         iLossCount = 0;
         iScore = 0;
         iWinCount = 0;
     }
-    iCurrentGuess = 1;
     bFirstGuess = true;
+    iCurrentGuess = 1;
     sIsogram = SelectIsogram();
     return;
 }
@@ -68,8 +68,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                     analysis.iPositionMatches++;
                     bPosScore = true;
                     analysis.sPositionHint[GuessLetter] = sGuess[GuessLetter];
-                }
-                else
+                } else
                 { 
                     analysis.iLetterMatches++;
                     bLetterScore = true;
@@ -96,20 +95,19 @@ FString IsogramGame::SelectIsogram()
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
         "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
-        "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo",
+        "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo", "wasp",
         "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast",
         "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn",
-        "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks",
+        "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks", "angel",
         "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact", 
         "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift",
-        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "angel",
+        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", 
         "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine", "bronze",
         "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
-        "isogram", "mindful",
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
         "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
-        "wasp"
+        "isogram", "mindful",
     };
     int32 iNumberOfIsograms = size(Dictionary);
 
@@ -179,6 +177,7 @@ FString sStringsToLower(FString convertString)
 
 FString LetterBox::sGetLetters() const      { return FString(sBoxOfLetters); }
 void LetterBox::Reset()                     { sBoxOfLetters = ""; }
+
 void LetterBox::SetLetter(char Letter)
 {
     if (sBoxOfLetters == "") { sBoxOfLetters += Letter; }
