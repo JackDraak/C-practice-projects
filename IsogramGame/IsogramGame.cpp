@@ -12,6 +12,7 @@ int32 IsogramGame::iGetCurrentGuess() const         { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
 int32 IsogramGame::iGetScore() const                { return iScore; }
+int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; }
@@ -31,6 +32,12 @@ void IsogramGame::Reset()
     bFirstGuess = true;
     sIsogram = SelectIsogram();
     return;
+}
+
+void IsogramGame::Tally()
+{
+    iRunningScore += iScore;
+    iScore = 0;
 }
 
 int32 IsogramGame::iGetMaxGuesses() const 
@@ -54,18 +61,22 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
         for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
             if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {
+                bool bPosScore = false;
+                bool bLetterScore = false;
                 if (GuessLetter == IsogramLetter) 
                 {
                     analysis.iPositionMatches++;
-                    iScore++;
+                    bPosScore = true;
                     analysis.sPositionHint[GuessLetter] = sGuess[GuessLetter];
                 }
                 else
                 { 
                     analysis.iLetterMatches++;
-                    iScore = iScore + 3;
+                    bLetterScore = true;
                     analysis.sLetterHint[GuessLetter] = sGuess[GuessLetter];
                 }
+                if (!bLetterScore && bPosScore)         { iScore = (iScore + 3); }
+                else if (bLetterScore && !bPosScore)    { iScore++; }
             }
         }
     }
@@ -89,10 +100,10 @@ FString IsogramGame::SelectIsogram()
         "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast",
         "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn",
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks",
-        "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact",
+        "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact", 
         "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift",
         "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "angel",
-        "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine",
+        "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine", "bronze",
         "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
         "isogram", "mindful",
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",

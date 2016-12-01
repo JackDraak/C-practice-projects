@@ -30,6 +30,7 @@ public:
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
+    int32 iGetRunningScore() const;
     int32 iGetScore() const;
     int32 iGetMaxGuesses() const;
     int32 iGetWinCount() const;
@@ -37,6 +38,7 @@ public:
     void IncrementGuess();
     void IncrementLoss();
     void Reset();
+    void Tally();
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
@@ -48,6 +50,7 @@ private:
     int32 iCurrentGuess;
     int32 iLossCount;
     int32 iMaxGuesses;
+    int32 iRunningScore;
     int32 iScore;
     int32 iWinCount;
 };

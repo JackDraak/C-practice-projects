@@ -81,20 +81,22 @@ void PlayGame()
     }
 
         // ----- Output round results ----- //
-
+        
         if (ActiveGame.bGetGuessMatch()) {
-            std::cout << "\nCongratulations! You guessed the secret isogram: " << ActiveGame.sGetIsogram() << ".";
-            std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses!";
-            std::cout << "\nSCORE: " << ActiveGame.iGetScore() << " (win/loss " << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
+            std::cout << "\nCongratulations! You guessed ";
         }
         else {
             ActiveGame.IncrementLoss();
-            std::cout << "\nBummer! You didn't guess the secret isogram: " << ActiveGame.sGetIsogram() << ".";
-            std::cout << "\n(You had " << (ActiveGame.iGetCurrentGuess() - 1) << " guesses.)";
-            std::cout << "\nTotal Score: " << ActiveGame.iGetScore() << " (total wins/losses " << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
-    }     
-    ActiveLetterBox.Reset(); 
-    return;
+            std::cout << "\nBummer! You didn't guess ";
+        }
+        std::cout<< "the secret isogram : " << ActiveGame.sGetIsogram() << ".";
+        std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses, earning you ";
+        std::cout << ActiveGame.iGetScore() << " points.";
+        ActiveGame.Tally();
+        std::cout << "\nSCORE: " << ActiveGame.iGetRunningScore() << " (win/loss ";
+        std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
+        ActiveLetterBox.Reset(); 
+        return;
 }
 
 FString sStringToLower(FString convertString)
@@ -163,24 +165,24 @@ FString sGetValidGuess()
         switch (Status)
         {
         case eGuessValidation::Not_Alpha:
-            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains non-alpha input.";
+            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" contains non-alpha input.";
             std::cout << "\nPlease use only letters (this *is* a word-game, y'know! [think Scrabble].)";
             break;
         case eGuessValidation::Not_Isogram:
-            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" contains repeated characters.";
+            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" contains repeated characters.";
             std::cout << "\nPlease enter an isogram (a word comprised of all unique letters,";
             std::cout << "\ni.e. book:INVALID, two 'o's, but bark:GREAT!)";
             break;
         case eGuessValidation::Too_Long:
-            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too long.";
+            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too long.";
             std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Too_Short:
-            std::cout << "\nERROR: Your submission, \"" << sGuess << "\" is too short.";
+            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too short.";
             std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Okay:
-            std::cout << "\nYour submission was, \"" << sGuess << "\"";
+            std::cout << "\nYour guess was, \"" << sGuess << "\"";
             break;
         default:
             break;
