@@ -60,7 +60,7 @@ void PlayGame()
         sGuess = ActiveGame.sStringToLower(sGuess);
         int32 guessLength = sGuess.length();
 
-        for (int32 i = 0; i < guessLength; i++ ) { ActiveLetterBox.SetLetter(sGuess[i]); }
+        for (int32 i = 0; i < guessLength; i++ ) { ActiveLetterBox.SubmitLetter(sGuess[i]); }
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bGetGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();

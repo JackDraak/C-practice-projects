@@ -62,7 +62,7 @@ class LetterBox {
 public:
     FString sGetLetters() const;
     void Reset();
-    void SetLetter(char);
+    void SubmitLetter(char);
 private:
     FString sBoxOfLetters;
 };

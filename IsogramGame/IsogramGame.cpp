@@ -174,7 +174,7 @@ FString IsogramGame::sStringToLower(FString convertString)
 FString LetterBox::sGetLetters() const      { return sBoxOfLetters; }
 void LetterBox::Reset()                     { sBoxOfLetters = ""; return; }
 
-void LetterBox::SetLetter(char letter)
+void LetterBox::SubmitLetter(char letter)
 {
     if (sBoxOfLetters == "") { sBoxOfLetters += letter; }
     else
