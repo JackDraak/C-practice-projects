@@ -29,6 +29,7 @@ public:
     bool bIsIsogram(FString);
     FString sGetIsogram() const;
     FString SelectIsogram();
+    FString sStringToLower(FString);
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
     int32 iGetLossCount() const;

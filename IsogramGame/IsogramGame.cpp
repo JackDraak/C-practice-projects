@@ -1,9 +1,6 @@
 #pragma once
 #include "IsogramGame.h"
 
-bool bIsIsogram(FString);
-FString sStringsToLower(FString);
-
 IsogramGame::IsogramGame()                          { Reset(); return; }
 
 bool IsogramGame::bGetGuessMatch() const            { return bGuessMatch; }
@@ -156,7 +153,7 @@ FString IsogramGame::SelectIsogram()
 
 bool IsogramGame::bIsIsogram(FString testString)
 {
-    testString = sStringsToLower(testString);
+    testString = sStringToLower(testString);
     std::map<char, bool> observedLetter;
 
     for (auto Letter : testString) {
@@ -165,9 +162,7 @@ bool IsogramGame::bIsIsogram(FString testString)
     } return true;
 }
 
-// ----- Internal Functions ----- //
-
-FString sStringsToLower(FString convertString)
+FString IsogramGame::sStringToLower(FString convertString)
 {
     int32 iLength = convertString.length();
     for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }

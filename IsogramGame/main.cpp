@@ -29,11 +29,10 @@ enum class eGuessValidation
 eGuessValidation ValidateGuess(FString);
 bool bContinuePlaying();
 bool bIsAlpha(FString);
+FString sGetValidGuess();
 int main();
 void PlayGame();
 void PrintIntro();
-FString sGetValidGuess();
-FString sStringToLower(FString); // TODO ditch this
 
 // instantiate objects (ActiveGame & ActiveLetterBox) for manipulation
 IsogramGame ActiveGame;
@@ -58,7 +57,7 @@ void PlayGame()
     for (int32 i = 1; i <= cMaxGuesses; i++)
     {
         sGuess = sGetValidGuess(); 
-        sGuess = sStringToLower(sGuess); // TODO replace function
+        sGuess = ActiveGame.sStringToLower(sGuess);
         int32 guessLength = sGuess.length();
 
         for (int32 i = 0; i < guessLength; i++ ) { ActiveLetterBox.SetLetter(sGuess[i]); }
@@ -83,18 +82,14 @@ void PlayGame()
     }
         // ----- Output round results ----- //
         
-        if (ActiveGame.bGetGuessMatch()) {
-            std::cout << "\nCongratulations! You guessed ";
-        }
-        else {
-            ActiveGame.IncrementLoss();
-            std::cout << "\nBummer! You didn't guess ";
-        }
-        std::cout<< "the secret isogram : " << ActiveGame.sGetIsogram() << ".";
-        std::cout << "\nIt took you " << ActiveGame.iGetCurrentGuess() << " guesses, earning you ";
-        std::cout << ActiveGame.iGetScore() << " points.";
+        if (ActiveGame.bGetGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
+        else { ActiveGame.IncrementLoss(); std::cout << "\nBummer! You didn't guess "; }
+        std::cout<< "the secret isogram : " << ActiveGame.sGetIsogram() << ".\nIt took you ";
+        if (ActiveGame.bGetGuessMatch()) { std::cout << ActiveGame.iGetCurrentGuess() << " guesses. You earned "; }
+        else { std::cout << (ActiveGame.iGetCurrentGuess() -1) << " guesses. You earned "; }
+        std::cout << ActiveGame.iGetScore() << " points."; 
         ActiveGame.Tally();
-        std::cout << "\nSCORE: " << ActiveGame.iGetRunningScore() << " (win/loss ";
+        std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss ";
         std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
         ActiveLetterBox.Reset(); 
         return;
@@ -178,20 +173,13 @@ FString sGetValidGuess()
 eGuessValidation ValidateGuess(FString sGuess)
 {
     int32 iIsogramLength = (ActiveGame.sGetIsogram()).length();
+    int32 iGuessLength = sGuess.length();
 
     if      (!bIsAlpha(sGuess))                     { return eGuessValidation::Not_Alpha; }
     else if (!ActiveGame.bIsIsogram(sGuess))        { return eGuessValidation::Not_Isogram; }
-    else if (sGuess.length() < iIsogramLength)      { return eGuessValidation::Too_Short; }
-    else if (sGuess.length() > iIsogramLength)      { return eGuessValidation::Too_Long; }
-    else                                            { return eGuessValidation::Okay; }
-}
-
-FString sStringToLower(FString convertString) // TODO ditch this for the one in IsogramGame
-{
-    int32 iStringLength = convertString.length();
-    for (int32 i = 0; i < iStringLength; i++) 
-        { convertString[i] = tolower(convertString[i]); }
-    return convertString;
+    else if (iGuessLength < iIsogramLength)         { return eGuessValidation::Too_Short; }
+    else if (iGuessLength > iIsogramLength)         { return eGuessValidation::Too_Long; }
+    else                                              return eGuessValidation::Okay; 
 }
 
 bool bIsAlpha(FString sTestString)
