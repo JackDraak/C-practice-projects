@@ -4,7 +4,7 @@
 bool bIsIsogram(FString);
 FString sStringsToLower(FString);
 
-IsogramGame::IsogramGame()                          { Reset(); }
+IsogramGame::IsogramGame()                          { Reset(); return; }
 
 bool IsogramGame::bGetGuessMatch() const            { return bGuessMatch; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
@@ -14,8 +14,8 @@ int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
 int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
 int32 IsogramGame::iGetScore() const                { return iScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
-void IsogramGame::IncrementGuess()                  { iCurrentGuess++; }
-void IsogramGame::IncrementLoss()                   { iLossCount++; }
+void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
+void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
 
 void IsogramGame::Reset()
 {
@@ -38,6 +38,7 @@ void IsogramGame::Tally()
 {
     iRunningScore += iScore;
     iScore = 0;
+    return;
 }
 
 int32 IsogramGame::iGetMaxGuesses() const 
@@ -153,18 +154,18 @@ FString IsogramGame::SelectIsogram()
     return sSelection; // Break and watch here to cheat
 }
 
-// ----- Internal Functions ----- //
-
-bool bIsIsogram(FString sTestString)
+bool IsogramGame::bIsIsogram(FString testString)
 {
-    sTestString = sStringsToLower(sTestString);
+    testString = sStringsToLower(testString);
     std::map<char, bool> observedLetter;
 
-    for (auto Letter : sTestString) {
+    for (auto Letter : testString) {
         if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
         else return false;
     } return true;
 }
+
+// ----- Internal Functions ----- //
 
 FString sStringsToLower(FString convertString)
 {
@@ -175,24 +176,25 @@ FString sStringsToLower(FString convertString)
 
 // ----- Letter Box Area ----- //
 
-FString LetterBox::sGetLetters() const      { return FString(sBoxOfLetters); }
-void LetterBox::Reset()                     { sBoxOfLetters = ""; }
+FString LetterBox::sGetLetters() const      { return sBoxOfLetters; }
+void LetterBox::Reset()                     { sBoxOfLetters = ""; return; }
 
-void LetterBox::SetLetter(char Letter)
+void LetterBox::SetLetter(char letter)
 {
-    if (sBoxOfLetters == "") { sBoxOfLetters += Letter; }
+    if (sBoxOfLetters == "") { sBoxOfLetters += letter; }
     else
     {
         int32 boxSize = sBoxOfLetters.length();
-        int32 crossChecks = 0;
-        bool bAddChar = false;
+        int32 letterMatches = 0;
+        bool bNewChar = false;
         for (int32 i = 0; i < boxSize; i++) 
         {
-            if (!(sBoxOfLetters[i] == Letter)) { crossChecks++; bAddChar = true; }
+            if (!(sBoxOfLetters[i] == letter)) { letterMatches++; bNewChar = true; }
         }
-        if (bAddChar && (crossChecks == boxSize)) { 
-            sBoxOfLetters += Letter; 
+        if (bNewChar && (letterMatches == boxSize)) { 
+            sBoxOfLetters += letter; 
         }
     }
     std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
+    return;
 }

@@ -29,13 +29,11 @@ enum class eGuessValidation
 eGuessValidation ValidateGuess(FString);
 bool bContinuePlaying();
 bool bIsAlpha(FString);
-bool bIsIsogramN(FString);
-bool bIsIsogramN2(FString);
 int main();
 void PlayGame();
 void PrintIntro();
 FString sGetValidGuess();
-FString sStringToLower(FString);
+FString sStringToLower(FString); // TODO ditch this
 
 // instantiate objects (ActiveGame & ActiveLetterBox) for manipulation
 IsogramGame ActiveGame;
@@ -59,9 +57,11 @@ void PlayGame()
 
     for (int32 i = 1; i <= cMaxGuesses; i++)
     {
-        sGuess = sGetValidGuess();
-        sGuess = sStringToLower(sGuess);
-        for (int32 i = 0; i < sGuess.length(); i++ ) { ActiveLetterBox.SetLetter(sGuess[i]); }
+        sGuess = sGetValidGuess(); 
+        sGuess = sStringToLower(sGuess); // TODO replace function
+        int32 guessLength = sGuess.length();
+
+        for (int32 i = 0; i < guessLength; i++ ) { ActiveLetterBox.SetLetter(sGuess[i]); }
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bGetGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
@@ -70,16 +70,17 @@ void PlayGame()
 
         std::cout << "\nComplement of letters used this round: " << ActiveLetterBox.sGetLetters();
         std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
-        if (ActiveGame.bDisplayHints) {
+        if (ActiveGame.bDisplayHints) 
+        {
             std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
             std::cout << "  [shuffled hint: '" << analysis.sLetterHint << "']";
         }
         std::cout << "\n...Correct letters in the proper position(s): " << analysis.iPositionMatches;
-        if (ActiveGame.bDisplayHints) {
+        if (ActiveGame.bDisplayHints) 
+        {
             std::cout << "       [hint: '" << analysis.sPositionHint << "']";
         }
     }
-
         // ----- Output round results ----- //
         
         if (ActiveGame.bGetGuessMatch()) {
@@ -134,7 +135,7 @@ void PrintIntro()
 
 FString sGetValidGuess()
 {
-    eGuessValidation Status = eGuessValidation::Invalid_Status;
+    eGuessValidation status = eGuessValidation::Invalid_Status;
     int32 iWordLen = ActiveGame.iGetIsogramLength();
     FString sGuess = "";
 
@@ -143,8 +144,9 @@ FString sGetValidGuess()
         std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess();
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
-        Status = ValidateGuess(sGuess);
-        switch (Status)
+
+        status = ValidateGuess(sGuess);
+        switch (status)
         {
         case eGuessValidation::Not_Alpha:
             std::cout << "\nERROR: Your guess, \"" << sGuess << "\" contains non-alpha input.";
@@ -169,25 +171,26 @@ FString sGetValidGuess()
         default:
             break;
         }
-    } while (Status != eGuessValidation::Okay);
+    } while (status != eGuessValidation::Okay);
     return sGuess;
 }
 
 eGuessValidation ValidateGuess(FString sGuess)
 {
-    FString sIsogram = ActiveGame.sGetIsogram();
+    int32 iIsogramLength = (ActiveGame.sGetIsogram()).length();
 
-    if (!bIsAlpha(sGuess))                          { return eGuessValidation::Not_Alpha; }
-    else if (!bIsIsogramN(sGuess))                  { return eGuessValidation::Not_Isogram; }
-    else if (sGuess.length() < sIsogram.length())   { return eGuessValidation::Too_Short; }
-    else if (sGuess.length() > sIsogram.length())   { return eGuessValidation::Too_Long; }
-    else                                              return eGuessValidation::Okay;
+    if      (!bIsAlpha(sGuess))                     { return eGuessValidation::Not_Alpha; }
+    else if (!ActiveGame.bIsIsogram(sGuess))        { return eGuessValidation::Not_Isogram; }
+    else if (sGuess.length() < iIsogramLength)      { return eGuessValidation::Too_Short; }
+    else if (sGuess.length() > iIsogramLength)      { return eGuessValidation::Too_Long; }
+    else                                            { return eGuessValidation::Okay; }
 }
 
-FString sStringToLower(FString convertString)
+FString sStringToLower(FString convertString) // TODO ditch this for the one in IsogramGame
 {
-    int32 iLength = convertString.length();
-    for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
+    int32 iStringLength = convertString.length();
+    for (int32 i = 0; i < iStringLength; i++) 
+        { convertString[i] = tolower(convertString[i]); }
     return convertString;
 }
 
@@ -200,28 +203,4 @@ bool bIsAlpha(FString sTestString)
         if (!(thisChar >= 'a' && thisChar <= 'z')) { return false; }
     }
     return true;
-}
-
-// Theoretical minimum/maximum itterations: 2-26
-bool bIsIsogramN(FString sTestString)
-{
-    sTestString = sStringToLower(sTestString);
-    std::map<char, bool> observedLetter;
-
-    for (auto Letter : sTestString) {
-        if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
-        else return false;
-    } return true;
-}
-
-// Depreciated. Historical artifact status granted.
-// Theoretical minimum/maximum itterations: 2-702
-bool bIsIsogramN2(FString sTestString)
-{
-    int32 iLength = sTestString.length();
-    for (int32 i = 0; i < iLength; i++) {
-        for (int32 j = 0; j < iLength; j++) {
-            if (i != j && sTestString[i] == sTestString[j]) { return false; }
-        }
-    } return true;
 }

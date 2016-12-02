@@ -26,6 +26,7 @@ public:
 
     Analysis AnalyzeGuess(FString);
     bool bGetGuessMatch() const;
+    bool bIsIsogram(FString);
     FString sGetIsogram() const;
     FString SelectIsogram();
     int32 iGetCurrentGuess() const;
