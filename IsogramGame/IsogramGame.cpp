@@ -25,7 +25,6 @@ void IsogramGame::Reset()
         iScore = 0;
         iWinCount = 0;
     }
-    bFirstGuess = true;
     iCurrentGuess = 1;
     sIsogram = SelectIsogram();
     return;
