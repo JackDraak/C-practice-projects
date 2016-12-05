@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <random>
 #include <string>
 #include <time.h>
 #include <vector>
@@ -20,6 +21,8 @@ struct Analysis
 
 // CLASS IsogramGame -- functions that manage the core of the Isogram Game
 class IsogramGame {
+    std::mt19937 Entropy = std::mt19937{ std::random_device{}() };
+
 public:
     IsogramGame(); // constructor 
     bool bDisplayHints;

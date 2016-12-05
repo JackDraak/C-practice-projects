@@ -50,11 +50,17 @@ int32 IsogramGame::iGetMaxGuesses() const
 // Set game difficulty arc
 int32 IsogramGame::iGetChallengeNum() const 
 {
-    if      (iScore < 40)   { return 3; }
-    else if (iScore < 80)   { return 4; }
-    else if (iScore <120)   { return 5; }
-    else if (iScore <160)   { return 6; }
-    else                    { return 7; }
+    if      (iRunningScore < 15)   { return 3; }
+    else if (iRunningScore < 45)   { return 4; }
+    else if (iRunningScore < 75)   { return 5; }
+    else if (iRunningScore <135)   { return 6; }
+    else if (iRunningScore <255)   { return 7; }
+    else if (iRunningScore <495)   { return 8; }
+    else if (iRunningScore <975)   { return 9; }
+    else if (iRunningScore <1935)  { return 10; }
+    else if (iRunningScore <3855)  { return 11; }
+    else if (iRunningScore <7695)  { return 12; }
+    else                           { return 13; }
 }
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
@@ -115,6 +121,13 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
         "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
         "isogram", "mindful",
+        "love", "tango", "cables", "sketchy", "rambling", "ramblings", "traveling",
+        "exoplasm", "exploits", "explains", "exhaling", "handgrip", "hardiest", "hasteful", "megalith", "megatons", "merciful",
+        "yachtsmen", "worshiped", "workspace", "womanizer", "wolfsbane", "windstorm", "workmates", "wordgames",
+        "abductions", "hospitable", "background", "campground", "greyhounds", "infamously", "afterglows", "shockingly",
+        "workmanship", "palindromes", "speculation", "trampolines", "personality", "sympathizer", "abolishment", "atmospheric",
+        "thunderclaps", "misconjugated", "unproblematic", "unprofitable", "questionably", "packinghouse", "upholstering",
+        "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy", "subordinately"
     };
     int32 iNumberOfIsograms = size(Dictionary);
 
@@ -150,13 +163,14 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
     }
     FString sSelection;
     int32 iSelection;
+    int32 iMissCount =0;
     do {
         do {
-            srand(unsigned(time(NULL)));
-            iSelection = rand() % iNumberOfIsograms;
+            std::uniform_int_distribution<> IndexDist(0, iNumberOfIsograms - 1);
+            iSelection = IndexDist(Entropy);
             sSelection = Dictionary[iSelection];
         } while (!bIsIsogram(sSelection));
-    } while (sSelection.length() != challengeNum);
+    } while (sSelection.length() > challengeNum +1);
     return sSelection; // Break and watch here to cheat
 }
 
