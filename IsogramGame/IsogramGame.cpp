@@ -43,11 +43,11 @@ void IsogramGame::Tally()
 // Calculate # of guesses based on size of challenge word
 int32 IsogramGame::iGetMaxGuesses() const 
 {
-    std::map <int32, int32> mapWordSizeToGuessCount { 
-        { 3,4 }, { 4,6 },  { 5,8 },  { 6,9 },  { 7,10 }, { 8,9 },
-        { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 } 
+    std::map <int32, int32> mWordSizeToGuessCount {
+        { 2,6 }, { 3,5 },  { 4,6 },  { 5,8 },  { 6,9 },  { 7,10 }, { 8,9 },
+        { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 }, { 15,3 }
     };
-    return mapWordSizeToGuessCount[sGetIsogram().length()];
+    return mWordSizeToGuessCount[sGetIsogram().length()];
 }
 
 // Higher scores give higher challenges (longer words)
@@ -63,7 +63,8 @@ int32 IsogramGame::iGetChallengeNum() const
     else if (iRunningScore <1935)  { return 10; }
     else if (iRunningScore <3855)  { return 11; }
     else if (iRunningScore <7695)  { return 12; }
-    else                           { return 13; }
+    else if (iRunningScore <15375) { return 13; }
+    else                           { return 14; }
 }
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
@@ -105,9 +106,11 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     return analysis;
 }
 
+// required argument INT indicates maximum word length (INT-1 = maxWL)
 FString IsogramGame::sSelectIsogram(int challengeNum)
 {
     std::vector<FString> Dictionary = {
+        "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so",
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
         "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
@@ -140,7 +143,7 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
         bValidated = true;
         bValidDictionary = true;
         FString sTestString;
-        bool oops = true;
+        bool bReportingMode = true;
 
         for (int32 i = 0; i < iNumberOfIsograms; i++)
         {
@@ -148,16 +151,16 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
             if (!bIsIsogram(sTestString))
             {
                 bValidDictionary = false;
-                if (oops)
+                if (bReportingMode)
                 {
                     std::cout << "E R R O R . V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
                     std::cout << "INTERNAL ERROR z-13: Dictionary validation failures detected:\n";
-                    oops = false;
+                    bReportingMode = false;
                 }
                 std::cout << " -- Dictionary[" << i << "] = \"" << sTestString << "\"\n";
             }
         }
-        if (!oops)
+        if (!bReportingMode)
         {
             std::cout << "\nWARNING: Any words listed above will be ignored as unplayable.\n\n";
         }
@@ -179,10 +182,10 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
 bool IsogramGame::bIsIsogram(FString testString)
 {
     testString = sStringToLower(testString);
-    std::map<char, bool> observedLetter;
+    std::map<char, bool> mObservedLetterTF;
 
     for (auto Letter : testString) {
-        if (!observedLetter[Letter]) { observedLetter[Letter] = true; }
+        if (!mObservedLetterTF[Letter]) { mObservedLetterTF[Letter] = true; }
         else return false;
     } return true;
 }
