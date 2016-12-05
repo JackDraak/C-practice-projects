@@ -28,7 +28,7 @@ public:
     bool bGetGuessMatch() const;
     bool bIsIsogram(FString);
     FString sGetIsogram() const;
-    FString SelectIsogram();
+    FString sSelectIsogram(int);
     FString sStringToLower(FString);
     int32 iGetCurrentGuess() const;
     int32 iGetIsogramLength() const;
@@ -36,6 +36,7 @@ public:
     int32 iGetRunningScore() const;
     int32 iGetScore() const;
     int32 iGetMaxGuesses() const;
+    int32 iGetChallengeNum() const;
     int32 iGetWinCount() const;
     void IncrementGuess();
     void IncrementLoss();

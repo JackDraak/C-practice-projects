@@ -26,7 +26,7 @@ void IsogramGame::Reset()
         iWinCount = 0;
     }
     iCurrentGuess = 1;
-    sIsogram = SelectIsogram();
+    sIsogram = sSelectIsogram(iGetChallengeNum());
     return;
 }
 
@@ -45,6 +45,16 @@ int32 IsogramGame::iGetMaxGuesses() const
         { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 } 
     };
     return mapWordSizeToGuessCount[sGetIsogram().length()];
+}
+
+// Set game difficulty arc
+int32 IsogramGame::iGetChallengeNum() const 
+{
+    if      (iScore < 40)   { return 3; }
+    else if (iScore < 80)   { return 4; }
+    else if (iScore <120)   { return 5; }
+    else if (iScore <160)   { return 6; }
+    else                    { return 7; }
 }
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
@@ -86,7 +96,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     return analysis;
 }
 
-FString IsogramGame::SelectIsogram()
+FString IsogramGame::sSelectIsogram(int challengeNum)
 {
     std::vector<FString> Dictionary = {
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
@@ -141,12 +151,12 @@ FString IsogramGame::SelectIsogram()
     FString sSelection;
     int32 iSelection;
     do {
-        srand(unsigned(time(NULL)));
-        iSelection = rand() % iNumberOfIsograms;
-        sSelection = Dictionary[iSelection];
-    } while (!bIsIsogram(sSelection));
-    // TODO word-length discrimination, leading to:
-    // TODO challenege-level system...
+        do {
+            srand(unsigned(time(NULL)));
+            iSelection = rand() % iNumberOfIsograms;
+            sSelection = Dictionary[iSelection];
+        } while (!bIsIsogram(sSelection));
+    } while (sSelection.length() != challengeNum);
     return sSelection; // Break and watch here to cheat
 }
 
