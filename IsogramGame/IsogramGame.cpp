@@ -3,26 +3,28 @@
 
 IsogramGame::IsogramGame()                          { Reset(); return; }
 
-bool IsogramGame::bGetGuessMatch() const            { return bGuessMatch; }
+bool IsogramGame::bIsGuessMatch() const             { return bGuessMatch; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
-int32 IsogramGame::iGetCurrentGuess() const         { return iCurrentGuess; }
+int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
+int32 IsogramGame::iGetPhaseScore() const           { return iPhaseScore; }
 int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
-int32 IsogramGame::iGetScore() const                { return iScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
 
+// Initialize game or next round
 void IsogramGame::Reset()
 {
     if (!bInitialized) 
     {
         bDisplayHints = true;
         bInitialized = true;
+        bValidated = false;
         bValidDictionary = false;
         iLossCount = 0;
-        iScore = 0;
+        iPhaseScore = 0;
         iWinCount = 0;
     }
     iCurrentGuess = 1;
@@ -30,24 +32,25 @@ void IsogramGame::Reset()
     return;
 }
 
+// Update total score, then reset round-score
 void IsogramGame::Tally()
 {
-    iRunningScore += iScore;
-    iScore = 0;
+    iRunningScore += iPhaseScore;
+    iPhaseScore = 0;
     return;
 }
 
+// Calculate # of guesses based on size of challenge word
 int32 IsogramGame::iGetMaxGuesses() const 
 {
     std::map <int32, int32> mapWordSizeToGuessCount { 
-        { 3,4 }, { 4,6 }, { 5,8 }, { 6,9 }, 
-        { 7,10 }, { 8,9 }, { 9,8 }, { 10,7 }, 
-        { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 } 
+        { 3,4 }, { 4,6 },  { 5,8 },  { 6,9 },  { 7,10 }, { 8,9 },
+        { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 } 
     };
     return mapWordSizeToGuessCount[sGetIsogram().length()];
 }
 
-// Set game difficulty arc
+// Higher scores give higher challenges (longer words)
 int32 IsogramGame::iGetChallengeNum() const 
 {
     if      (iRunningScore < 15)   { return 3; }
@@ -87,8 +90,8 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                     bLetterScore = true;
                     analysis.sLetterHint[GuessLetter] = sGuess[GuessLetter];
                 }
-                if (!bLetterScore && bPosScore)         { iScore = (iScore + 3); }
-                else if (bLetterScore && !bPosScore)    { iScore++; }
+                if (!bLetterScore && bPosScore)         { iPhaseScore = (iPhaseScore + 3); }
+                else if (bLetterScore && !bPosScore)    { iPhaseScore++; }
             }
         }
     }
@@ -132,11 +135,9 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
     int32 iNumberOfIsograms = size(Dictionary);
 
     // ----- validate dictionary ONCE ONLY ----- //
-    // this is somewhat anachronistic, as now the secret word is validated immediately prior to use (as well)
-    // but there's no harm keeping it for extra data, i.e. in a case where new words are added to the dictionary...
-    // in one run of the program they will all be immediately flagged on the console.
-    if (!bValidDictionary) // TODO: invalid dictionaries re-validate between rounds... not a high priority to fix, really
+    if (!bValidDictionary && !bValidated)
     {
+        bValidated = true;
         bValidDictionary = true;
         FString sTestString;
         bool oops = true;
@@ -163,14 +164,15 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
     }
     FString sSelection;
     int32 iSelection;
-    int32 iMissCount =0;
+    int32 iSelectionLength;
     do {
         do {
             std::uniform_int_distribution<> IndexDist(0, iNumberOfIsograms - 1);
             iSelection = IndexDist(Entropy);
             sSelection = Dictionary[iSelection];
         } while (!bIsIsogram(sSelection));
-    } while (sSelection.length() > challengeNum +1);
+        iSelectionLength = sSelection.length();
+    } while (iSelectionLength > challengeNum +1);
     return sSelection; // Break and watch here to cheat
 }
 

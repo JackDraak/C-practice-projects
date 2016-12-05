@@ -33,6 +33,7 @@ FString sGetValidGuess();
 int main();
 void PlayGame();
 void PrintIntro();
+void PrintScoringHelp();
 
 // instantiate objects (ActiveGame & ActiveLetterBox) for manipulation
 IsogramGame ActiveGame;
@@ -62,7 +63,7 @@ void PlayGame()
 
         for (int32 i = 0; i < guessLength; i++ ) { ActiveLetterBox.SubmitLetter(sGuess[i]); }
         Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
-        if (ActiveGame.bGetGuessMatch()) { break; } 
+        if (ActiveGame.bIsGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
 
         // ----- Output phase (turn) results ----- //
@@ -82,12 +83,12 @@ void PlayGame()
     }
         // ----- Output round results ----- //
         
-        if (ActiveGame.bGetGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
+        if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
         else { ActiveGame.IncrementLoss(); std::cout << "\nBummer! You didn't guess "; }
         std::cout<< "the secret isogram : " << ActiveGame.sGetIsogram() << ".\nIt took you ";
-        if (ActiveGame.bGetGuessMatch()) { std::cout << ActiveGame.iGetCurrentGuess() << " guesses. You earned "; }
-        else { std::cout << (ActiveGame.iGetCurrentGuess() -1) << " guesses. You earned "; }
-        std::cout << ActiveGame.iGetScore() << " points."; 
+        if (ActiveGame.bIsGuessMatch()) { std::cout << ActiveGame.iGetCurrentGuessNum() << " guesses. You earned "; }
+        else { std::cout << (ActiveGame.iGetCurrentGuessNum() -1) << " guesses. You earned "; }
+        std::cout << ActiveGame.iGetPhaseScore() << " points."; 
         ActiveGame.Tally();
         std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss ";
         std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
@@ -100,15 +101,16 @@ bool bContinuePlaying()
     bool bContinue = true;
     do {
         FString sResponce = "";
-        std::cout << "\nPlease enter (P)lay again, toggle (H)ints ";
+        std::cout << "\n\nPlease, enter: (P)lay again, toggle (H)ints ";
         if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
-        std::cout << ", (R)epeat intro, or (Q)uit...";
+        std::cout << ", (R)epeat intro, \n               show (S)coring algorithm, or (Q)uit...";
         getline(std::cin, sResponce);
 
         if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
         else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; break; }
         else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); break; }
         else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { PrintIntro(); }
+        else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) { PrintScoringHelp(); }
     } while (true);
     if (bContinue) { return true; } else { return false; }
 }
@@ -128,6 +130,16 @@ void PrintIntro()
     return;
 }
 
+void PrintScoringHelp()
+{
+    std::cout << "\nEach time you make a guess you have a chance to score points....";
+    std::cout << "\nIf you guess a letter correctly (but in the wrong place) you get +1 point,";
+    std::cout << "\nand if you guess a correct letter in the proper position you get +3 points.";
+    std::cout << "\nYour score is cumulative from round-to-round. (Also, the higher your score,";
+    std::cout << "\nthe longer the challenge word may be.)";
+    return;
+}
+
 FString sGetValidGuess()
 {
     eGuessValidation status = eGuessValidation::Invalid_Status;
@@ -136,7 +148,7 @@ FString sGetValidGuess()
 
     do {
         std::cout << "\n\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
-        std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuess();
+        std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuessNum();
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
 

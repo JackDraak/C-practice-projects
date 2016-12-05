@@ -28,16 +28,16 @@ public:
     bool bDisplayHints;
 
     Analysis AnalyzeGuess(FString);
-    bool bGetGuessMatch() const;
+    bool bIsGuessMatch() const;
     bool bIsIsogram(FString);
     FString sGetIsogram() const;
     FString sSelectIsogram(int);
     FString sStringToLower(FString);
-    int32 iGetCurrentGuess() const;
+    int32 iGetCurrentGuessNum() const;
     int32 iGetIsogramLength() const;
     int32 iGetLossCount() const;
     int32 iGetRunningScore() const;
-    int32 iGetScore() const;
+    int32 iGetPhaseScore() const;
     int32 iGetMaxGuesses() const;
     int32 iGetChallengeNum() const;
     int32 iGetWinCount() const;
@@ -50,13 +50,14 @@ public:
 private:
     bool bGuessMatch;
     bool bInitialized;
+    bool bValidated;
     bool bValidDictionary;
     FString sIsogram;
     int32 iCurrentGuess;
     int32 iLossCount;
     int32 iMaxGuesses;
     int32 iRunningScore;
-    int32 iScore;
+    int32 iPhaseScore;
     int32 iWinCount;
 };
 
