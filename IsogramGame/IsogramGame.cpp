@@ -14,7 +14,7 @@ int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
 
-// Initialize game or next round
+// Initialize new game or setup for next round.
 void IsogramGame::Reset()
 {
     if (!bInitialized) 
@@ -28,11 +28,11 @@ void IsogramGame::Reset()
         iWinCount = 0;
     }
     iCurrentGuess = 1;
-    sIsogram = sSelectIsogram(iGetChallengeNum());
+    sIsogram = sSelectIsogram(iGetChallengeSize());
     return;
 }
 
-// Update total score, then reset round-score
+// Update total score, then reset round-score.
 void IsogramGame::Tally()
 {
     iRunningScore += iPhaseScore;
@@ -40,7 +40,7 @@ void IsogramGame::Tally()
     return;
 }
 
-// Calculate # of guesses based on size of challenge word
+// Respond with # of guesses based on length of challenge word.
 int32 IsogramGame::iGetMaxGuesses() const 
 {
     std::map <int32, int32> mWordSizeToGuessCount {
@@ -50,8 +50,8 @@ int32 IsogramGame::iGetMaxGuesses() const
     return mWordSizeToGuessCount[sGetIsogram().length()];
 }
 
-// Higher scores give higher challenges (longer words)
-int32 IsogramGame::iGetChallengeNum() const 
+// Respond with maximum challenge-word size. Higher total scores give bigger challenges (longer words).
+int32 IsogramGame::iGetChallengeSize() const 
 {
     if      (iRunningScore < 15)   { return 3; }
     else if (iRunningScore < 45)   { return 4; }
@@ -67,6 +67,7 @@ int32 IsogramGame::iGetChallengeNum() const
     else                           { return 14; }
 }
 
+// Update the active game Analysis <struct>, comparing challenge word aganist submitted guess.
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
     Analysis zAnalysis;
@@ -106,9 +107,10 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     return zAnalysis;
 }
 
-// required argument INT indicates maximum word length (INT-1 = maxWL)
+// Set and respond with next challenge-word; required argument INT indicates maximum word length (INT-1 = maxWL).
 FString IsogramGame::sSelectIsogram(int iChallengeNum)
 {
+    if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
         "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so",
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
@@ -176,7 +178,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         } while (!bIsIsogram(sSelection));
         iSelectionLength = sSelection.length();
     } while (iSelectionLength > iChallengeNum +1);
-    return sSelection; // Break and watch here to cheat
+    return sSelection; // Break and watch here to cheat.
 }
 
 bool IsogramGame::bIsIsogram(FString sTestString)
