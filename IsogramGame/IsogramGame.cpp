@@ -69,47 +69,47 @@ int32 IsogramGame::iGetChallengeNum() const
 
 Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 {
-    Analysis analysis;
+    Analysis zAnalysis;
 
     int32 iIsogramLength = sIsogram.length();
-    analysis.sPositionHint = FString(iIsogramLength, '-');
-    analysis.sLetterHint = analysis.sPositionHint;
+    zAnalysis.sPositionHint = FString(iIsogramLength, '-');
+    zAnalysis.sLetterHint = zAnalysis.sPositionHint;
     
-    for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
-        for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
-            if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {
-                bool bPositionScore = false;
+    for (int32 iGuessLetter = 0; iGuessLetter < iIsogramLength; iGuessLetter++) {
+        for (int32 iIsogramLetter = 0; iIsogramLetter < iIsogramLength; iIsogramLetter++) {
+            if (sGuess[iGuessLetter] == sIsogram[iIsogramLetter]) {
                 bool bLetterScore = false;
-                if (GuessLetter == IsogramLetter) 
+                bool bPositionScore = false;
+                if (iGuessLetter == iIsogramLetter) 
                 {
-                    analysis.iPositionMatches++;
                     bPositionScore = true;
-                    analysis.sPositionHint[GuessLetter] = sGuess[GuessLetter];
+                    zAnalysis.iPositionMatches++;
+                    zAnalysis.sPositionHint[iGuessLetter] = sGuess[iGuessLetter];
                 } else
                 { 
-                    analysis.iLetterMatches++;
                     bLetterScore = true;
-                    analysis.sLetterHint[GuessLetter] = sGuess[GuessLetter];
+                    zAnalysis.iLetterMatches++;
+                    zAnalysis.sLetterHint[iGuessLetter] = sGuess[iGuessLetter];
                 }
                 if (!bLetterScore && bPositionScore)         { iPhaseScore = (iPhaseScore + 3); }
                 else if (bLetterScore && !bPositionScore)    { iPhaseScore++; }
             }
         }
     }
-    if (analysis.iPositionMatches == iIsogramLength) 
+    if (zAnalysis.iPositionMatches == iIsogramLength) 
     {
         bDoesGuessMatch = true;
         iWinCount++;
     } else {
         bDoesGuessMatch = false;
     }
-    return analysis;
+    return zAnalysis;
 }
 
 // required argument INT indicates maximum word length (INT-1 = maxWL)
-FString IsogramGame::sSelectIsogram(int challengeNum)
+FString IsogramGame::sSelectIsogram(int iChallengeNum)
 {
-    std::vector<FString> Dictionary = {
+    std::vector<FString> aDictionary = {
         "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so",
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
@@ -135,19 +135,19 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
         "thunderclaps", "misconjugated", "unproblematic", "unprofitable", "questionably", "packinghouse", "upholstering",
         "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy", "subordinately"
     };
-    int32 iNumberOfIsograms = size(Dictionary);
+    int32 iNumberOfIsograms = size(aDictionary);
 
     // ----- validate dictionary ONCE ONLY ----- //
-    if (!bValidDictionary && !bValidated)
+    if (!bValidated && !bValidDictionary)
     {
+        bool bReportingMode = true;
         bValidated = true;
         bValidDictionary = true;
         FString sTestString;
-        bool bReportingMode = true;
 
-        for (int32 i = 0; i < iNumberOfIsograms; i++)
+        for (int32 iIndex = 0; iIndex < iNumberOfIsograms; iIndex++)
         {
-            sTestString = Dictionary[i];
+            sTestString = aDictionary[iIndex];
             if (!bIsIsogram(sTestString))
             {
                 bValidDictionary = false;
@@ -157,7 +157,7 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
                     std::cout << "INTERNAL ERROR z-13: Dictionary validation failures detected:\n";
                     bReportingMode = false;
                 }
-                std::cout << " -- Dictionary[" << i << "] = \"" << sTestString << "\"\n";
+                std::cout << " -- Dictionary[" << iIndex << "] = \"" << sTestString << "\"\n";
             }
         }
         if (!bReportingMode)
@@ -170,52 +170,52 @@ FString IsogramGame::sSelectIsogram(int challengeNum)
     int32 iSelectionLength;
     do {
         do {
-            std::uniform_int_distribution<> IndexDist(0, iNumberOfIsograms - 1);
-            iSelection = IndexDist(Entropy);
-            sSelection = Dictionary[iSelection];
+            std::uniform_int_distribution<> zIndexDist(0, iNumberOfIsograms - 1);
+            iSelection = zIndexDist(Entropy);
+            sSelection = aDictionary[iSelection];
         } while (!bIsIsogram(sSelection));
         iSelectionLength = sSelection.length();
-    } while (iSelectionLength > challengeNum +1);
+    } while (iSelectionLength > iChallengeNum +1);
     return sSelection; // Break and watch here to cheat
 }
 
-bool IsogramGame::bIsIsogram(FString testString)
+bool IsogramGame::bIsIsogram(FString sTestString)
 {
-    testString = sStringToLower(testString);
+    sTestString = sStringToLower(sTestString);
     std::map<char, bool> mObservedLetterTF;
 
-    for (auto Letter : testString) {
-        if (!mObservedLetterTF[Letter]) { mObservedLetterTF[Letter] = true; }
+    for (auto cLetter : sTestString) {
+        if (!mObservedLetterTF[cLetter]) { mObservedLetterTF[cLetter] = true; }
         else return false;
     } return true;
 }
 
-FString IsogramGame::sStringToLower(FString convertString)
+FString IsogramGame::sStringToLower(FString sConvertString)
 {
-    int32 iLength = convertString.length();
-    for (int32 i = 0; i < iLength; i++) { convertString[i] = tolower(convertString[i]); }
-    return convertString;
+    int32 iLength = sConvertString.length();
+    for (int32 iPosition = 0; iPosition < iLength; iPosition++) { sConvertString[iPosition] = tolower(sConvertString[iPosition]); }
+    return sConvertString;
 }
 
-// ----- Letter Box Area ----- //
+// ----- Letter-Box Methods ----- //
 
 FString LetterBox::sGetLetters() const      { return sBoxOfLetters; }
 void LetterBox::Reset()                     { sBoxOfLetters = ""; return; }
 
-void LetterBox::SubmitLetter(char letter)
+void LetterBox::SubmitLetter(char cLetter)
 {
-    if (sBoxOfLetters == "") { sBoxOfLetters += letter; }
+    if (sBoxOfLetters == "") { sBoxOfLetters += cLetter; }
     else
     {
-        int32 boxSize = sBoxOfLetters.length();
-        int32 letterMatches = 0;
-        bool bNewChar = false;
-        for (int32 i = 0; i < boxSize; i++) 
+        int32 iBoxSize = sBoxOfLetters.length();
+        int32 iLetterMatches = 0;
+        bool bNovelChar = false;
+        for (int32 iSlot = 0; iSlot < iBoxSize; iSlot++) 
         {
-            if (!(sBoxOfLetters[i] == letter)) { letterMatches++; bNewChar = true; }
+            if (!(sBoxOfLetters[iSlot] == cLetter)) { iLetterMatches++; bNovelChar = true; }
         }
-        if (bNewChar && (letterMatches == boxSize)) { 
-            sBoxOfLetters += letter; 
+        if (bNovelChar && (iLetterMatches == iBoxSize)) { 
+            sBoxOfLetters += cLetter; 
         }
     }
     std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());

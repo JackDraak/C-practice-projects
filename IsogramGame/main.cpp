@@ -26,9 +26,9 @@ enum class eGuessValidation
 
 // ----- Function prototypes ----- //
 
-eGuessValidation ValidateGuess(FString);
 bool bContinuePlaying();
 bool bIsAlpha(FString);
+eGuessValidation eValidateGuess(FString);
 FString sGetValidGuess();
 int main();
 void PlayGame();
@@ -51,33 +51,33 @@ int main()
 void PlayGame()
 {
     ActiveLetterBox.Reset();
-    int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
     FString sGuess = "";
+    int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
 
-    for (int32 i = 1; i <= cMaxGuesses; i++)
+    for (int32 iGuessNum = 1; iGuessNum <= cMaxGuesses; iGuessNum++)
     {
         sGuess = sGetValidGuess(); 
         sGuess = ActiveGame.sStringToLower(sGuess);
-        int32 guessLength = sGuess.length();
+        int32 iGuessLength = sGuess.length();
 
-        for (int32 i = 0; i < guessLength; i++ ) { ActiveLetterBox.SubmitLetter(sGuess[i]); }
-        Analysis analysis = ActiveGame.AnalyzeGuess(sGuess);
+        for (int32 iIndex = 0; iIndex < iGuessLength; iIndex++ ) { ActiveLetterBox.SubmitLetter(sGuess[iIndex]); }
+        Analysis zAnalysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bIsGuessMatch()) { break; } 
         ActiveGame.IncrementGuess();
 
         // ----- Output phase (turn) results ----- //
 
         std::cout << "\nComplement of letters used this round: " << ActiveLetterBox.sGetLetters();
-        std::cout << "\n...Correct letters in the wrong place(s): " << analysis.iLetterMatches;
+        std::cout << "\n...Correct letters in the wrong place(s): " << zAnalysis.iLetterMatches;
         if (ActiveGame.bDisplayHints) 
         {
-            std::random_shuffle(analysis.sLetterHint.begin(), analysis.sLetterHint.end());
-            std::cout << "  [shuffled hint: '" << analysis.sLetterHint << "']";
+            std::random_shuffle(zAnalysis.sLetterHint.begin(), zAnalysis.sLetterHint.end());
+            std::cout << "  [shuffled hint: '" << zAnalysis.sLetterHint << "']";
         }
-        std::cout << "\n...Correct letters in the proper position(s): " << analysis.iPositionMatches;
+        std::cout << "\n...Correct letters in the proper position(s): " << zAnalysis.iPositionMatches;
         if (ActiveGame.bDisplayHints) 
         {
-            std::cout << "       [hint: '" << analysis.sPositionHint << "']";
+            std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
     }
         // ----- Output round results ----- //
@@ -140,9 +140,9 @@ void PrintScoringHelp()
 
 FString sGetValidGuess()
 {
-    eGuessValidation status = eGuessValidation::Invalid_Status;
-    int32 iWordLen = ActiveGame.iGetIsogramLength();
+    eGuessValidation zStatus = eGuessValidation::Invalid_Status;
     FString sGuess = "";
+    int32 iWordLen = ActiveGame.iGetIsogramLength();
 
     do {
         std::cout << "\n\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
@@ -150,8 +150,8 @@ FString sGetValidGuess()
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
 
-        status = ValidateGuess(sGuess);
-        switch (status)
+        zStatus = eValidateGuess(sGuess);
+        switch (zStatus)
         {
         case eGuessValidation::Not_Alpha:
             std::cout << "\nERROR: Your guess, \"" << sGuess << "\" contains non-alpha input.";
@@ -176,14 +176,14 @@ FString sGetValidGuess()
         default:
             break;
         }
-    } while (status != eGuessValidation::Okay);
+    } while (zStatus != eGuessValidation::Okay);
     return sGuess;
 }
 
-eGuessValidation ValidateGuess(FString sGuess)
+eGuessValidation eValidateGuess(FString sGuess)
 {
-    int32 iIsogramLength = (ActiveGame.sGetIsogram()).length();
     int32 iGuessLength = sGuess.length();
+    int32 iIsogramLength = (ActiveGame.sGetIsogram()).length();
 
     if      (!bIsAlpha(sGuess))                     { return eGuessValidation::Not_Alpha; }
     else if (!ActiveGame.bIsIsogram(sGuess))        { return eGuessValidation::Not_Isogram; }
@@ -195,10 +195,10 @@ eGuessValidation ValidateGuess(FString sGuess)
 bool bIsAlpha(FString sTestString)
 {
     int32 iLength = sTestString.length();
-    for (int32 i = 0; i < iLength; i++)
+    for (int32 iPosition = 0; iPosition < iLength; iPosition++)
     {
-        char thisChar = tolower(sTestString[i]);
-        if (!(thisChar >= 'a' && thisChar <= 'z')) { return false; }
+        char cThisChar = tolower(sTestString[iPosition]);
+        if (!(cThisChar >= 'a' && cThisChar <= 'z')) { return false; }
     }
     return true;
 }
