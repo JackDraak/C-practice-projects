@@ -51,7 +51,6 @@ int main()
 void PlayGame()
 {
     ActiveLetterBox.Reset();
-    srand(unsigned(time(NULL)));
     int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
     FString sGuess = "";
 
@@ -92,7 +91,6 @@ void PlayGame()
         ActiveGame.Tally();
         std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss ";
         std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
-        ActiveLetterBox.Reset(); 
         return;
 }
 

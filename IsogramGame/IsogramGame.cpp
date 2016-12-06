@@ -3,7 +3,7 @@
 
 IsogramGame::IsogramGame()                          { Reset(); return; }
 
-bool IsogramGame::bIsGuessMatch() const             { return bGuessMatch; }
+bool IsogramGame::bIsGuessMatch() const             { return bDoesGuessMatch; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
 int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
@@ -78,12 +78,12 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     for (int32 GuessLetter = 0; GuessLetter < iIsogramLength; GuessLetter++) {
         for (int32 IsogramLetter = 0; IsogramLetter < iIsogramLength; IsogramLetter++) {
             if (sGuess[GuessLetter] == sIsogram[IsogramLetter]) {
-                bool bPosScore = false;
+                bool bPositionScore = false;
                 bool bLetterScore = false;
                 if (GuessLetter == IsogramLetter) 
                 {
                     analysis.iPositionMatches++;
-                    bPosScore = true;
+                    bPositionScore = true;
                     analysis.sPositionHint[GuessLetter] = sGuess[GuessLetter];
                 } else
                 { 
@@ -91,17 +91,17 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                     bLetterScore = true;
                     analysis.sLetterHint[GuessLetter] = sGuess[GuessLetter];
                 }
-                if (!bLetterScore && bPosScore)         { iPhaseScore = (iPhaseScore + 3); }
-                else if (bLetterScore && !bPosScore)    { iPhaseScore++; }
+                if (!bLetterScore && bPositionScore)         { iPhaseScore = (iPhaseScore + 3); }
+                else if (bLetterScore && !bPositionScore)    { iPhaseScore++; }
             }
         }
     }
     if (analysis.iPositionMatches == iIsogramLength) 
     {
-        bGuessMatch = true;
+        bDoesGuessMatch = true;
         iWinCount++;
     } else {
-        bGuessMatch = false;
+        bDoesGuessMatch = false;
     }
     return analysis;
 }

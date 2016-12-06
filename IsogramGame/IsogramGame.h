@@ -36,8 +36,8 @@ public:
     int32 iGetCurrentGuessNum() const;
     int32 iGetIsogramLength() const;
     int32 iGetLossCount() const;
-    int32 iGetRunningScore() const;
     int32 iGetPhaseScore() const;
+    int32 iGetRunningScore() const;
     int32 iGetMaxGuesses() const;
     int32 iGetChallengeNum() const;
     int32 iGetWinCount() const;
@@ -48,7 +48,7 @@ public:
 
     // see IsogramGame::IsogramGame() definition for initialization [found in IsogramGame.cpp]
 private:
-    bool bGuessMatch;
+    bool bDoesGuessMatch;
     bool bInitialized;
     bool bValidated;
     bool bValidDictionary;
@@ -56,8 +56,8 @@ private:
     int32 iCurrentGuess;
     int32 iLossCount;
     int32 iMaxGuesses;
-    int32 iRunningScore;
     int32 iPhaseScore;
+    int32 iRunningScore;
     int32 iWinCount;
 };
 
