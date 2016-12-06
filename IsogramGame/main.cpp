@@ -35,7 +35,7 @@ void PlayGame();
 void PrintIntro();
 void PrintScoringHelp();
 
-// instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
+// Instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
 IsogramGame ActiveGame;
 LetterBox ActiveLetterBox;
 

@@ -139,7 +139,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
     };
     int32 iNumberOfIsograms = size(aDictionary);
 
-    // ----- validate dictionary ONCE ONLY ----- //
+    // ----- Validate dictionary ONCE ONLY ----- //
     if (!bValidated && !bValidDictionary)
     {
         bool bReportingMode = true;

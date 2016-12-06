@@ -18,12 +18,12 @@ struct Analysis
     int32 iPositionMatches = 0;
 };
 
-// CLASS IsogramGame -- functions that manage the core of the Isogram Game.
+// CLASS IsogramGame -- Functions that manage the core of the Isogram Game.
 class IsogramGame {
     std::mt19937 Entropy = std::mt19937{ std::random_device{}() };
 
 public:
-    IsogramGame(); // constructor
+    IsogramGame(); // Constructor
     bool bDisplayHints;
 
     Analysis AnalyzeGuess(FString);
@@ -45,7 +45,7 @@ public:
     void Reset();
     void Tally();
 
-    // see IsogramGame::IsogramGame() definition for initialization. [found in IsogramGame.cpp]
+    // See IsogramGame::IsogramGame() definition for initialization. [found in IsogramGame.cpp]
 private:
     bool bDoesGuessMatch;
     bool bInitialized;
@@ -60,7 +60,7 @@ private:
     int32 iWinCount;
 };
 
-// CLASS LetterBox -- container to store characters submitted during a round of play.
+// CLASS LetterBox -- Container to store characters submitted during a round of play.
 class LetterBox {
 public:
     FString sGetLetters() const;
