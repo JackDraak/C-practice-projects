@@ -44,7 +44,7 @@ void IsogramGame::Tally()
 int32 IsogramGame::iGetMaxGuesses() const 
 {
     std::map <int32, int32> mWordSizeToGuessCount {
-        { 2,6 }, { 3,5 },  { 4,6 },  { 5,8 },  { 6,9 },  { 7,10 }, { 8,9 },
+        { 2,7 }, { 3,6 },  { 4,7 },  { 5,8 },  { 6,9 },  { 7,9 }, { 8,9 },
         { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 }, { 15,3 }
     };
     return mWordSizeToGuessCount[sGetIsogram().length()];
@@ -112,17 +112,18 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
-        "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so",
-        "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par",
+        "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so", "it", 
+        "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par", "age", "tax", "lax", 
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
         "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
         "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo", "wasp",
-        "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast",
+        "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast", "lynx",
         "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn",
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks", "angel",
         "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact", 
         "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift",
-        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", 
+        "hybrid",
+        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "zealot",
         "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine", "bronze",
         "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
@@ -195,7 +196,8 @@ bool IsogramGame::bIsIsogram(FString sTestString)
 FString IsogramGame::sStringToLower(FString sConvertString)
 {
     int32 iLength = sConvertString.length();
-    for (int32 iPosition = 0; iPosition < iLength; iPosition++) { sConvertString[iPosition] = tolower(sConvertString[iPosition]); }
+    for (int32 iPosition = 0; iPosition < iLength; iPosition++) 
+        { sConvertString[iPosition] = tolower(sConvertString[iPosition]); }
     return sConvertString;
 }
 
@@ -214,7 +216,8 @@ void LetterBox::SubmitLetter(char cLetter)
         bool bNovelChar = false;
         for (int32 iSlot = 0; iSlot < iBoxSize; iSlot++) 
         {
-            if (!(sBoxOfLetters[iSlot] == cLetter)) { iLetterMatches++; bNovelChar = true; }
+            if (!(sBoxOfLetters[iSlot] == cLetter)) 
+                { iLetterMatches++; bNovelChar = true; }
         }
         if (bNovelChar && (iLetterMatches == iBoxSize)) { 
             sBoxOfLetters += cLetter; 
