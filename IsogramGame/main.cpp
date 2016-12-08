@@ -33,6 +33,7 @@ FString sGetValidGuess();
 int main();
 void PlayGame();
 void PrintIntro();
+void PrintLetterBox(FString);
 void PrintScoringHelp();
 
 // Instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
@@ -67,7 +68,8 @@ void PlayGame()
 
         // ----- Output phase (turn) results ----- //
 
-        std::cout << "\nComplement of letters used this round: " << ActiveLetterBox.sGetLetters();
+        std::cout << " (used so far: " << ActiveLetterBox.sGetLetters() << ")";
+        PrintLetterBox(ActiveLetterBox.sGetLetters());
         std::cout << "\n...Correct letters in the wrong place(s): " << zAnalysis.iLetterMatches;
         if (ActiveGame.bDisplayHints) 
         {
@@ -138,6 +140,26 @@ void PrintScoringHelp()
     return;
 }
 
+void PrintLetterBox(FString sUsedLetters) {
+    std::cout << "\n           ---------------------------------------------------";
+    std::cout << "\n           a b c d e f g h i j k l m n o p q r s t u v w x y z";
+    std::cout << "\n           ";
+    for (int32 iAlphabet = 0; iAlphabet < 26; iAlphabet++) 
+    {
+        char cTestChar = 'a' + iAlphabet;
+        bool bInSet = false;
+        int32 iBoxSize = sUsedLetters.length();
+        for (int32 iLetter = 0; iLetter < iBoxSize; iLetter++)
+        {
+            if (sUsedLetters[iLetter] == cTestChar) { bInSet = true; }
+        }
+        if (bInSet) { std::cout << "x "; }
+        else { std::cout << "  "; }
+    }
+    std::cout << "\n           ---------------------------------------------------";
+    return;
+}
+
 FString sGetValidGuess()
 {
     eGuessValidation zStatus = eGuessValidation::Invalid_Status;
@@ -163,11 +185,11 @@ FString sGetValidGuess()
             std::cout << "\ni.e. book:INVALID, two 'o's, but bark:GREAT!)";
             break;
         case eGuessValidation::Too_Long:
-            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too long.";
+            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too long. (" << sGuess.length() << " letters)";
             std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Too_Short:
-            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too short.";
+            std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too short. (" << sGuess.length() << " letters)";
             std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Okay:
