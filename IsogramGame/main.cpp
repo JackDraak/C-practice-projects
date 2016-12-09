@@ -105,7 +105,7 @@ bool bContinuePlaying()
         std::cout << "\n\nPlease, enter: (P)lay again, toggle (H)ints ";
         if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
         std::cout << ", (R)epeat intro, \n               show (S)coring algorithm, or (Q)uit...";
-        std::cout << "\nBETA: (E)asy, (N)ormal, (H)ard";
+        std::cout << "\n               BETA: switch to (E)asy, (N)ormal, (H)ard"; // TODO complete this area
         getline(std::cin, sResponce);
 
         if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }

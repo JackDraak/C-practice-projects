@@ -10,13 +10,6 @@
 using FString = std::string;
 using int32 = int;
 
-enum class eDifficulty
-{
-    Easy,
-    Hard,
-    Normal
-};
-
 struct Analysis
 {
     FString sLetterHint = "";
@@ -47,6 +40,7 @@ public:
     int32 iGetMaxGuesses() const;
     int32 iGetChallengeSize() const;
     int32 iGetWinCount() const;
+    int32 zGetDifficulty() const;
     void IncrementGuess();
     void IncrementLoss();
     void Reset();
@@ -68,6 +62,7 @@ private:
     int32 iPhaseScore;
     int32 iRunningScore;
     int32 iWinCount;
+    int32 zMode; // TODO re-code with more readabilty?
 };
 
 // CLASS LetterBox -- Container to store characters submitted during a round of play.

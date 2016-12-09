@@ -2,11 +2,10 @@
 #include "IsogramGame.h"
 
 IsogramGame::IsogramGame()                          { Reset(); return; }
-eDifficulty eMode;
 
 bool IsogramGame::bIsGuessMatch() const             { return bDoesGuessMatch; }
-eDifficulty GetDifficulty()                         { return eMode; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
+int32 IsogramGame::zGetDifficulty() const            { return zMode; }
 int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
@@ -15,9 +14,9 @@ int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
-void SetEasy()                                      { eMode = eDifficulty::Easy; return; }
-void SetHard()                                      { eMode = eDifficulty::Hard; return; }
-void SetNormal()                                    { eMode = eDifficulty::Normal; return; }
+void IsogramGame::SetEasy()                         { zMode = 0; return; }
+void IsogramGame::SetHard()                         { zMode = 2; return; }
+void IsogramGame::SetNormal()                       { zMode = 1; return; }
 
 // Initialize new game or setup for next round.
 void IsogramGame::Reset()
@@ -31,7 +30,7 @@ void IsogramGame::Reset()
         iLossCount = 0;
         iPhaseScore = 0;
         iWinCount = 0;
-        eMode = eDifficulty::Normal;
+        zMode = 1;
     }
     iCurrentGuess = 1;
     sIsogram = sSelectIsogram(iGetChallengeSize());
@@ -51,7 +50,7 @@ int32 IsogramGame::iGetMaxGuesses() const // TODO easy/medium/hard modes, with m
 {
     int32 iWordSize;
 
-    if (eMode == eDifficulty::Easy)
+    if (zMode == 0)
         {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,10 },{ 3,9 },{ 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
@@ -59,7 +58,7 @@ int32 IsogramGame::iGetMaxGuesses() const // TODO easy/medium/hard modes, with m
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
         }
-    else if (eMode == eDifficulty::Hard)
+    else if (zMode == 2)
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,5 },{ 3,4 },{ 4,4 },{ 5,5 },{ 6,6 },{ 7,6 },{ 8,6 },
@@ -67,7 +66,7 @@ int32 IsogramGame::iGetMaxGuesses() const // TODO easy/medium/hard modes, with m
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
-    else if (eMode == eDifficulty::Normal)
+    else if (zMode == 1)
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,7 },{ 3,6 },{ 4,7 },{ 5,8 },{ 6,9 },{ 7,9 },{ 8,9 },
