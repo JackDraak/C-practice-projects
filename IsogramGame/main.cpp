@@ -101,14 +101,18 @@ bool bContinuePlaying()
     bool bContinue = true;
     do {
         FString sResponce = "";
+        int32 iMode = ActiveGame.zGetDifficulty();
 
-        std::cout << "\n\nPlease, enter: (P)lay again, toggle (H)ints ";
-        if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
-        std::cout << ", (R)epeat intro, \n               show (S)coring algorithm, or (Q)uit...";
-        std::cout << "\n               BETA: switch to (E)asy, (N)ormal, (H)ard"; // TODO complete this area
+        std::cout << "\n\nPlease, choose one of the following: \n  (P)lay again, \n  turn (C)lues ";
+        if (ActiveGame.bDisplayHints) { std::cout << "off,"; } else { std::cout << "on,"; }
+        std::cout << "\n  (R)epeat intro, \n  show how to (S)core, \n  switch to "; 
+        if (iMode == 1)       { std::cout << "(N)ormal or \n  (H)ard difficulty,"; }
+        else if (iMode == 2)  { std::cout << "(E)asy or \n  (H)ard difficulty,"; }
+        else if (iMode == 3)  { std::cout << "(E)asy or \n  (N)ormal difficulty,"; }
+        std::cout << "\n  or (Q)uit.....";
         getline(std::cin, sResponce);
 
-        if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
+        if ((sResponce[0] == 'c') || (sResponce[0] == 'C')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
         else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; break; }
         else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); break; }
         else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { PrintIntro(); }
