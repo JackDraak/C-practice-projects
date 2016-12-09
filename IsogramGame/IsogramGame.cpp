@@ -160,7 +160,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo", "wasp",
         "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast", "lynx", "fish",
         "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn", "tuna", "rail",
-        "nose", "june", "july", "tone", "love",
+        "nose", "june", "july", "tone", "love", "cure", "pure", "lair", "hare"
 
         // 5
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks", "angel", "dregs",

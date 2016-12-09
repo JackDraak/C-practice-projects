@@ -140,6 +140,7 @@ void PrintLetterBox(FString sUsedLetters) {
 }
 
 void PrintRoundSummary() {
+    std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
     else {
         ActiveGame.IncrementLoss();
@@ -153,6 +154,7 @@ void PrintRoundSummary() {
     std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss: ";
     std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ", total guesses: ";
     std::cout << ActiveGame.iGetRunningGuesses() << ")";
+    std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     return;
 }
 
@@ -215,12 +217,14 @@ void PrintIntro()
 
 void PrintScoringHelp()
 {
+    std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     std::cout << "\nEach time you make a guess you have a chance to score points....";
     std::cout << "\nIf you guess a letter correctly (but in the wrong place) you get* +2 points,";
     std::cout << "\nand if you guess a correct letter in the proper position you get* +6 points.";
     std::cout << "\nYour score is cumulative from round-to-round. As your score increases, the";
     std::cout << "\nlonger the next challenge word may be.";
-    std::cout << "\n[*Normal score; Easy: 1 or 3 points, Hard: 3 or 9 points, respectively]";
+    std::cout << "\n\n[*Normal score; Easy: 1 or 3 points, Hard: 3 or 9 points, respectively]";
+    std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     return;
 }
 
