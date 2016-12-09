@@ -45,7 +45,7 @@ public:
     void Reset();
     void Tally();
 
-    // See IsogramGame::IsogramGame() definition for initialization. [found in IsogramGame.cpp]
+// See IsogramGame::IsogramGame() definition for initialization. [found in IsogramGame.cpp]
 private:
     bool bDoesGuessMatch;
     bool bInitialized;

@@ -71,13 +71,13 @@ void PlayGame()
         std::cout << " (used so far: " << ActiveLetterBox.sGetLetters() << ")";
         PrintLetterBox(ActiveLetterBox.sGetLetters());
         std::cout << "\n...Correct letters in the wrong place(s): " << zAnalysis.iLetterMatches;
-        if (ActiveGame.bDisplayHints) 
+        if (ActiveGame.bDisplayHints)
         {
             std::random_shuffle(zAnalysis.sLetterHint.begin(), zAnalysis.sLetterHint.end());
             std::cout << "  [shuffled hint: '" << zAnalysis.sLetterHint << "']";
         }
         std::cout << "\n...Correct letters in the proper position(s): " << zAnalysis.iPositionMatches;
-        if (ActiveGame.bDisplayHints) 
+        if (ActiveGame.bDisplayHints)
         {
             std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
@@ -101,6 +101,7 @@ bool bContinuePlaying()
     bool bContinue = true;
     do {
         FString sResponce = "";
+
         std::cout << "\n\nPlease, enter: (P)lay again, toggle (H)ints ";
         if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
         std::cout << ", (R)epeat intro, \n               show (S)coring algorithm, or (Q)uit...";
@@ -115,40 +116,17 @@ bool bContinuePlaying()
     if (bContinue) { return true; } else { return false; }
 }
 
-void PrintIntro()
-{
-    std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-    std::cout << "\n      INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
-    std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-    std::cout << "\n      - what is an isogram?\n";
-    std::cout << "        An isogram is a word comprised of unique letters, for example:\n";
-    std::cout << "           - step: is an isogram, each letter is unique in the word\n";
-    std::cout << "           - book: is NOT an isogram; it contains two 'o's\n";
-    std::cout << "\n";
-    std::cout << "      - how do I play?\n";
-    std::cout << "        ...details, details... We'll get to that!";
-    return;
-}
-
-void PrintScoringHelp()
-{
-    std::cout << "\nEach time you make a guess you have a chance to score points....";
-    std::cout << "\nIf you guess a letter correctly (but in the wrong place) you get +1 point,";
-    std::cout << "\nand if you guess a correct letter in the proper position you get +3 points.";
-    std::cout << "\nYour score is cumulative from round-to-round. (Also, the higher your score,";
-    std::cout << "\nthe longer the challenge word may be.)";
-    return;
-}
-
 void PrintLetterBox(FString sUsedLetters) {
+    int32 iBoxSize = sUsedLetters.length();
+
     std::cout << "\n           ---------------------------------------------------";
     std::cout << "\n           a b c d e f g h i j k l m n o p q r s t u v w x y z";
     std::cout << "\n           ";
     for (int32 iAlphabet = 0; iAlphabet < 26; iAlphabet++) 
     {
-        char cTestChar = 'a' + iAlphabet;
         bool bInSet = false;
-        int32 iBoxSize = sUsedLetters.length();
+        char cTestChar = 'a' + iAlphabet;
+
         for (int32 iLetter = 0; iLetter < iBoxSize; iLetter++)
         {
             if (sUsedLetters[iLetter] == cTestChar) { bInSet = true; }
@@ -202,6 +180,31 @@ FString sGetValidGuess()
     return sGuess;
 }
 
+void PrintIntro()
+{
+    std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+    std::cout << "\n      INTRO: Thank you for playing my \'Guess the Isogram\' console game!\n";
+    std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+    std::cout << "\n      - what is an isogram?\n";
+    std::cout << "        An isogram is a word comprised of unique letters, for example:\n";
+    std::cout << "           - step: is an isogram, each letter is unique in the word\n";
+    std::cout << "           - book: is NOT an isogram; it contains two 'o's\n";
+    std::cout << "\n";
+    std::cout << "      - how do I play?\n";
+    std::cout << "        ...details, details... We'll get to that!";
+    return;
+}
+
+void PrintScoringHelp()
+{
+    std::cout << "\nEach time you make a guess you have a chance to score points....";
+    std::cout << "\nIf you guess a letter correctly (but in the wrong place) you get +1 point,";
+    std::cout << "\nand if you guess a correct letter in the proper position you get +3 points.";
+    std::cout << "\nYour score is cumulative from round-to-round. (Also, the higher your score,";
+    std::cout << "\nthe longer the challenge word may be.)";
+    return;
+}
+
 eGuessValidation eValidateGuess(FString sGuess)
 {
     int32 iGuessLength = sGuess.length();
@@ -217,6 +220,7 @@ eGuessValidation eValidateGuess(FString sGuess)
 bool bIsAlpha(FString sTestString)
 {
     int32 iLength = sTestString.length();
+
     for (int32 iPosition = 0; iPosition < iLength; iPosition++)
     {
         char cThisChar = tolower(sTestString[iPosition]);
