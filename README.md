@@ -2,14 +2,18 @@
 
 C++ Practice Projects
 =========
-*Honestly, I'd keep them private, but can't afford a paid (read: private) repository; 
-that as it is, enjoy(?) browsing my rookie code base* (and thanks GitHub for the cloudspace!)
+*Enjoy(?) browsing my rookie code base* (and thanks GitHub for the cloudspace!)
 
 Present content includes:
  - IsogramGame : a simple console (text-based) game for one player (built with Visual Studio 2015 IDE) composed of >600 functions
-    - features include: difficulty curve, toggleable hints, stats and score, and a mechanism to help track letters played
+    - features include: 
+      - difficulty curve, 
+      - toggleable hints, 
+      - stats and arbitrary scores, 
+      - a mechanism to help track letters played,
+      - selectable difficulty levels (fewer/more guesses allowed)
     - future features may include:
-    // TODO think of some new features to program, i.e. scoreboard (total # of guesses & points)
+    // TODO think of some new features to program, i.e. scoreboard (total # of guesses & points with names? on cloud?)
  
 ###The Details
 Thanks to Ben Tristem (and Udemy.com) for opening some doors for me with the high quality coursework which is the basis for this work.

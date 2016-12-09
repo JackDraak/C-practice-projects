@@ -85,14 +85,18 @@ void PlayGame()
         // ----- Output round results ----- //
         
         if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
-        else { ActiveGame.IncrementLoss(); std::cout << "\nBummer! You didn't guess "; }
+        else {
+            ActiveGame.IncrementLoss(); 
+            ActiveGame.FudgeGuesses();
+            std::cout << "\nBummer! You didn't guess ";
+        }
         std::cout<< "the secret isogram : " << ActiveGame.sGetIsogram() << ".\nIt took you ";
-        if (ActiveGame.bIsGuessMatch()) { std::cout << ActiveGame.iGetCurrentGuessNum() << " guesses. You earned "; }
-        else { std::cout << (ActiveGame.iGetCurrentGuessNum() -1) << " guesses. You earned "; }
-        std::cout << ActiveGame.iGetPhaseScore() << " points."; 
+        std::cout << ActiveGame.iGetCurrentGuessNum();
+        std::cout << " guesses. You earned " << ActiveGame.iGetPhaseScore() << " points."; 
         ActiveGame.Tally();
-        std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss ";
-        std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ")";
+        std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss: ";
+        std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ", total guesses: ";
+        std::cout << ActiveGame.iGetRunningGuesses() << ")";
         return;
 }
 

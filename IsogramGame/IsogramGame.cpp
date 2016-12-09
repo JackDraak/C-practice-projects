@@ -5,15 +5,17 @@ IsogramGame::IsogramGame()                          { Reset(); return; }
 
 bool IsogramGame::bIsGuessMatch() const             { return bDoesGuessMatch; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
-int32 IsogramGame::zGetDifficulty() const            { return zMode; }
+int32 IsogramGame::zGetDifficulty() const           { return zMode; }
 int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
 int32 IsogramGame::iGetPhaseScore() const           { return iPhaseScore; }
+int32 IsogramGame::iGetRunningGuesses() const       { return iRunningGuesses; }
 int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
+void IsogramGame::FudgeGuesses()                    { iCurrentGuess--; return; }
 void IsogramGame::SetEasy()                         { zMode = 1; return; }
 void IsogramGame::SetHard()                         { zMode = 3; return; }
 void IsogramGame::SetNormal()                       { zMode = 2; return; }
@@ -30,35 +32,36 @@ void IsogramGame::Reset()
         iLossCount = 0;
         iPhaseScore = 0;
         iWinCount = 0;
-        zMode = 2;
+        zMode = 2; // 1 = easy, 2 = normal, 3 = hard
     }
     iCurrentGuess = 1;
     sIsogram = sSelectIsogram(iGetChallengeSize());
     return;
 }
 
-// Update total score, then reset round-score.
+// Update total score, then reset round-score. (Also track total guesses).
 void IsogramGame::Tally()
 {
     iRunningScore += iPhaseScore;
+    iRunningGuesses += iGetCurrentGuessNum();
     iPhaseScore = 0;
     return;
 }
 
-// Respond with # of guesses based on length of challenge word.
+// Respond with # of guesses based on length of challenge word (& difficulty setting).
 int32 IsogramGame::iGetMaxGuesses() const
 {
     int32 iWordSize;
 
-    if (zMode == 1)
-        {
+    if (zMode == 1) // easy
+    {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,10 },{ 3,9 },{ 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
             { 9,11 },{ 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 }
-        };
-        iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
-        }
-    else if (zMode == 3)
+    };
+    iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
+    }
+    else if (zMode == 3) // hard
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,5 },{ 3,4 },{ 4,4 },{ 5,5 },{ 6,6 },{ 7,6 },{ 8,6 },
@@ -66,7 +69,7 @@ int32 IsogramGame::iGetMaxGuesses() const
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
-    else if (zMode == 2)
+    else if (zMode == 2) // normal
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,7 },{ 3,6 },{ 4,7 },{ 5,8 },{ 6,9 },{ 7,9 },{ 8,9 },
@@ -139,7 +142,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
-        "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so", "it", 
+        "at", "is", /*"to", "go", "on", "we", "be", "id", "do", "no", "he", "so", "it", 
         "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par", "age", "tax", "lax", 
         "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
         "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
@@ -164,7 +167,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         "abductions", "hospitable", "background", "campground", "greyhounds", "infamously", "afterglows", "shockingly",
         "workmanship", "palindromes", "speculation", "trampolines", "personality", "sympathizer", "abolishment", "atmospheric",
         "thunderclaps", "misconjugated", "unproblematic", "unprofitable", "questionably", "packinghouse", "upholstering",
-        "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy", "subordinately"
+        "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy", "subordinately" */
     };
     int32 iNumberOfIsograms = size(aDictionary);
 

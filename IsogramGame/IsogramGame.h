@@ -36,11 +36,13 @@ public:
     int32 iGetIsogramLength() const;
     int32 iGetLossCount() const;
     int32 iGetPhaseScore() const;
+    int32 iGetRunningGuesses() const;
     int32 iGetRunningScore() const;
     int32 iGetMaxGuesses() const;
     int32 iGetChallengeSize() const;
     int32 iGetWinCount() const;
     int32 zGetDifficulty() const;
+    void FudgeGuesses();
     void IncrementGuess();
     void IncrementLoss();
     void Reset();
@@ -60,6 +62,7 @@ private:
     int32 iLossCount;
     int32 iMaxGuesses;
     int32 iPhaseScore;
+    int32 iRunningGuesses;
     int32 iRunningScore;
     int32 iWinCount;
     int32 zMode; // TODO re-code with more readabilty?
