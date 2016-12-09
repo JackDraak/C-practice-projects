@@ -44,7 +44,7 @@ LetterBox ActiveLetterBox;
 int main()
 {
     PrintIntro();
-    do { PlayGame(); } while (bContinuePlaying());
+    while (bContinuePlaying()) { PlayGame(); }
     return 0;
 }
 
@@ -96,7 +96,7 @@ bool bContinuePlaying()
         FString sResponce = "";
         int32 iMode = ActiveGame.zGetDifficulty();
 
-        std::cout << "\n\nPlease, choose one of the following: \n  (P)lay again, \n  turn (C)lues ";
+        std::cout << "\n\nPlease, choose one of the following: \n  (P)lay a round, \n  turn (C)lues ";
         if (ActiveGame.bDisplayHints) { std::cout << "off,"; } else { std::cout << "on,"; }
         std::cout << "\n  (R)epeat intro, \n  show how to (S)core, \n  switch to "; 
         if (iMode == 1)       { std::cout << "(N)ormal or \n  (H)ard difficulty,"; }
