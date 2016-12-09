@@ -2,8 +2,10 @@
 #include "IsogramGame.h"
 
 IsogramGame::IsogramGame()                          { Reset(); return; }
+eDifficulty eMode;
 
 bool IsogramGame::bIsGuessMatch() const             { return bDoesGuessMatch; }
+eDifficulty GetDifficulty()                         { return eMode; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
 int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
@@ -13,6 +15,9 @@ int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
+void SetEasy()                                      { eMode = eDifficulty::Easy; return; }
+void SetHard()                                      { eMode = eDifficulty::Hard; return; }
+void SetNormal()                                    { eMode = eDifficulty::Normal; return; }
 
 // Initialize new game or setup for next round.
 void IsogramGame::Reset()
@@ -26,6 +31,7 @@ void IsogramGame::Reset()
         iLossCount = 0;
         iPhaseScore = 0;
         iWinCount = 0;
+        eMode = eDifficulty::Normal;
     }
     iCurrentGuess = 1;
     sIsogram = sSelectIsogram(iGetChallengeSize());
@@ -41,30 +47,52 @@ void IsogramGame::Tally()
 }
 
 // Respond with # of guesses based on length of challenge word.
-int32 IsogramGame::iGetMaxGuesses() const 
+int32 IsogramGame::iGetMaxGuesses() const // TODO easy/medium/hard modes, with more/fewer guesses....
 {
-    std::map <int32, int32> mWordSizeToGuessCount {
-        { 2,7 }, { 3,6 },  { 4,7 },  { 5,8 },  { 6,9 },  { 7,9 }, { 8,9 },
-        { 9,8 }, { 10,7 }, { 11,6 }, { 12,5 }, { 13,4 }, { 14,3 }, { 15,3 }
-    };
-    return mWordSizeToGuessCount[sGetIsogram().length()];
+    int32 iWordSize;
+
+    if (eMode == eDifficulty::Easy)
+        {
+        std::map <int32, int32> mWordSizeToGuessCount{
+            { 2,10 },{ 3,9 },{ 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
+            { 9,11 },{ 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 }
+        };
+        iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
+        }
+    else if (eMode == eDifficulty::Hard)
+    {
+        std::map <int32, int32> mWordSizeToGuessCount{
+            { 2,5 },{ 3,4 },{ 4,4 },{ 5,5 },{ 6,6 },{ 7,6 },{ 8,6 },
+            { 9,5 },{ 10,5 },{ 11,4 },{ 12,4 },{ 13,3 },{ 14,3 },{ 15,2 }
+        };
+        iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
+    }
+    else if (eMode == eDifficulty::Normal)
+    {
+        std::map <int32, int32> mWordSizeToGuessCount{
+            { 2,7 },{ 3,6 },{ 4,7 },{ 5,8 },{ 6,9 },{ 7,9 },{ 8,9 },
+            { 9,8 },{ 10,7 },{ 11,6 },{ 12,5 },{ 13,4 },{ 14,3 },{ 15,3 }
+        };
+        iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
+    }
+        return iWordSize;
 }
 
 // Respond with maximum challenge-word size. Higher total scores give bigger challenges (longer words).
 int32 IsogramGame::iGetChallengeSize() const 
 {
-    if      (iRunningScore < 15)   { return 3; }
-    else if (iRunningScore < 45)   { return 4; }
-    else if (iRunningScore < 75)   { return 5; }
-    else if (iRunningScore <135)   { return 6; }
-    else if (iRunningScore <255)   { return 7; }
-    else if (iRunningScore <495)   { return 8; }
-    else if (iRunningScore <975)   { return 9; }
-    else if (iRunningScore <1935)  { return 10; }
-    else if (iRunningScore <3855)  { return 11; }
-    else if (iRunningScore <7695)  { return 12; }
-    else if (iRunningScore <15375) { return 13; }
-    else                           { return 14; }
+    if      (iRunningScore < 15)        { return 3; }
+    else if (iRunningScore < 15*3)      { return 4; }
+    else if (iRunningScore < 15*5)      { return 5; }
+    else if (iRunningScore < 15*9)      { return 6; }
+    else if (iRunningScore < 15*17)     { return 7; }
+    else if (iRunningScore < 15*33)     { return 8; }
+    else if (iRunningScore < 15*65)     { return 9; }
+    else if (iRunningScore < 15*129)    { return 10; }
+    else if (iRunningScore < 15*257)    { return 11; }
+    else if (iRunningScore < 15*513)    { return 12; }
+    else if (iRunningScore < 15*1025)   { return 13; }
+    else                                { return 14; }
 }
 
 // Update the active game Analysis <struct>, comparing challenge word aganist submitted guess.
@@ -227,3 +255,4 @@ void LetterBox::SubmitLetter(char cLetter)
     std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
     return;
 }
+

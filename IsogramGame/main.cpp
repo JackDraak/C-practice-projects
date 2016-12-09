@@ -105,6 +105,7 @@ bool bContinuePlaying()
         std::cout << "\n\nPlease, enter: (P)lay again, toggle (H)ints ";
         if (ActiveGame.bDisplayHints) { std::cout << "off"; } else { std::cout << "on"; }
         std::cout << ", (R)epeat intro, \n               show (S)coring algorithm, or (Q)uit...";
+        std::cout << "\nBETA: (E)asy, (N)ormal, (H)ard";
         getline(std::cin, sResponce);
 
         if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
@@ -112,6 +113,9 @@ bool bContinuePlaying()
         else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); break; }
         else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { PrintIntro(); }
         else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) { PrintScoringHelp(); }
+        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) { ActiveGame.SetEasy(); }
+        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) { ActiveGame.SetNormal(); }
+        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.SetHard(); }
     } while (true);
     if (bContinue) { return true; } else { return false; }
 }

@@ -10,6 +10,13 @@
 using FString = std::string;
 using int32 = int;
 
+enum class eDifficulty
+{
+    Easy,
+    Hard,
+    Normal
+};
+
 struct Analysis
 {
     FString sLetterHint = "";
@@ -43,6 +50,9 @@ public:
     void IncrementGuess();
     void IncrementLoss();
     void Reset();
+    void SetEasy();
+    void SetHard();
+    void SetNormal();
     void Tally();
 
 // See IsogramGame::IsogramGame() definition for initialization. [found in IsogramGame.cpp]
