@@ -7,7 +7,7 @@ A rudimentary console-based application used in learning about C++. Main.cpp, wh
 acts as the view in an MVC pattern and is responsible for all user interaction also 
 utilizes Isogramgame.cpp for game logic operations.
 
-Built in VisualStudio 2015, ostensibly for Windows, but it should be easy to port,
+Built with VisualStudio 2015, ostensibly for Windows, but it should be easy to port,
 assuming anyone would desire to do so.
 */
 
@@ -34,6 +34,7 @@ int main();
 void PlayGame();
 void PrintIntro();
 void PrintLetterBox(FString);
+void PrintRoundSummary();
 void PrintScoringHelp();
 
 // Instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
@@ -53,21 +54,23 @@ void PlayGame()
 {
     ActiveLetterBox.Reset();
     FString sGuess = "";
-    int32 cMaxGuesses = ActiveGame.iGetMaxGuesses();
+    int32 iMaxGuesses = ActiveGame.iGetMaxGuesses();
 
-    for (int32 iGuessNum = 1; iGuessNum <= cMaxGuesses; iGuessNum++)
+    for (int32 iGuessNum = 1; iGuessNum <= iMaxGuesses; iGuessNum++)
     {
         sGuess = sGetValidGuess(); 
         sGuess = ActiveGame.sStringToLower(sGuess);
         int32 iGuessLength = sGuess.length();
 
+        // ----- Update Letterbox ----- //
         for (int32 iIndex = 0; iIndex < iGuessLength; iIndex++ ) { ActiveLetterBox.SubmitLetter(sGuess[iIndex]); }
+
+        // ----- Process a turn ----- //
         Analysis zAnalysis = ActiveGame.AnalyzeGuess(sGuess);
-        if (ActiveGame.bIsGuessMatch()) { break; } 
-        ActiveGame.IncrementGuess();
+        if (ActiveGame.bIsGuessMatch()) { break; } // skip outputting turn results if the guess matches
+        ActiveGame.IncrementGuess(); // this is why FudgeGuesses() is needed, it goes one too high in a lost-round scenario
 
         // ----- Output phase (turn) results ----- //
-
         std::cout << " (used so far: " << ActiveLetterBox.sGetLetters() << ")";
         PrintLetterBox(ActiveLetterBox.sGetLetters());
         std::cout << "\n...Correct letters in the wrong place(s): " << zAnalysis.iLetterMatches;
@@ -82,22 +85,8 @@ void PlayGame()
             std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
     }
-        // ----- Output round results ----- //
-        
-        if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
-        else {
-            ActiveGame.IncrementLoss(); 
-            ActiveGame.FudgeGuesses();
-            std::cout << "\nBummer! You didn't guess ";
-        }
-        std::cout<< "the secret isogram : " << ActiveGame.sGetIsogram() << ".\nIt took you ";
-        std::cout << ActiveGame.iGetCurrentGuessNum();
-        std::cout << " guesses. You earned " << ActiveGame.iGetPhaseScore() << " points."; 
-        ActiveGame.Tally();
-        std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss: ";
-        std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ", total guesses: ";
-        std::cout << ActiveGame.iGetRunningGuesses() << ")";
-        return;
+    PrintRoundSummary();
+    return;
 }
 
 bool bContinuePlaying()
@@ -147,6 +136,23 @@ void PrintLetterBox(FString sUsedLetters) {
         else { std::cout << "  "; }
     }
     std::cout << "\n           ---------------------------------------------------";
+    return;
+}
+
+void PrintRoundSummary() {
+    if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
+    else {
+        ActiveGame.IncrementLoss();
+        ActiveGame.FudgeGuesses();
+        std::cout << "\nBummer! You didn't guess ";
+    }
+    std::cout << "the secret isogram : " << ActiveGame.sGetIsogram() << ".\nIt took you ";
+    std::cout << ActiveGame.iGetCurrentGuessNum();
+    std::cout << " guesses. You earned " << ActiveGame.iGetPhaseScore() << " points.";
+    ActiveGame.Tally();
+    std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss: ";
+    std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ", total guesses: ";
+    std::cout << ActiveGame.iGetRunningGuesses() << ")";
     return;
 }
 
