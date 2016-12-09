@@ -32,7 +32,7 @@ void IsogramGame::Reset()
         iLossCount = 0;
         iPhaseScore = 0;
         iWinCount = 0;
-        zMode = 2; // 1 = easy, 2 = normal, 3 = hard
+        zMode = 2; // Difficulty: 1 = easy, 2 = normal, 3 = hard
     }
     iCurrentGuess = 1;
     sIsogram = sSelectIsogram(iGetChallengeSize());
@@ -53,27 +53,30 @@ int32 IsogramGame::iGetMaxGuesses() const
 {
     int32 iWordSize;
 
-    if (zMode == 1) // easy
+    if (zMode == 1) // Easy difficulty map
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,10 },{ 3,9 },{ 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
-            { 9,11 },{ 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 }
+            { 2,10 },{ 3,9 },  { 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
+            { 9,11 },{ 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 },
+            { 16,4 },{ 17,4 }
     };
     iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
-    else if (zMode == 3) // hard
+    else if (zMode == 3) // Hard difficulty map
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,5 },{ 3,4 },{ 4,4 },{ 5,5 },{ 6,6 },{ 7,6 },{ 8,6 },
-            { 9,5 },{ 10,5 },{ 11,4 },{ 12,4 },{ 13,3 },{ 14,3 },{ 15,2 }
+            { 2,5 }, { 3,4 }, { 4,4 }, { 5,5 }, { 6,6 }, { 7,6 }, { 8,6 },
+            { 9,5 }, { 10,5 },{ 11,4 },{ 12,4 },{ 13,3 },{ 14,3 },{ 15,2 },
+            { 16,2 },{ 17,2 }
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
-    else if (zMode == 2) // normal
+    else if (zMode == 2) // Normal difficulty map
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,7 },{ 3,6 },{ 4,7 },{ 5,8 },{ 6,9 },{ 7,9 },{ 8,9 },
-            { 9,8 },{ 10,7 },{ 11,6 },{ 12,5 },{ 13,4 },{ 14,3 },{ 15,3 }
+            { 2,7 }, { 3,6 }, { 4,7 }, { 5,8 }, { 6,9 }, { 7,9 }, { 8,9 },
+            { 9,8 }, { 10,7 },{ 11,6 },{ 12,5 },{ 13,4 },{ 14,3 },{ 15,3 },
+            { 16,3 },{ 17,3 }
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
@@ -202,7 +205,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         // 11
         "workmanship", "palindromes", "speculation", "trampolines", "personality", "sympathizer", "abolishment", "atmospheric",
         "playgrounds", "backgrounds", "countryside", "birthplaces", "precautions", "regulations", "subcategory", "documentary",
-        "birthplaces", "bodysurfing", "cabinetwork", "backlighted", "decryptions", "encryptions", "designatory", "delusionary",
+        "birthplaces", "bodysurfing", "cabinetwork", "backlighted", "decryptions", "designatory", "delusionary",
         "demographic", "discernably", "exculpatory", "factorylike", "flavourings", "francophile", "dangerously", 
 
         // 12
@@ -214,14 +217,13 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         // 13
         "misconjugated", "unproblematic", "subordinately", "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy",
         "subordinately", "flamethrowing", "unmaledictory", "muckspreading", "unsympathized", "unpredictably", "multibranched", "consumptively",
-        "metalworkings", "musicotherapy", "chimneyboards", "comsumptively", "copyrightable", "documentarily", "draughtswomen", "pneumogastric",
-        "salpingectomy",
+        "metalworkings", "musicotherapy", "chimneyboards", "copyrightable", "documentarily", "draughtswomen", "pneumogastric", "salpingectomy",
 
         // 14
         "ambidextrously", "hydromagnetics", "pseudomythical", "ambidextrously", "undiscoverably", "dermatoglyphic", 
         "computerizably", "subformatively", "hydropneumatic", 
 
-        // 15
+        // 15 -- categories of one word are not very replayable.....  buuuut it's unlikely anyone will ever play this long, lol
         "uncopyrightable",
 
         // 17
