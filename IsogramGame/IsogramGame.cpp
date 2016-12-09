@@ -83,18 +83,21 @@ int32 IsogramGame::iGetMaxGuesses() const
 // Respond with maximum challenge-word size. Higher total scores give bigger challenges (longer words).
 int32 IsogramGame::iGetChallengeSize() const 
 {
-    if      (iRunningScore < 15)        { return 3; }
-    else if (iRunningScore < 15*3)      { return 4; }
-    else if (iRunningScore < 15*5)      { return 5; }
-    else if (iRunningScore < 15*9)      { return 6; }
-    else if (iRunningScore < 15*17)     { return 7; }
-    else if (iRunningScore < 15*33)     { return 8; }
-    else if (iRunningScore < 15*65)     { return 9; }
-    else if (iRunningScore < 15*129)    { return 10; }
-    else if (iRunningScore < 15*257)    { return 11; }
-    else if (iRunningScore < 15*513)    { return 12; }
-    else if (iRunningScore < 15*1025)   { return 13; }
-    else                                { return 14; }
+    if      (iRunningScore < 25)        { return 3; }
+    else if (iRunningScore < 25*3)      { return 4; }
+    else if (iRunningScore < 25*5)      { return 5; }
+    else if (iRunningScore < 25*9)      { return 6; }
+    else if (iRunningScore < 25*17)     { return 7; }
+    else if (iRunningScore < 25*33)     { return 8; }
+    else if (iRunningScore < 25*65)     { return 9; }
+    else if (iRunningScore < 25*129)    { return 10; }
+    else if (iRunningScore < 25*257)    { return 11; }
+    else if (iRunningScore < 25*513)    { return 12; }
+    else if (iRunningScore < 25*1025)   { return 13; }
+    else if (iRunningScore < 25*2049)   { return 14; }
+    else if (iRunningScore < 25*4097)   { return 15; }
+    else if (iRunningScore < 25*8193)   { return 16; }
+    else                                { return 17; }
 }
 
 // Update the active game Analysis <struct>, comparing challenge word aganist submitted guess.
@@ -142,32 +145,87 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
-        "at", "is", /*"to", "go", "on", "we", "be", "id", "do", "no", "he", "so", "it", 
-        "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par", "age", "tax", "lax", 
-        "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar",
-        "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy",
+        // 2
+        "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so", "it", "as", 
+     
+        // 3
+        "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par", "age", "tax", "lax",
+        "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar", "rag", "bag", "tag",
+        "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy", "boy", "nip", "kit",
+
+        // 4
         "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo", "wasp",
-        "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast", "lynx",
-        "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn",
+        "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast", "lynx", "fish",
+        "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn", "tuna", "rail",
+        "nose", "june", "july", "tone", "love",
+
+        // 5
         "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks", "angel", "dregs",
-        "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact", "pious",
-        "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift", "rages",
-        "hybrid", "fabric", "sculpt", "sample",
+        "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact", "pious", "shock",
+        "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift", "rages", "april",
+        "hares", "timer", "ankle", "blast", "gravy", "scone", "tuner", "tango", "rages",
+
+        // 6
+        "hybrid", "fabric", "sculpt", "sample", "baster", "turkey", "cables", "dearly", "placid", "dancer", "danger",
         "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "zealot",
         "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine", "bronze",
         "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
+        "tackle", "sunday", "monday", "friday",
+
+        // 7
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
         "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
-        "isogram", "mindful", 
-        "love", "tango", "cables", "sketchy", "rambling", "ramblings", "traveling",
-        "exoplasm", "exploits", "explains", "exhaling", "handgrip", "hardiest", "hasteful", "megalith", "megatons", "merciful",
-        "sculptor", "minerals",
-        "yachtsmen", "worshiped", "workspace", "womanizer", "wolfsbane", "windstorm", "workmates", "wordgames", "inspector", "constable",
+        "isogram", "mindful", "scholar", "stymied", "caribou", "consume", "nostril", "monarch", "sketchy", "smoking",
+        "sparkle", "scarlet",
+
+        // 8
+        "exoplasm", "exploits", "explains", "exhaling", "handgrip", "hardiest", "hasteful", "megalith", "megatons",
+        "sculptor", "minerals", "crumpets", "goldfish", "blasting", "monarchy", "rambling", "informed", "emblazon",
+        "frontage", "thursday", "authored", "bankrupt", "hospital", "imported", "questing", "finagled", "question",
+        "spectrum", "bunghole", "burliest", "bushland", "jockular", "gumption", "pronated", "bushmeat", "buxomest",
+        "butchery", "cogently", "merciful", "minerals", "speaking", "busywork",
+
+        // 9
+        "yachtsmen", "worshiped", "workspace", "womanizer", "wolfsbane", "windstorm", "dangerous",
+        "workmates", "wordgames", "inspector", "constable", "ramblings", "traveling", "vulcanism",
+        "authorize", "waveforms", "binocular", "watchdogs", "vulgarity", "introduce", "nightmare", 
+        "wavefront", "welcoming", "vouchsafe", "verbosity", "veracious", "uncharted", "unclamped", 
+        "tribunals", "solarized", "solemnity", "revolting", "redaction", "racheting", "traveling",
+
+        // 10
         "abductions", "hospitable", "background", "campground", "greyhounds", "infamously", "afterglows", "shockingly",
+        "duplicates", "authorizes", "farsighted", "binoculars", "destroying", "subjectify", "algorithms", "nightmares",
+        "aftershock", "agonizedly", "birthnames", "benchmarks", "behaviours", "background", "capsulized", "chlorinate",
+        "chipboards", "chalkstone", "exhaustion", "exfoliants", "gobsmacked", "graciously",
+       
+        // 11
         "workmanship", "palindromes", "speculation", "trampolines", "personality", "sympathizer", "abolishment", "atmospheric",
-        "thunderclaps", "misconjugated", "unproblematic", "unprofitable", "questionably", "packinghouse", "upholstering",
-        "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy", "subordinately" */
+        "playgrounds", "backgrounds", "countryside", "birthplaces", "precautions", "regulations", "subcategory", "documentary",
+        "birthplaces", "bodysurfing", "cabinetwork", "backlighted", "decryptions", "encryptions", "designatory", "delusionary",
+        "demographic", "discernably", "exculpatory", "factorylike", "flavourings", "francophile", "dangerously", 
+
+        // 12
+        "malnourished", "counterplays", "multipronged", "unforgivable", "subvocalized", "pyromagnetic", "stenographic",
+        "productively", "stickhandler", "subnormality", "nightwalkers", "outsparkling", "locksmithery", "discountable",
+        "descrambling", "overstudying", "demonstrably", "demographics", "exhaustingly", "discrepantly", "upholstering",
+        "packinghouse", "questionably", "thunderclaps", "unprofitable", "lexicography",
+       
+        // 13
+        "misconjugated", "unproblematic", "subordinately", "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy",
+        "subordinately", "flamethrowing", "unmaledictory", "muckspreading", "unsympathized", "unpredictably", "multibranched", "consumptively",
+        "metalworkings", "musicotherapy", "chimneyboards", "comsumptively", "copyrightable", "documentarily", "draughtswomen", "pneumogastric",
+        "salpingectomy",
+
+        // 14
+        "ambidextrously", "hydromagnetics", "pseudomythical", "ambidextrously", "undiscoverably", "dermatoglyphic", 
+        "computerizably", "subformatively", "hydropneumatic", 
+
+        // 15
+        "uncopyrightable",
+
+        // 17
+        "subdermatoglyphic"
     };
     int32 iNumberOfIsograms = size(aDictionary);
 
