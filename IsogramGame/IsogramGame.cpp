@@ -138,8 +138,8 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 if (!bDisplayClues) { iClueMulti = 2; };
                 if (!bDisplayLetterbox) { iLetterMulti = 2; };
                 iMultiplier = iDifficultyFactor * iClueMulti * iLetterMulti;
-                std::cout << "\nMultiplier: " << iMultiplier; // TODO wipe debug output
-                std::cout << ", Guess: " << sGuess[iGuessLetter] << ", Isogram: " << sIsogram[iIsogramLetter]; // TODO wipe debug output
+                std::cout << "\n(x): " << iMultiplier; // TODO wipe debug output
+                std::cout << ", IN: " << sGuess[iGuessLetter] << ", COMP: " << sIsogram[iIsogramLetter]; // TODO wipe debug output
                 std::cout << ", Letter: " << bLetterScore << ", Position: " << bPositionScore; // TODO wipe debug output
 
                 int iLetterScore = 0;
@@ -148,7 +148,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
                 bLetterScore = false;
                 bPositionScore = false;
-                std::cout << ", Score: " << iLetterScore << ", iPhaseScore: " << iPhaseScore; // TODO wipe debug output
+                std::cout << ", Score: " << iLetterScore << ", PhaseScore: " << iPhaseScore; // TODO wipe debug output
                 iPhaseScore = iPhaseScore + iLetterScore; // Update global phase-score variable with any applicable letter score.
             }
         }
