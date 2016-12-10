@@ -5,22 +5,23 @@ IsogramGame::IsogramGame()                          { Reset(); return; }
 
 bool IsogramGame::bIsGuessMatch() const             { return bDoesGuessMatch; }
 FString IsogramGame::sGetIsogram() const            { return sIsogram; }
-int32 IsogramGame::zGetDifficulty() const           { return zMode; }
 int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
+int32 IsogramGame::iGetDifficulty() const           { return iDifficultyFactor; }
 int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
 int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
 int32 IsogramGame::iGetPhaseScore() const           { return iPhaseScore; }
 int32 IsogramGame::iGetRunningGuesses() const       { return iRunningGuesses; }
 int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
 int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
+
+void IsogramGame::FudgeGuesses()                    { iCurrentGuess--; return; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
 void IsogramGame::IncrementLoss()                   { iLossCount++; return; }
-void IsogramGame::FudgeGuesses()                    { iCurrentGuess--; return; }
-void IsogramGame::SetEasy()                         { zMode = 1; return; }
-void IsogramGame::SetHard()                         { zMode = 3; return; }
-void IsogramGame::SetNormal()                       { zMode = 2; return; }
+void IsogramGame::SetEasy()                         { iDifficultyFactor = 1; return; }
+void IsogramGame::SetHard()                         { iDifficultyFactor = 3; return; }
+void IsogramGame::SetNormal()                       { iDifficultyFactor = 2; return; }
 
-// Initialize new game or setup for next round.
+// Initialize new game or setup for next phase.
 void IsogramGame::Reset()
 {
     if (!bInitialized) 
@@ -30,21 +31,21 @@ void IsogramGame::Reset()
         bInitialized = true;
         bValidated = false;
         bValidDictionary = false;
+        iDifficultyFactor = 2; // Difficulty: 1 = easy, 2 = normal, 3 = hard.
         iLossCount = 0;
         iPhaseScore = 0;
         iWinCount = 0;
-        zMode = 2; // Difficulty: 1 = easy, 2 = normal, 3 = hard
     }
     iCurrentGuess = 1;
-    sIsogram = sSelectIsogram(iGetChallengeSize());
+    sIsogram = sSelectIsogram(iGetChallengeSize()); // Select challenge-word [size] based on score.
     return;
 }
 
-// Update total score, then reset round-score. (Also track total guesses).
+// Update total score, & reset phase-score. (Also track total guesses).
 void IsogramGame::Tally()
 {
-    iRunningScore += iPhaseScore;
     iRunningGuesses += iGetCurrentGuessNum();
+    iRunningScore += iPhaseScore;
     iPhaseScore = 0;
     return;
 }
@@ -54,7 +55,7 @@ int32 IsogramGame::iGetMaxGuesses() const
 {
     int32 iWordSize;
 
-    if (zMode == 1) // Easy difficulty map
+    if (iDifficultyFactor == 1) // Easy difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,10 },{ 3,9 },  { 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
@@ -63,7 +64,7 @@ int32 IsogramGame::iGetMaxGuesses() const
     };
     iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
-    else if (zMode == 3) // Hard difficulty map
+    else if (iDifficultyFactor == 3) // Hard difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,5 }, { 3,4 }, { 4,4 }, { 5,5 }, { 6,6 }, { 7,6 }, { 8,6 },
@@ -72,7 +73,7 @@ int32 IsogramGame::iGetMaxGuesses() const
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
-    else if (zMode == 2) // Normal difficulty map
+    else if (iDifficultyFactor == 2) // Normal difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
             { 2,7 }, { 3,6 }, { 4,7 }, { 5,8 }, { 6,9 }, { 7,9 }, { 8,9 },
@@ -130,13 +131,19 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                     zAnalysis.sLetterHint[iGuessLetter] = sGuess[iGuessLetter];
                 }
                 // ----- Setup a score multiplier considering: difficulty, use of clues, use of letterbox ----- //
-                int32 iMultiplier = 1;
-                if (bDisplayClues) { iMultiplier++; };
-                if (bDisplayLetterbox) { iMultiplier++; };
-                iMultiplier += zMode; // add factor for difficulty setting
+                int32 iClueMulti = 1;
+                int32 iLetterMulti = 1;
+                int32 iMultiplier;
 
-                if (!bLetterScore && bPositionScore)         { iPhaseScore = iPhaseScore + (3 * iMultiplier); }
-                else if (bLetterScore && !bPositionScore)    { iPhaseScore = iPhaseScore + (1 * iMultiplier); }
+                if (bDisplayClues) { iClueMulti++; };
+                if (bDisplayLetterbox) { iLetterMulti++; };
+                iMultiplier = iDifficultyFactor * iClueMulti * iLetterMulti;
+
+                int iLetterScore =0;
+
+                if (!bLetterScore && bPositionScore)         { iLetterScore = 3 * iMultiplier; }
+                else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
+                iPhaseScore += iLetterScore; // Update global phase-score variable with any applicable letter scores.
             }
         }
     }

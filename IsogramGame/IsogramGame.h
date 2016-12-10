@@ -23,26 +23,27 @@ class IsogramGame {
     std::mt19937 Entropy = std::mt19937{ std::random_device{}() };
 
 public:
-    IsogramGame(); // Constructor
-    bool bDisplayClues;
-    bool bDisplayLetterbox;
-
-    Analysis AnalyzeGuess(FString);
+    IsogramGame(); // Constructor.
+    
     bool bIsGuessMatch() const;
-    bool bIsIsogram(FString);
     FString sGetIsogram() const;
-    FString sSelectIsogram(int);
-    FString sStringToLower(FString);
+    int32 iGetChallengeSize() const;
     int32 iGetCurrentGuessNum() const;
     int32 iGetIsogramLength() const;
     int32 iGetLossCount() const;
+    int32 iGetMaxGuesses() const;
     int32 iGetPhaseScore() const;
     int32 iGetRunningGuesses() const;
     int32 iGetRunningScore() const;
-    int32 iGetMaxGuesses() const;
-    int32 iGetChallengeSize() const;
     int32 iGetWinCount() const;
-    int32 zGetDifficulty() const;
+    int32 iGetDifficulty() const;
+
+    Analysis AnalyzeGuess(FString);
+    bool bDisplayLetterbox;
+    bool bDisplayClues;
+    bool bIsIsogram(FString);
+    FString sSelectIsogram(int);
+    FString sStringToLower(FString);
     void FudgeGuesses();
     void IncrementGuess();
     void IncrementLoss();
@@ -60,21 +61,23 @@ private:
     bool bValidDictionary;
     FString sIsogram;
     int32 iCurrentGuess;
+    int32 iDifficultyFactor;
     int32 iLossCount;
     int32 iMaxGuesses;
     int32 iPhaseScore;
     int32 iRunningGuesses;
     int32 iRunningScore;
     int32 iWinCount;
-    int32 zMode; // TODO re-code with more readabilty?
 };
 
-// CLASS LetterBox -- Container to store characters submitted during a round of play.
+// CLASS LetterBox -- Container to store characters submitted during a phase of play.
 class LetterBox {
 public:
     FString sGetLetters() const;
+
     void Reset();
     void SubmitLetter(char);
+
 private:
     FString sBoxOfLetters;
 };

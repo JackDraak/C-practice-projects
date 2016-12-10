@@ -34,7 +34,7 @@ int main();
 void PlayGame();
 void PrintIntro();
 void PrintLetterBox(FString);
-void PrintRoundSummary();
+void PrintPhaseSummary();
 void PrintScoringHelp();
 
 // Instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
@@ -52,7 +52,7 @@ int main()
 
 void PlayGame()
 {
-    // ----- Setup for a new game or round ----- //
+    // ----- Setup for a new game or phase ----- //
     ActiveLetterBox.Reset();
     FString sGuess = "";
     int32 iMaxGuesses = ActiveGame.iGetMaxGuesses();
@@ -70,7 +70,7 @@ void PlayGame()
         // ----- Process a turn ----- //
         Analysis zAnalysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bIsGuessMatch()) { break; } // skip outputting turn results if the guess matches
-        ActiveGame.IncrementGuess(); // this is why FudgeGuesses() is needed, it goes one too high in a lost-round scenario
+        ActiveGame.IncrementGuess(); // this is why FudgeGuesses() is needed, it goes one too high in a lost-phase scenario
 
         // ----- Output turn results ----- //
         if (ActiveGame.bDisplayLetterbox) 
@@ -90,7 +90,7 @@ void PlayGame()
             std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
     }
-    PrintRoundSummary();
+    PrintPhaseSummary();
     return;
 }
 
@@ -99,7 +99,7 @@ bool bContinuePlaying()
     bool bContinue = true;
     do {
         FString sResponce = "";
-        int32 iMode = ActiveGame.zGetDifficulty();
+        int32 iMode = ActiveGame.iGetDifficulty();
 
         // ----- Print 'options' fopr the user ----- // 
         std::cout << "\n\nPlease, choose one of the following: \n  (P)lay a round, \n  turn (C)lues ";
@@ -149,7 +149,7 @@ void PrintLetterBox(FString sUsedLetters) {
     return;
 }
 
-void PrintRoundSummary() {
+void PrintPhaseSummary() {
     std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
     else {
