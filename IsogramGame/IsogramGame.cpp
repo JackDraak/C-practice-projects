@@ -156,84 +156,91 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
     if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
         // 2
-        "as", "at", "be", "do", "go", "he", "id", "is", "it", "no", "on", "so", "to", "we",
+        "as", "am", "an", "at", "be", "do", "go", "he", "id", "is", "it", "me", "no", "on", "so", "to", "we",
      
         // 3
-        "age", "art", "bag", "bat", "boy", "bye", "car", "coy", "cry", "cut", "day", "dim", "din", "elf", "fit", "fly", 
-        "hit", "hug", "jam", "kit", "lab", "lax", "lie", "lit", "lot", "mar", "may", "mit", "net", "nip", "par", "pay", 
-        "pie", "pot", "put", "rag", "ray", "rot", "say", "sea", "sin", "tag", "tax", "tea", "the", "try", "was", "yam",
+        "age", "art", "bag", "bat", "boy", "bye", "car", "coy", "cry", "cut", "day", "dim", "din", "elf", "fit", 
+        "fly", "for", "hit", "hug", "jam", "kit", "lab", "lax", "lie", "lit", "lot", "mar", "may", "mit", "net", 
+        "nip", "par", "pay", "pen", "pie", "pit", "pot", "put", "rag", "ray", "rot", "say", "sea", "sin", "tag", 
+        "tax", "tea", "the", "try", "vye", "was", "win", "won", "yam", "zip",
 
         // 4
-        "acre", "ages", "army", "aunt", "bail", "bale", "belt", "care", "cave", "cure", "daft", "damn", "dart", "dime", "expo", "fair",
-        "fast", "fawn", "felt", "fish", "from", "hair", "hare", "harp", "hear", "help", "hide", "huge", "jail", "july", "june", "lair", 
-        "land", "lend", "lint", "love", "lynx", "lyre", "name", "nape", "navy", "nose", "oven", "pair", "pure", "raid", "rail", "same",
-        "sail", "sand", "sock", "soda", "sold", "soup", "suit", "talk", "tiny", "this", "tone", "tray", "tuna", "walk", "wasp", "wave", 
+        "acre", "ages", "army", "aunt", "bail", "bale", "belt", "care", "cave", "cure", "daft", "damn", "dart", 
+        "dime", "expo", "fair", "fast", "fawn", "felt", "fish", "from", "hair", "hare", "harp", "hear", "help", 
+        "hide", "huge", "jail", "july", "june", "lair", "land", "lend", "lint", "love", "lynx", "lyre", "name", 
+        "nape", "navy", "nose", "oven", "pair", "pure", "quit", "raid", "rail", "same", "sail", "sand", "sock", 
+        "soda", "sold", "soup", "suit", "talk", "tiny", "this", "tone", "tray", "tuna", "walk", "wasp", "wave", 
         "yarn", 
 
         // 5
-        "angel", "anger", "angry", "ankle", "april", "blast", "braid", "bread", "brick", "brush", "clear", "cloth", "drain", 
-        "dregs", "dwarf", "empty", "enact", "envoy", "facts", "fairy", "faith", "farce", "farms", "gravy", "hares", "large", 
-        "laugh", "light", "lingo", "litre", "lives", "loads", "locks", "march", "marsh", "miles", "money", "nasty", "nurse", "pious",
-        "query", "rages", "roads", "roast", "sable", "scone", "shock", "sight", "snout", "stand", "stick", "super", "swift", 
-        "table", "talks", "tango", "thick", "thing", "timer", "toads", "tongs", "trash", "trick", "tuber", "tuner", "vegan", 
-        "yeast", "tiger", "large", 
+        "angel", "anger", "angry", "ankle", "april", "blast", "braid", "bread", "brick", "brush", "clear", "cloth", 
+        "drain", "dregs", "dwarf", "empty", "enact", "envoy", "facts", "fairy", "faith", "farce", "farms", "gravy", 
+        "hares", "large", "laugh", "light", "lingo", "litre", "lives", "loads", "locks", "march", "marsh", "miles", 
+        "money", "nasty", "nurse", "pious", "query", "rages", "roads", "roast", "sable", "scone", "shock", "sight", 
+        "snout", "stand", "stick", "super", "swift", "table", "talks", "tango", "thick", "thing", "tiger", "timer", 
+        "toads", "tongs", "trash", "trick", "tuber", "tuner", "vegan", "yeast",  
 
         // 6
-        "hybrid", "fabric", "sculpt", "sample", "baster", "turkey", "cables", "dearly", "placid", "dancer", "danger",
-        "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "zealot",
-        "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine", "bronze",
-        "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
-        "tackle", "sunday", "monday", "friday", "custom", "quaint", "guitar", "slight", "bright", "danger", "design", 
-        "sailor", "market", "tongue", "sucker", 
+        "abound", "around", "baster", "belfry", "bounty", "bricks", "bright", "bronze", "buster", "cables", 
+        "crawls", "crowns", "curled", "custom", "dancer", "danger", "dearly", "design", "fables", "fabric", 
+        "factor", "fairly", "famine", "farces", "friday", "gizmos", "guitar", "hybrid", "jaunts", "loving", 
+        "market", "monday", "muster", "myrtle", "mythos", "nachos", "nailed", "nebula", "nickel", "orgasm", 
+        "phrase", "placid", "quaint", "quartz", "sailor", "sample", "sculpt", "second", "slight", "sucker", 
+        "sunday", "tackle", "tongue", "travel", "tricks", "turkey", "wealth", "zealot",
 
         // 7
-        "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
-        "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
-        "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
-        "isogram", "mindful", "scholar", "stymied", "caribou", "consume", "nostril", "monarch", "sketchy", "smoking",
-        "sparkle", "scarlet", "treason", "strange",
+        "anxiety", "apricot", "caribou", "cliquey", "clothes", "consume", "crazily", "dolphin", "domains",
+        "exclaim", "fabrics", "factory", "haircut", "imports", "isogram", "jackpot", "jaybird", "jockeys",
+        "jukebox", "lockjaw", "mindful", "monarch", "nostril", "polearm", "pulsing", "quicken", "quicker", 
+        "quickly", "scarlet", "schlump", "scholar", "scourge", "sketchy", "smoking", "sparkle", "strange", 
+        "stymied", "subject", "treason", "turbine", "wrongly", "wyverns", "yoghurt", "ziplock",
 
-        // 8
-        "exoplasm", "exploits", "explains", "exhaling", "handgrip", "hardiest", "hasteful", "megalith", "megatons",
-        "sculptor", "minerals", "crumpets", "goldfish", "blasting", "monarchy", "rambling", "informed", "emblazon",
-        "frontage", "thursday", "authored", "bankrupt", "hospital", "imported", "questing", "finagled", "question",
-        "spectrum", "bunghole", "burliest", "bushland", "jockular", "gumption", "pronated", "bushmeat", "buxomest",
-        "butchery", "cogently", "merciful", "minerals", "speaking", "busywork",
+        // 8 --
+        "authored", "bankrupt", "blasting", "bunghole", "burliest", "bushland", "bushmeat", "busywork", 
+        "butchery", "buxomest", "cogently", "crumpets", "emblazon", "exhaling", "exoplasm", "explains", 
+        "exploits", "finagled", "frontage", "goldfish", "gumption", "handgrip", "hardiest", "hasteful", 
+        "hospital", "imported", "informed", "jockular", "megalith", "megatons", "merciful", "minerals",
+        "monarchy", "pronated", "questing", "question", "rambling", "sculptor", "speaking",  "spectrum", 
+        "thursday", 
 
         // 9
-        "yachtsmen", "worshiped", "workspace", "womanizer", "wolfsbane", "windstorm", "dangerous",
-        "workmates", "wordgames", "inspector", "constable", "ramblings", "traveling", "vulcanism",
-        "authorize", "waveforms", "binocular", "watchdogs", "vulgarity", "introduce", "nightmare", 
-        "wavefront", "welcoming", "vouchsafe", "verbosity", "veracious", "uncharted", "unclamped", 
-        "tribunals", "solarized", "solemnity", "revolting", "redaction", "racheting", "traveling",
-        "dragonfly",
+        "authorize", "binocular", "constable", "dangerous", "dragonfly", "inspector", "introduce", "nightmare", 
+        "racheting", "ramblings", "redaction", "revolting", "solarized", "solemnity", "traveling", "tribunals", 
+        "uncharted", "unclamped", "veracious", "verbosity", "vouchsafe", "vulcanism", "vulgarity", "watchdogs", 
+        "waveforms", "wavefront", "welcoming", "windstorm", "wolfsbane", "womanizer", "wordgames", "workmates", 
+        "workplace", "workspace", "worshiped", "yachtsmen",
 
         // 10
-        "abductions", "hospitable", "background", "campground", "greyhounds", "infamously", "afterglows", "shockingly",
-        "duplicates", "authorizes", "farsighted", "binoculars", "destroying", "subjectify", "algorithms", "nightmares",
-        "aftershock", "agonizedly", "birthnames", "benchmarks", "behaviours", "background", "capsulized", "chlorinate",
-        "chipboards", "chalkstone", "exhaustion", "exfoliants", "gobsmacked", "graciously", "sympathize",
-       
+        "abductions", "afterglows", "aftershock", "agonizedly", "algorithms", "authorizes", "background", 
+        "behaviours", "benchmarks", "binoculars", "birthnames", "campground", "capsulized", "chalkstone",
+        "chipboards", "chlorinate", "destroying", "duplicates", "exfoliants", "exhaustion", "farsighted", 
+        "gobsmacked", "graciously", "greyhounds", "hospitable", "infamously", "nightmares", "shockingly",
+        "subjectify", "sympathize",
+
         // 11
-        "workmanship", "palindromes", "speculation", "trampolines", "personality", "sympathizer", "abolishment", "atmospheric",
-        "playgrounds", "backgrounds", "countryside", "birthplaces", "precautions", "regulations", "subcategory", "documentary",
-        "birthplaces", "bodysurfing", "cabinetwork", "backlighted", "decryptions", "designatory", "delusionary", "sympathizer",
-        "demographic", "discernably", "exculpatory", "factorylike", "flavourings", "francophile", "dangerously", 
+        "abolishment", "atmospheric", "backgrounds", "backlighted", "birthplaces", "birthplaces", "bodysurfing", 
+        "cabinetwork", "countryside", "dangerously", "decryptions", "delusionary", "demographic", "designatory", 
+        "discernably", "documentary", "exculpatory", "factorylike", "flavourings", "francophile", "palindromes", 
+        "personality", "playgrounds", "precautions", "regulations", "speculation", "subcategory", "sympathizer",
+        "trampolines", "workmanship",
 
         // 12
-        "malnourished", "counterplays", "multipronged", "unforgivable", "subvocalized", "pyromagnetic", "stenographic",
-        "productively", "stickhandler", "subnormality", "nightwalkers", "outsparkling", "locksmithery", "discountable",
-        "descrambling", "overstudying", "demonstrably", "demographics", "exhaustingly", "discrepantly", "upholstering",
-        "packinghouse", "questionably", "thunderclaps", "unprofitable", "lexicography",
+        "counterplays", "demographics", "demonstrably", "descrambling", "discountable", "discrepantly", "exhaustingly", 
+        "lexicography", "locksmithery", "malnourished", "multipronged", "nightwalkers", "outsparkling", "overstudying", 
+        "packinghouse", "productively", "pyromagnetic", "questionably", "stenographic", "stickhandler", "subnormality", 
+        "subvocalized", "thunderclaps", "unforgivable", "unprofitable", "upholstering",
+
        
         // 13
-        "misconjugated", "unproblematic", "subordinately", "draughtswomen", "flowchartings", "lycanthropies", "pneumogastric", "salpingectomy",
-        "subordinately", "flamethrowing", "unmaledictory", "muckspreading", "unsympathized", "unpredictably", "multibranched", "consumptively",
-        "metalworkings", "musicotherapy", "chimneyboards", "copyrightable", "documentarily", "draughtswomen", "pneumogastric", "salpingectomy",
+        "chimneyboards", "consumptively", "copyrightable", "documentarily", "draughtswomen", "flamethrowing", 
+        "flowchartings", "lycanthropies", "metalworkings", "misconjugated", "muckspreading", "multibranched", 
+        "musicotherapy", "pneumogastric", "salpingectomy", "subordinately", "unmaledictory", "unpredictably", 
+        "unproblematic", "unsympathized",
+
 
         // 14
-        "ambidextrously", "hydromagnetics", "pseudomythical", "ambidextrously", "undiscoverably", "dermatoglyphic", 
-        "computerizably", "subformatively", "hydropneumatic", 
+        "ambidextrously", "ambidextrously", "computerizably", "dermatoglyphic", "hydromagnetics", "hydropneumatic", 
+        "pseudomythical", "subformatively", "undiscoverably",
 
         // 15 -- categories of one word are not very replayable.....  buuuut it's unlikely anyone will ever play this long, lol
         "uncopyrightable",
