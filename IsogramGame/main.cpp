@@ -41,6 +41,8 @@ void PrintScoringHelp();
 IsogramGame ActiveGame;
 LetterBox ActiveLetterBox;
 
+// ----- Method implementations ----- //
+
 int main()
 {
     PrintIntro();
@@ -48,16 +50,16 @@ int main()
     return 0;
 }
 
-// ----- Method implementations ----- //
-
 void PlayGame()
 {
+    // ----- Setup for a new game or round ----- //
     ActiveLetterBox.Reset();
     FString sGuess = "";
     int32 iMaxGuesses = ActiveGame.iGetMaxGuesses();
 
     for (int32 iGuessNum = 1; iGuessNum <= iMaxGuesses; iGuessNum++)
     {
+        // ----- Get a validated guess from the user ----- //
         sGuess = sGetValidGuess(); 
         sGuess = ActiveGame.sStringToLower(sGuess);
         int32 iGuessLength = sGuess.length();
@@ -70,17 +72,20 @@ void PlayGame()
         if (ActiveGame.bIsGuessMatch()) { break; } // skip outputting turn results if the guess matches
         ActiveGame.IncrementGuess(); // this is why FudgeGuesses() is needed, it goes one too high in a lost-round scenario
 
-        // ----- Output phase (turn) results ----- //
-        std::cout << " (used so far: " << ActiveLetterBox.sGetLetters() << ")";
-        PrintLetterBox(ActiveLetterBox.sGetLetters());
+        // ----- Output turn results ----- //
+        if (ActiveGame.bDisplayLetterbox) 
+        {
+            PrintLetterBox(ActiveLetterBox.sGetLetters()); 
+            std::cout << "\n";
+        }
         std::cout << "\n...Correct letters in the wrong place(s): " << zAnalysis.iLetterMatches;
-        if (ActiveGame.bDisplayHints)
+        if (ActiveGame.bDisplayClues)
         {
             std::random_shuffle(zAnalysis.sLetterHint.begin(), zAnalysis.sLetterHint.end());
             std::cout << "  [shuffled hint: '" << zAnalysis.sLetterHint << "']";
         }
         std::cout << "\n...Correct letters in the proper position(s): " << zAnalysis.iPositionMatches;
-        if (ActiveGame.bDisplayHints)
+        if (ActiveGame.bDisplayClues)
         {
             std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
@@ -96,8 +101,11 @@ bool bContinuePlaying()
         FString sResponce = "";
         int32 iMode = ActiveGame.zGetDifficulty();
 
+        // ----- Print 'options' fopr the user ----- // 
         std::cout << "\n\nPlease, choose one of the following: \n  (P)lay a round, \n  turn (C)lues ";
-        if (ActiveGame.bDisplayHints) { std::cout << "off,"; } else { std::cout << "on,"; }
+        if (ActiveGame.bDisplayClues) { std::cout << "off,"; } else { std::cout << "on,"; }
+        std::cout << "\n  turn (L)etterbox ";
+        if (ActiveGame.bDisplayLetterbox) { std::cout << "off,"; } else { std::cout << "on,"; }
         std::cout << "\n  (R)epeat intro, \n  show how to (S)core, \n  switch to "; 
         if (iMode == 1)       { std::cout << "(N)ormal or \n  (H)ard difficulty,"; }
         else if (iMode == 2)  { std::cout << "(E)asy or \n  (H)ard difficulty,"; }
@@ -105,7 +113,9 @@ bool bContinuePlaying()
         std::cout << "\n  or (Q)uit.....";
         getline(std::cin, sResponce);
 
-        if ((sResponce[0] == 'c') || (sResponce[0] == 'C')) { ActiveGame.bDisplayHints = !ActiveGame.bDisplayHints; }
+        // ----- Process user input ----- //
+        if ((sResponce[0] == 'c') || (sResponce[0] == 'C')) { ActiveGame.bDisplayClues = !ActiveGame.bDisplayClues; }
+        else if ((sResponce[0] == 'l') || (sResponce[0] == 'L')) { ActiveGame.bDisplayLetterbox = !ActiveGame.bDisplayLetterbox; }
         else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; break; }
         else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); break; }
         else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { PrintIntro(); }
@@ -166,7 +176,7 @@ FString sGetValidGuess()
 
     do {
         std::cout << "\n\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
-        std::cout << "\nPlease, enter your guess (#" << ActiveGame.iGetCurrentGuessNum();
+        std::cout << "\nPlease, enter your guess (" << ActiveGame.iGetCurrentGuessNum();
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
 
@@ -191,7 +201,6 @@ FString sGetValidGuess()
             std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
             break;
         case eGuessValidation::Okay:
-            std::cout << "\nYour guess was, \"" << sGuess << "\"";
             break;
         default:
             break;

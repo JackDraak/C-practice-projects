@@ -24,7 +24,8 @@ class IsogramGame {
 
 public:
     IsogramGame(); // Constructor
-    bool bDisplayHints;
+    bool bDisplayClues;
+    bool bDisplayLetterbox;
 
     Analysis AnalyzeGuess(FString);
     bool bIsGuessMatch() const;

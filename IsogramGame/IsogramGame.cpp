@@ -25,7 +25,8 @@ void IsogramGame::Reset()
 {
     if (!bInitialized) 
     {
-        bDisplayHints = true;
+        bDisplayClues = true;
+        bDisplayLetterbox = true;
         bInitialized = true;
         bValidated = false;
         bValidDictionary = false;
@@ -86,20 +87,20 @@ int32 IsogramGame::iGetMaxGuesses() const
 // Respond with maximum challenge-word size. Higher total scores give bigger challenges (longer words).
 int32 IsogramGame::iGetChallengeSize() const 
 {
-    if      (iRunningScore < 25)        { return 3; }
-    else if (iRunningScore < 25*3)      { return 4; }
-    else if (iRunningScore < 25*5)      { return 5; }
-    else if (iRunningScore < 25*9)      { return 6; }
-    else if (iRunningScore < 25*17)     { return 7; }
-    else if (iRunningScore < 25*33)     { return 8; }
-    else if (iRunningScore < 25*65)     { return 9; }
-    else if (iRunningScore < 25*129)    { return 10; }
-    else if (iRunningScore < 25*257)    { return 11; }
-    else if (iRunningScore < 25*513)    { return 12; }
-    else if (iRunningScore < 25*1025)   { return 13; }
-    else if (iRunningScore < 25*2049)   { return 14; }
-    else if (iRunningScore < 25*4097)   { return 15; }
-    else if (iRunningScore < 25*8193)   { return 16; }
+    if      (iRunningScore < 35)        { return 3; }
+    else if (iRunningScore < 35*3)      { return 4; }
+    else if (iRunningScore < 35*5)      { return 5; }
+    else if (iRunningScore < 35*9)      { return 6; }
+    else if (iRunningScore < 35*17)     { return 7; }
+    else if (iRunningScore < 35*33)     { return 8; }
+    else if (iRunningScore < 35*65)     { return 9; }
+    else if (iRunningScore < 35*129)    { return 10; }
+    else if (iRunningScore < 35*257)    { return 11; }
+    else if (iRunningScore < 35*513)    { return 12; }
+    else if (iRunningScore < 35*1025)   { return 13; }
+    else if (iRunningScore < 35*2049)   { return 14; }
+    else if (iRunningScore < 35*4097)   { return 15; }
+    else if (iRunningScore < 35*8193)   { return 16; }
     else                                { return 17; }
 }
 
@@ -149,38 +150,42 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
     if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
         // 2
-        "at", "is", "to", "go", "on", "we", "be", "id", "do", "no", "he", "so", "it", "as", 
+        "as", "at", "be", "do", "go", "he", "id", "is", "it", "no", "on", "so", "to", "we",
      
         // 3
-        "bye", "art", "car", "yam", "lab", "the", "cut", "lot", "lie", "par", "age", "tax", "lax",
-        "say", "pay", "may", "jam", "mit", "din", "was", "pot", "pie", "mar", "rag", "bag", "tag",
-        "ray", "elf", "fly", "fit", "lit", "sin", "put", "rot", "cry", "coy", "boy", "nip", "kit",
+        "age", "art", "bag", "bat", "boy", "bye", "car", "coy", "cry", "cut", "day", "dim", "din", "elf", "fit", "fly", 
+        "hit", "hug", "jam", "kit", "lab", "lax", "lie", "lit", "lot", "mar", "may", "mit", "net", "nip", "par", "pay", 
+        "pie", "pot", "put", "rag", "ray", "rot", "say", "sea", "sin", "tag", "tax", "tea", "the", "try", "was", "yam",
 
         // 4
-        "sand", "pair", "raid", "care", "sock", "fair", "hair", "land", "walk", "talk", "expo", "wasp",
-        "same", "dart", "this", "from", "suit", "acre", "ages", "bale", "bail", "fast", "lynx", "fish",
-        "felt", "fawn", "nape", "army", "navy", "sold", "soda", "soup", "wave", "yarn", "tuna", "rail",
-        "nose", "june", "july", "tone", "love", "cure", "pure", "lair", "hare",
+        "acre", "ages", "army", "aunt", "bail", "bale", "belt", "care", "cave", "cure", "daft", "damn", "dart", "dime", "expo", "fair",
+        "fast", "fawn", "felt", "fish", "from", "hair", "hare", "harp", "hear", "help", "hide", "huge", "jail", "july", "june", "lair", 
+        "land", "lend", "lint", "love", "lynx", "lyre", "name", "nape", "navy", "nose", "oven", "pair", "pure", "raid", "rail", "same",
+        "sail", "sand", "sock", "soda", "sold", "soup", "suit", "talk", "tiny", "this", "tone", "tray", "tuna", "walk", "wasp", "wave", 
+        "yarn", 
 
         // 5
-        "toads", "brick", "stick", "roads", "stand", "trick", "thick", "loads", "talks", "locks", "angel", "dregs",
-        "thing", "miles", "lives", "facts", "cloth", "dwarf", "empty", "trash", "envoy", "enact", "pious", "shock",
-        "faith", "farms", "farce", "fairy", "laugh", "lingo", "litre", "march", "marsh", "swift", "rages", "april",
-        "hares", "timer", "ankle", "blast", "gravy", "scone", "tuner", "tango", "rages", "vegan",
+        "angel", "anger", "angry", "ankle", "april", "blast", "braid", "bread", "brick", "brush", "clear", "cloth", "drain", 
+        "dregs", "dwarf", "empty", "enact", "envoy", "facts", "fairy", "faith", "farce", "farms", "gravy", "hares", "large", 
+        "laugh", "light", "lingo", "litre", "lives", "loads", "locks", "march", "marsh", "miles", "money", "nasty", "nurse", "pious",
+        "query", "rages", "roads", "roast", "sable", "scone", "shock", "sight", "snout", "stand", "stick", "super", "swift", 
+        "table", "talks", "tango", "thick", "thing", "timer", "toads", "tongs", "trash", "trick", "tuber", "tuner", "vegan", 
+        "yeast", "tiger", "large", 
 
         // 6
         "hybrid", "fabric", "sculpt", "sample", "baster", "turkey", "cables", "dearly", "placid", "dancer", "danger",
         "jaunts", "abound", "tricks", "bricks", "crawls", "crowns", "around", "orgasm", "bounty", "gizmos", "zealot",
         "travel", "wealth", "second", "curled", "loving", "belfry", "fables", "factor", "fairly", "famine", "bronze",
         "farces", "nailed", "nebula", "nickel", "muster", "buster", "myrtle", "nachos", "mythos", "phrase", "quartz",
-        "tackle", "sunday", "monday", "friday",
+        "tackle", "sunday", "monday", "friday", "custom", "quaint", "guitar", "slight", "bright", "danger", "design", 
+        "sailor", "market", "tongue", "sucker", 
 
         // 7
         "jukebox", "ziplock", "lockjaw", "quickly", "crazily", "jaybird", "jackpot", "quicken", "quicker", "imports",
         "clothes", "polearm", "jockeys", "subject", "cliquey", "apricot", "anxiety", "domains", "dolphin", "exclaim",
         "fabrics", "factory", "haircut", "pulsing", "scourge", "schlump", "turbine", "wrongly", "wyverns", "yoghurt",
         "isogram", "mindful", "scholar", "stymied", "caribou", "consume", "nostril", "monarch", "sketchy", "smoking",
-        "sparkle", "scarlet",
+        "sparkle", "scarlet", "treason", "strange",
 
         // 8
         "exoplasm", "exploits", "explains", "exhaling", "handgrip", "hardiest", "hasteful", "megalith", "megatons",
@@ -195,17 +200,18 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         "authorize", "waveforms", "binocular", "watchdogs", "vulgarity", "introduce", "nightmare", 
         "wavefront", "welcoming", "vouchsafe", "verbosity", "veracious", "uncharted", "unclamped", 
         "tribunals", "solarized", "solemnity", "revolting", "redaction", "racheting", "traveling",
+        "dragonfly",
 
         // 10
         "abductions", "hospitable", "background", "campground", "greyhounds", "infamously", "afterglows", "shockingly",
         "duplicates", "authorizes", "farsighted", "binoculars", "destroying", "subjectify", "algorithms", "nightmares",
         "aftershock", "agonizedly", "birthnames", "benchmarks", "behaviours", "background", "capsulized", "chlorinate",
-        "chipboards", "chalkstone", "exhaustion", "exfoliants", "gobsmacked", "graciously",
+        "chipboards", "chalkstone", "exhaustion", "exfoliants", "gobsmacked", "graciously", "sympathize",
        
         // 11
         "workmanship", "palindromes", "speculation", "trampolines", "personality", "sympathizer", "abolishment", "atmospheric",
         "playgrounds", "backgrounds", "countryside", "birthplaces", "precautions", "regulations", "subcategory", "documentary",
-        "birthplaces", "bodysurfing", "cabinetwork", "backlighted", "decryptions", "designatory", "delusionary",
+        "birthplaces", "bodysurfing", "cabinetwork", "backlighted", "decryptions", "designatory", "delusionary", "sympathizer",
         "demographic", "discernably", "exculpatory", "factorylike", "flavourings", "francophile", "dangerously", 
 
         // 12
