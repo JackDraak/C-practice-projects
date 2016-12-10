@@ -1,11 +1,11 @@
 /*
 Isogram Game
 based on https://www.udemy.com/unrealcourse/ by Ben Tristem (Thanks, Ben!)
-coded by Jack Draak
+coded by Jack Draak (c) 2016
 
-A rudimentary console-based application used in learning about C++. Main.cpp, which
+A rudimentary console-based application used in learning about C++. 'main.cpp', which
 acts as the view in an MVC pattern and is responsible for all user interaction also 
-utilizes Isogramgame.cpp for game logic operations.
+utilizes 'IsogramGame.cpp' for game logic operations.
 
 Built with VisualStudio 2015, ostensibly for Windows, but it should be easy to port,
 assuming anyone would desire to do so.
@@ -26,20 +26,20 @@ enum class eGuessValidation
 
 // ----- Function prototypes ----- //
 
-bool bContinuePlaying();
-bool bIsAlpha(FString);
-eGuessValidation eValidateGuess(FString);
-FString sGetValidGuess();
-int main();
-void PlayGame();
-void PrintIntro();
-void PrintLetterBox(FString);
-void PrintPhaseSummary();
-void PrintScoringHelp();
+bool                bContinuePlaying();
+bool                bIsAlpha(FString);
+eGuessValidation    eValidateGuess(FString);
+FString             sGetValidGuess();
+int                 main();
+void                PlayGame();
+void                PrintIntro();
+void                PrintLetterBox(FString);
+void                PrintPhaseSummary();
+void                PrintScoringHelp();
 
 // Instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
-IsogramGame ActiveGame;
-LetterBox ActiveLetterBox;
+IsogramGame     ActiveGame;
+LetterBox       ActiveLetterBox;
 
 // ----- Method implementations ----- //
 
@@ -114,15 +114,17 @@ bool bContinuePlaying()
         getline(std::cin, sResponce);
 
         // ----- Process user input ----- //
-        if ((sResponce[0] == 'c') || (sResponce[0] == 'C')) { ActiveGame.bDisplayClues = !ActiveGame.bDisplayClues; }
-        else if ((sResponce[0] == 'l') || (sResponce[0] == 'L')) { ActiveGame.bDisplayLetterbox = !ActiveGame.bDisplayLetterbox; }
-        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; break; }
-        else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); break; }
-        else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { PrintIntro(); }
-        else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) { PrintScoringHelp(); }
-        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) { ActiveGame.SetEasy(); }
-        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) { ActiveGame.SetNormal(); }
-        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { ActiveGame.SetHard(); }
+        if      ((sResponce[0] == 'c') || (sResponce[0] == 'C')) 
+                { ActiveGame.bDisplayClues = !ActiveGame.bDisplayClues; std::cout << "\n<selection: toggle clues>"; }
+        else if ((sResponce[0] == 'l') || (sResponce[0] == 'L')) 
+                { ActiveGame.bDisplayLetterbox = !ActiveGame.bDisplayLetterbox; std::cout << "\n<selection: toggle letterbox>"; }
+        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; std::cout << "\n<selection: quit>\n\n";  break; }
+        else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); std::cout << "\n<selection: play a round>"; break; }
+        else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { std::cout << "\n<selection: show introduction>\n\n"; PrintIntro(); }
+        else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) { std::cout << "\n<selection: show how to score>\n"; PrintScoringHelp(); }
+        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) { std::cout << "\n<selection: easy mode>"; ActiveGame.SetEasy(); }
+        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) { std::cout << "\n<selection: normal mode>"; ActiveGame.SetNormal(); }
+        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { std::cout << "\n<selection: hard mode>"; ActiveGame.SetHard(); }
     } while (true);
     if (bContinue) { return true; } else { return false; }
 }

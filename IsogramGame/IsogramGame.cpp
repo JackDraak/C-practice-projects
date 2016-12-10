@@ -3,16 +3,16 @@
 
 IsogramGame::IsogramGame()                          { Reset(); return; }
 
-bool IsogramGame::bIsGuessMatch() const             { return bDoesGuessMatch; }
-FString IsogramGame::sGetIsogram() const            { return sIsogram; }
-int32 IsogramGame::iGetCurrentGuessNum() const      { return iCurrentGuess; }
-int32 IsogramGame::iGetDifficulty() const           { return iDifficultyFactor; }
-int32 IsogramGame::iGetIsogramLength() const        { return sIsogram.length(); }
-int32 IsogramGame::iGetLossCount() const            { return iLossCount; }
-int32 IsogramGame::iGetPhaseScore() const           { return iPhaseScore; }
-int32 IsogramGame::iGetRunningGuesses() const       { return iRunningGuesses; }
-int32 IsogramGame::iGetRunningScore() const         { return iRunningScore; }
-int32 IsogramGame::iGetWinCount() const             { return iWinCount; }
+bool IsogramGame::bIsGuessMatch()           const   { return bDoesGuessMatch; }
+FString IsogramGame::sGetIsogram()          const   { return sIsogram; }
+int32 IsogramGame::iGetCurrentGuessNum()    const   { return iCurrentGuess; }
+int32 IsogramGame::iGetDifficulty()         const   { return iDifficultyFactor; }
+int32 IsogramGame::iGetIsogramLength()      const   { return sIsogram.length(); }
+int32 IsogramGame::iGetLossCount()          const   { return iLossCount; }
+int32 IsogramGame::iGetPhaseScore()         const   { return iPhaseScore; }
+int32 IsogramGame::iGetRunningGuesses()     const   { return iRunningGuesses; }
+int32 IsogramGame::iGetRunningScore()       const   { return iRunningScore; }
+int32 IsogramGame::iGetWinCount()           const   { return iWinCount; }
 
 void IsogramGame::FudgeGuesses()                    { iCurrentGuess--; return; }
 void IsogramGame::IncrementGuess()                  { iCurrentGuess++; return; }
@@ -41,7 +41,7 @@ void IsogramGame::Reset()
     return;
 }
 
-// Update total score, & reset phase-score. (Also track total guesses).
+// Update total score, & zero phase-score. (Also track total guesses).
 void IsogramGame::Tally()
 {
     iRunningGuesses += iGetCurrentGuessNum();
@@ -58,27 +58,24 @@ int32 IsogramGame::iGetMaxGuesses() const
     if (iDifficultyFactor == 1) // Easy difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,10 },{ 3,9 },  { 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },
-            { 9,11 },{ 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 },
-            { 16,4 },{ 17,4 }
+            { 2,10 },{ 3,9 },  { 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },{ 9,11 },
+            { 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 },{ 16,4 },{ 17,4 }
     };
     iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
     else if (iDifficultyFactor == 3) // Hard difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,5 }, { 3,4 }, { 4,4 }, { 5,5 }, { 6,6 }, { 7,6 }, { 8,6 },
-            { 9,5 }, { 10,5 },{ 11,4 },{ 12,4 },{ 13,3 },{ 14,3 },{ 15,2 },
-            { 16,2 },{ 17,2 }
+            { 2,5 }, { 3,4 }, { 4,4 }, { 5,5 }, { 6,6 }, { 7,6 }, { 8,6 }, { 9,5 },
+            { 10,5 },{ 11,4 },{ 12,4 },{ 13,3 },{ 14,3 },{ 15,2 },{ 16,2 },{ 17,2 }
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
     else if (iDifficultyFactor == 2) // Normal difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,7 }, { 3,6 }, { 4,7 }, { 5,8 }, { 6,9 }, { 7,9 }, { 8,9 },
-            { 9,8 }, { 10,7 },{ 11,6 },{ 12,5 },{ 13,4 },{ 14,3 },{ 15,3 },
-            { 16,3 },{ 17,3 }
+            { 2,7 }, { 3,6 }, { 4,7 }, { 5,8 }, { 6,9 }, { 7,9 }, { 8,9 }, { 9,8 },
+            { 10,7 },{ 11,6 },{ 12,5 },{ 13,4 },{ 14,3 },{ 15,3 },{ 16,3 },{ 17,3 }
         };
         iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
     }
@@ -88,20 +85,20 @@ int32 IsogramGame::iGetMaxGuesses() const
 // Respond with maximum challenge-word size. Higher total scores give bigger challenges (longer words).
 int32 IsogramGame::iGetChallengeSize() const 
 {
-    if      (iRunningScore < 35)        { return 3; }
-    else if (iRunningScore < 35*3)      { return 4; }
-    else if (iRunningScore < 35*5)      { return 5; }
-    else if (iRunningScore < 35*9)      { return 6; }
-    else if (iRunningScore < 35*17)     { return 7; }
-    else if (iRunningScore < 35*33)     { return 8; }
-    else if (iRunningScore < 35*65)     { return 9; }
-    else if (iRunningScore < 35*129)    { return 10; }
-    else if (iRunningScore < 35*257)    { return 11; }
-    else if (iRunningScore < 35*513)    { return 12; }
-    else if (iRunningScore < 35*1025)   { return 13; }
-    else if (iRunningScore < 35*2049)   { return 14; }
-    else if (iRunningScore < 35*4097)   { return 15; }
-    else if (iRunningScore < 35*8193)   { return 16; }
+    if      (iRunningScore < 45)        { return 3; }
+    else if (iRunningScore < 45*3)      { return 4; }
+    else if (iRunningScore < 45*5)      { return 5; }
+    else if (iRunningScore < 45*9)      { return 6; }
+    else if (iRunningScore < 45*17)     { return 7; }
+    else if (iRunningScore < 45*33)     { return 8; }
+    else if (iRunningScore < 45*65)     { return 9; }
+    else if (iRunningScore < 45*129)    { return 10; }
+    else if (iRunningScore < 45*257)    { return 11; }
+    else if (iRunningScore < 45*513)    { return 12; }
+    else if (iRunningScore < 45*1025)   { return 13; }
+    else if (iRunningScore < 45*2049)   { return 14; }
+    else if (iRunningScore < 45*4097)   { return 15; }
+    else if (iRunningScore < 45*8193)   { return 16; }
     else                                { return 17; }
 }
 
@@ -133,22 +130,18 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 // ----- Setup a score multiplier considering: difficulty, use of clues, use of letterbox ----- //
                 int32 iClueMulti = 1;
                 int32 iLetterMulti = 1;
+                int32 iLetterScore = 0;
                 int32 iMultiplier = 1;
 
                 if (!bDisplayClues) { iClueMulti = 2; };
                 if (!bDisplayLetterbox) { iLetterMulti = 2; };
                 iMultiplier = iDifficultyFactor * iClueMulti * iLetterMulti;
-//              std::cout << "\n(x): " << iMultiplier; // TODO wipe debug output
-//              std::cout << ", IN: " << sGuess[iGuessLetter] << ", COMP: " << sIsogram[iIsogramLetter]; // TODO wipe debug output
-//              std::cout << ", Letter: " << bLetterScore << ", Position: " << bPositionScore; // TODO wipe debug output
 
-                int iLetterScore = 0;
 
                 if (!bLetterScore && bPositionScore)         { iLetterScore = 3 * iMultiplier; }
                 else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
                 bLetterScore = false;
                 bPositionScore = false;
-//              std::cout << ", Score: " << iLetterScore << ", PhaseScore: " << iPhaseScore; // TODO wipe debug output
                 iPhaseScore = iPhaseScore + iLetterScore; // Update global phase-score variable with any applicable letter score.
             }
         }
@@ -164,7 +157,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 }
 
 // Set and respond with next challenge-word; required argument INT indicates maximum word length (INT-1 = maxWL).
-FString IsogramGame::sSelectIsogram(int iChallengeNum)
+FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
     std::vector<FString> aDictionary = {
@@ -186,12 +179,12 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         "yarn", 
 
         // 5
-        "angel", "anger", "angry", "ankle", "april", "blast", "braid", "bread", "brick", "brush", "clear", "cloth", 
-        "drain", "dregs", "dwarf", "empty", "enact", "envoy", "facts", "fairy", "faith", "farce", "farms", "gravy", 
-        "hares", "large", "laugh", "light", "lingo", "litre", "lives", "loads", "locks", "march", "marsh", "miles", 
-        "money", "nasty", "nurse", "pious", "query", "rages", "roads", "roast", "sable", "scone", "shock", "sight", 
-        "snout", "stand", "stick", "super", "swift", "table", "talks", "tango", "thick", "thing", "tiger", "timer", 
-        "toads", "tongs", "trash", "trick", "tuber", "tuner", "vegan", "yeast",  
+        "angel", "anger", "angry", "ankle", "april", "blast", "braid", "brain", "bread", "brick", "brush", "clear", 
+        "cloth", "drain", "dregs", "dwarf", "empty", "enact", "envoy", "facts", "fairy", "faith", "farce", "farms", 
+        "gravy", "hares", "large", "laugh", "light", "lingo", "litre", "lives", "loads", "locks", "march", "marsh", 
+        "miles", "money", "nasty", "nurse", "pious", "query", "rages", "roads", "roast", "sable", "scone", "shock", 
+        "sight", "snout", "stand", "stick", "super", "swift", "table", "talks", "tango", "thick", "thing", "tiger", 
+        "timer", "toads", "tongs", "trash", "trick", "tuber", "tuner", "vegan", "yeast",  
 
         // 6
         "abound", "around", "baster", "belfry", "bounty", "bricks", "bright", "bronze", "buster", "cables", 
