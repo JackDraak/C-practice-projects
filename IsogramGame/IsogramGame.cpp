@@ -138,9 +138,9 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 if (!bDisplayClues) { iClueMulti = 2; };
                 if (!bDisplayLetterbox) { iLetterMulti = 2; };
                 iMultiplier = iDifficultyFactor * iClueMulti * iLetterMulti;
-                std::cout << "\n(x): " << iMultiplier; // TODO wipe debug output
-                std::cout << ", IN: " << sGuess[iGuessLetter] << ", COMP: " << sIsogram[iIsogramLetter]; // TODO wipe debug output
-                std::cout << ", Letter: " << bLetterScore << ", Position: " << bPositionScore; // TODO wipe debug output
+//              std::cout << "\n(x): " << iMultiplier; // TODO wipe debug output
+//              std::cout << ", IN: " << sGuess[iGuessLetter] << ", COMP: " << sIsogram[iIsogramLetter]; // TODO wipe debug output
+//              std::cout << ", Letter: " << bLetterScore << ", Position: " << bPositionScore; // TODO wipe debug output
 
                 int iLetterScore = 0;
 
@@ -148,7 +148,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
                 bLetterScore = false;
                 bPositionScore = false;
-                std::cout << ", Score: " << iLetterScore << ", PhaseScore: " << iPhaseScore; // TODO wipe debug output
+//              std::cout << ", Score: " << iLetterScore << ", PhaseScore: " << iPhaseScore; // TODO wipe debug output
                 iPhaseScore = iPhaseScore + iLetterScore; // Update global phase-score variable with any applicable letter score.
             }
         }
@@ -213,7 +213,7 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         "butchery", "buxomest", "cogently", "crumpets", "emblazon", "exhaling", "exoplasm", "explains", 
         "exploits", "finagled", "frontage", "goldfish", "gumption", "handgrip", "hardiest", "hasteful", 
         "hospital", "imported", "informed", "jockular", "megalith", "megatons", "merciful", "minerals",
-        "monarchy", "pronated", "questing", "question", "rambling", "sculptor", "speaking",  "spectrum", 
+        "monarchy", "pronated", "questing", "question", "rambling", "sculptor", "speaking", "spectrum", 
         "thursday", 
 
         // 9
@@ -231,11 +231,11 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
         "subjectify", "sympathize",
 
         // 11
-        "abolishment", "atmospheric", "backgrounds", "backlighted", "birthplaces", "birthplaces", "bodysurfing", 
-        "cabinetwork", "countryside", "dangerously", "decryptions", "delusionary", "demographic", "designatory", 
-        "discernably", "documentary", "exculpatory", "factorylike", "flavourings", "francophile", "palindromes", 
-        "personality", "playgrounds", "precautions", "regulations", "speculation", "subcategory", "sympathizer",
-        "trampolines", "workmanship",
+        "abolishment", "atmospheric", "backgrounds", "backlighted", "birthplaces", "bodysurfing", "cabinetwork", 
+        "countryside", "dangerously", "decryptions", "delusionary", "demographic", "designatory", "discernably", 
+        "documentary", "exculpatory", "factorylike", "flavourings", "francophile", "palindromes", "personality", 
+        "playgrounds", "precautions", "regulations", "speculation", "subcategory", "sympathizer", "trampolines", 
+        "workmanship",
 
         // 12
         "counterplays", "demographics", "demonstrably", "descrambling", "discountable", "discrepantly", "exhaustingly", 
@@ -252,8 +252,8 @@ FString IsogramGame::sSelectIsogram(int iChallengeNum)
 
 
         // 14
-        "ambidextrously", "ambidextrously", "computerizably", "dermatoglyphic", "hydromagnetics", "hydropneumatic", 
-        "pseudomythical", "subformatively", "undiscoverably",
+        "ambidextrously", "computerizably", "dermatoglyphic", "hydromagnetics", "hydropneumatic", "pseudomythical", 
+        "subformatively", "undiscoverably",
 
         // 15 -- categories of one word are not very replayable.....  buuuut it's unlikely anyone will ever play this long, lol
         "uncopyrightable",
