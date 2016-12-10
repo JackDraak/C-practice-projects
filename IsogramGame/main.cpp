@@ -232,7 +232,8 @@ void PrintScoringHelp()
     std::cout << "\nand if you guess a correct letter in the proper position you get* +6 points.";
     std::cout << "\nYour score is cumulative from round-to-round. As your score increases, the";
     std::cout << "\nlonger the next challenge word may be.";
-    std::cout << "\n\n[*Normal score; Easy: 1 or 3 points, Hard: 3 or 9 points, respectively]";
+    std::cout << "\n\n   *Normal score; Easy: 1 or 3 points, Hard: 3 or 9 points, respectively.";
+    std::cout << "\n    (also, gain x2 for turning off clues or letterbox (x4 for both off)).";
     std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     return;
 }

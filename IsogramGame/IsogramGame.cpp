@@ -129,8 +129,14 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                     zAnalysis.iLetterMatches++;
                     zAnalysis.sLetterHint[iGuessLetter] = sGuess[iGuessLetter];
                 }
-                if (!bLetterScore && bPositionScore)         { iPhaseScore = iPhaseScore + (3 * zMode); }
-                else if (bLetterScore && !bPositionScore)    { iPhaseScore = iPhaseScore + (1 * zMode); }
+                // ----- Setup a score multiplier considering: difficulty, use of clues, use of letterbox ----- //
+                int32 iMultiplier = 1;
+                if (bDisplayClues) { iMultiplier++; };
+                if (bDisplayLetterbox) { iMultiplier++; };
+                iMultiplier += zMode; // add factor for difficulty setting
+
+                if (!bLetterScore && bPositionScore)         { iPhaseScore = iPhaseScore + (3 * iMultiplier); }
+                else if (bLetterScore && !bPositionScore)    { iPhaseScore = iPhaseScore + (1 * iMultiplier); }
             }
         }
     }
