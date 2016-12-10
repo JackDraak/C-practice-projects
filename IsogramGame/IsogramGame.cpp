@@ -133,17 +133,23 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 // ----- Setup a score multiplier considering: difficulty, use of clues, use of letterbox ----- //
                 int32 iClueMulti = 1;
                 int32 iLetterMulti = 1;
-                int32 iMultiplier;
+                int32 iMultiplier = 1;
 
-                if (bDisplayClues) { iClueMulti++; };
-                if (bDisplayLetterbox) { iLetterMulti++; };
+                if (!bDisplayClues) { iClueMulti = 2; };
+                if (!bDisplayLetterbox) { iLetterMulti = 2; };
                 iMultiplier = iDifficultyFactor * iClueMulti * iLetterMulti;
+                std::cout << "\nMultiplier: " << iMultiplier; // TODO wipe debug output
+                std::cout << ", Guess: " << sGuess[iGuessLetter] << ", Isogram: " << sIsogram[iIsogramLetter]; // TODO wipe debug output
+                std::cout << ", Letter: " << bLetterScore << ", Position: " << bPositionScore; // TODO wipe debug output
 
-                int iLetterScore =0;
+                int iLetterScore = 0;
 
                 if (!bLetterScore && bPositionScore)         { iLetterScore = 3 * iMultiplier; }
                 else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
-                iPhaseScore += iLetterScore; // Update global phase-score variable with any applicable letter scores.
+                bLetterScore = false;
+                bPositionScore = false;
+                std::cout << ", Score: " << iLetterScore << ", iPhaseScore: " << iPhaseScore; // TODO wipe debug output
+                iPhaseScore = iPhaseScore + iLetterScore; // Update global phase-score variable with any applicable letter score.
             }
         }
     }
