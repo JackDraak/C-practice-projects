@@ -101,13 +101,13 @@ bool bContinuePlaying()
         FString sResponce = "";
         int32 iMode = ActiveGame.iGetDifficulty();
 
-        // ----- Print 'options' fopr the user ----- // 
+        // ----- Output 'options' list for the user ----- // 
         std::cout << "\n\nPlease, choose one of the following: \n  (P)lay a round, \n  turn (C)lues ";
         if (ActiveGame.bDisplayClues) { std::cout << "off,"; } else { std::cout << "on,"; }
         std::cout << "\n  turn (L)etterbox ";
         if (ActiveGame.bDisplayLetterbox) { std::cout << "off,"; } else { std::cout << "on,"; }
         std::cout << "\n  (R)epeat intro, \n  show how to (S)core, \n  switch to "; 
-        if (iMode == 1)       { std::cout << "(N)ormal or \n  (H)ard difficulty,"; }
+        if      (iMode == 1)  { std::cout << "(N)ormal or \n  (H)ard difficulty,"; }
         else if (iMode == 2)  { std::cout << "(E)asy or \n  (H)ard difficulty,"; }
         else if (iMode == 3)  { std::cout << "(E)asy or \n  (N)ormal difficulty,"; }
         std::cout << "\n  or (Q)uit.....";

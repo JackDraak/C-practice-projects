@@ -58,7 +58,7 @@ int32 IsogramGame::iGetMaxGuesses() const
     if (iDifficultyFactor == 1) // Easy difficulty map.
     {
         std::map <int32, int32> mWordSizeToGuessCount{
-            { 2,10 },{ 3,9 },  { 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },{ 9,11 },
+            { 2,10 }, { 3,9 }, { 4,10 },{ 5,11 },{ 6,11 },{ 7,11 },{ 8,11 },{ 9,11 },
             { 10,10 },{ 11,9 },{ 12,8 },{ 13,7 },{ 14,6 },{ 15,5 },{ 16,4 },{ 17,4 }
     };
     iWordSize = mWordSizeToGuessCount[sGetIsogram().length()];
@@ -137,7 +137,6 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 if (!bDisplayLetterbox) { iLetterMulti = 2; };
                 iMultiplier = iDifficultyFactor * iClueMulti * iLetterMulti;
 
-
                 if (!bLetterScore && bPositionScore)         { iLetterScore = 3 * iMultiplier; }
                 else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
                 bLetterScore = false;
@@ -156,7 +155,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     return zAnalysis;
 }
 
-// Set and respond with next challenge-word; required argument INT indicates maximum word length (INT-1 = maxWL).
+// Set and respond with next challenge-word; required argument INT indicates maximum word length.
 FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
@@ -236,13 +235,11 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
         "packinghouse", "productively", "pyromagnetic", "questionably", "stenographic", "stickhandler", "subnormality", 
         "subvocalized", "thunderclaps", "unforgivable", "unprofitable", "upholstering",
 
-       
         // 13
         "chimneyboards", "consumptively", "copyrightable", "documentarily", "draughtswomen", "flamethrowing", 
         "flowchartings", "lycanthropies", "metalworkings", "misconjugated", "muckspreading", "multibranched", 
         "musicotherapy", "pneumogastric", "salpingectomy", "subordinately", "unmaledictory", "unpredictably", 
         "unproblematic", "unsympathized",
-
 
         // 14
         "ambidextrously", "computerizably", "dermatoglyphic", "hydromagnetics", "hydropneumatic", "pseudomythical", 
@@ -287,6 +284,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
     FString sSelection;
     int32 iSelection;
     int32 iSelectionLength;
+
     do {
         do {
             std::uniform_int_distribution<> zIndexDist(0, iNumberOfIsograms - 1);
@@ -294,7 +292,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
             sSelection = aDictionary[iSelection];
         } while (!bIsIsogram(sSelection));
         iSelectionLength = sSelection.length();
-    } while (iSelectionLength > iChallengeNum +1);
+    } while (iSelectionLength > iChallengeNum);
     return sSelection; // Break and watch here to cheat.
 }
 
@@ -312,6 +310,7 @@ bool IsogramGame::bIsIsogram(FString sTestString)
 FString IsogramGame::sStringToLower(FString sConvertString)
 {
     int32 iLength = sConvertString.length();
+
     for (int32 iPosition = 0; iPosition < iLength; iPosition++) 
         { sConvertString[iPosition] = tolower(sConvertString[iPosition]); }
     return sConvertString;
@@ -320,6 +319,7 @@ FString IsogramGame::sStringToLower(FString sConvertString)
 // ----- Letter-Box Methods ----- //
 
 FString LetterBox::sGetLetters() const      { return sBoxOfLetters; }
+
 void LetterBox::Reset()                     { sBoxOfLetters = ""; return; }
 
 void LetterBox::SubmitLetter(char cLetter)
@@ -327,9 +327,10 @@ void LetterBox::SubmitLetter(char cLetter)
     if (sBoxOfLetters == "") { sBoxOfLetters += cLetter; }
     else
     {
+        bool bNovelChar = false;
         int32 iBoxSize = sBoxOfLetters.length();
         int32 iLetterMatches = 0;
-        bool bNovelChar = false;
+
         for (int32 iSlot = 0; iSlot < iBoxSize; iSlot++) 
         {
             if (!(sBoxOfLetters[iSlot] == cLetter)) 
@@ -342,4 +343,3 @@ void LetterBox::SubmitLetter(char cLetter)
     std::sort(sBoxOfLetters.begin(), sBoxOfLetters.end());
     return;
 }
-
