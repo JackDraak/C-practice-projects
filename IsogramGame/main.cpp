@@ -34,7 +34,7 @@ int                 main();
 void                PlayGame();
 void                PrintIntro();
 void                PrintLetterBox(FString);
-void                PrintPhaseSummary();
+void                PrintRoundSummary();
 void                PrintScoringHelp();
 
 // Instantiate objects (ActiveGame & ActiveLetterBox) for manipulation.
@@ -90,10 +90,12 @@ void PlayGame()
             std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
     }
-    PrintPhaseSummary();
+    // Player has won or run out of turns; output summary of the round (and the game so far).
+    PrintRoundSummary();
     return;
 }
 
+// Ask the user if they wish to continue playing (and/or set any game options).
 bool bContinuePlaying()
 {
     bool bContinue = true;
@@ -118,17 +120,25 @@ bool bContinuePlaying()
                 { ActiveGame.bDisplayClues = !ActiveGame.bDisplayClues; std::cout << "\n<selection: toggle clues>"; }
         else if ((sResponce[0] == 'l') || (sResponce[0] == 'L')) 
                 { ActiveGame.bDisplayLetterbox = !ActiveGame.bDisplayLetterbox; std::cout << "\n<selection: toggle letterbox>"; }
-        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) { bContinue = false; std::cout << "\n<selection: quit>\n\n";  break; }
-        else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) { ActiveGame.Reset(); std::cout << "\n<selection: play a round>"; break; }
-        else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) { std::cout << "\n<selection: show introduction>\n\n"; PrintIntro(); }
-        else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) { std::cout << "\n<selection: show how to score>\n"; PrintScoringHelp(); }
-        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) { std::cout << "\n<selection: easy mode>"; ActiveGame.SetEasy(); }
-        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) { std::cout << "\n<selection: normal mode>"; ActiveGame.SetNormal(); }
-        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) { std::cout << "\n<selection: hard mode>"; ActiveGame.SetHard(); }
+        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) 
+                { bContinue = false; std::cout << "\n<selection: quit>\n\n";  break; }
+        else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) 
+                { ActiveGame.Reset(); std::cout << "\n<selection: play a round>"; break; }
+        else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) 
+                { std::cout << "\n<selection: show introduction>\n\n"; PrintIntro(); }
+        else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) 
+                { std::cout << "\n<selection: show how to score>\n"; PrintScoringHelp(); }
+        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) 
+                { std::cout << "\n<selection: easy mode>"; ActiveGame.SetEasy(); }
+        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) 
+                { std::cout << "\n<selection: normal mode>"; ActiveGame.SetNormal(); }
+        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) 
+                { std::cout << "\n<selection: hard mode>"; ActiveGame.SetHard(); }
     } while (true);
     if (bContinue) { return true; } else { return false; }
 }
 
+// Output a formatted "letterbox" to show the player which letters they've entered during the round.
 void PrintLetterBox(FString sUsedLetters) {
     int32 iBoxSize = sUsedLetters.length();
 
@@ -151,7 +161,8 @@ void PrintLetterBox(FString sUsedLetters) {
     return;
 }
 
-void PrintPhaseSummary() {
+// Output summary of the previous round and the game so far.
+void PrintRoundSummary() {
     std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
     if (ActiveGame.bIsGuessMatch()) { std::cout << "\nCongratulations! You guessed "; }
     else {
@@ -159,10 +170,12 @@ void PrintPhaseSummary() {
         ActiveGame.FudgeGuesses();
         std::cout << "\nBummer! You didn't guess ";
     }
+    // About this round....
     std::cout << "the secret isogram : " << ActiveGame.sGetIsogram() << ".\nIt took you ";
     std::cout << ActiveGame.iGetCurrentGuessNum();
     std::cout << " guesses. You earned " << ActiveGame.iGetPhaseScore() << " points.";
     ActiveGame.Tally();
+    // ...and the game so far.
     std::cout << "\nTotal score: " << ActiveGame.iGetRunningScore() << " points. (win/loss: ";
     std::cout << ActiveGame.iGetWinCount() << "/" << ActiveGame.iGetLossCount() << ", total guesses: ";
     std::cout << ActiveGame.iGetRunningGuesses() << ")";
@@ -170,6 +183,7 @@ void PrintPhaseSummary() {
     return;
 }
 
+// Ask the player for a submission, and retry up until it's validated for return. 
 FString sGetValidGuess()
 {
     eGuessValidation zStatus = eGuessValidation::Invalid_Status;
@@ -177,11 +191,13 @@ FString sGetValidGuess()
     int32 iWordLen = ActiveGame.iGetIsogramLength();
 
     do {
+        // Submit a guess...
         std::cout << "\n\nCan you guess the " << iWordLen << " letter isogram that has been randomly pre-selected?";
         std::cout << "\nPlease, enter your guess (" << ActiveGame.iGetCurrentGuessNum();
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
 
+        // Validate the guess and return it, or output why it's invalid.
         zStatus = eValidateGuess(sGuess);
         switch (zStatus)
         {
@@ -211,6 +227,7 @@ FString sGetValidGuess()
     return sGuess;
 }
 
+// Output game introduction.
 void PrintIntro()
 {
     std::cout << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
@@ -226,6 +243,7 @@ void PrintIntro()
     return;
 }
 
+// Output help on the scoring algorithm.
 void PrintScoringHelp()
 {
     std::cout << "\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
@@ -240,6 +258,7 @@ void PrintScoringHelp()
     return;
 }
 
+// Return validation 'certificate' most approriate for the string argument.
 eGuessValidation eValidateGuess(FString sGuess)
 {
     int32 iGuessLength = sGuess.length();
@@ -252,6 +271,7 @@ eGuessValidation eValidateGuess(FString sGuess)
     else                                              return eGuessValidation::Okay; 
 }
 
+// Boolean test for string argument: false when string contains non-alpha characters.
 bool bIsAlpha(FString sTestString)
 {
     int32 iLength = sTestString.length();

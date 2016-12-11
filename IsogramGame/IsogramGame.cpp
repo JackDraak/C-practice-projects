@@ -50,7 +50,7 @@ void IsogramGame::Tally()
     return;
 }
 
-// Respond with # of guesses based on length of challenge word (& difficulty setting).
+// Respond with # of guesses allowed based on length of challenge word (& difficulty setting).
 int32 IsogramGame::iGetMaxGuesses() const
 {
     int32 iWordSize;
@@ -111,11 +111,13 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
     zAnalysis.sPositionHint = FString(iIsogramLength, '-');
     zAnalysis.sLetterHint = zAnalysis.sPositionHint;
     
+    // Compare guess against challenege word, letter for letter & position for position.
     for (int32 iGuessLetter = 0; iGuessLetter < iIsogramLength; iGuessLetter++) {
         for (int32 iIsogramLetter = 0; iIsogramLetter < iIsogramLength; iIsogramLetter++) {
             if (sGuess[iGuessLetter] == sIsogram[iIsogramLetter]) {
                 bool bLetterScore = false;
                 bool bPositionScore = false;
+
                 if (iGuessLetter == iIsogramLetter) 
                 {
                     bPositionScore = true;
@@ -141,7 +143,8 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                 else if (bLetterScore && !bPositionScore)    { iLetterScore = 1 * iMultiplier; }
                 bLetterScore = false;
                 bPositionScore = false;
-                iPhaseScore = iPhaseScore + iLetterScore; // Update global phase-score variable with any applicable letter score.
+                // Update global phase-score variable with any applicable letter score.
+                iPhaseScore = iPhaseScore + iLetterScore; 
             }
         }
     }
@@ -159,6 +162,8 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
 FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
+
+    // ----- Dictionary of isogram challenge words ----- //
     std::vector<FString> aDictionary = {
         // 2
         "as", "am", "an", "at", "be", "do", "go", "he", "id", "is", "it", "me", "no", "on", "so", "to", "we",
@@ -267,6 +272,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
             if (!bIsIsogram(sTestString))
             {
                 bValidDictionary = false;
+                // Output list of any invalidated words detected, or silently proceed.
                 if (bReportingMode)
                 {
                     std::cout << "E R R O R . V A L I D A T I N G -" << iNumberOfIsograms << "- W O R D S\n";
@@ -281,6 +287,14 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
             std::cout << "\nWARNING: Any words listed above will be ignored as unplayable.\n\n";
         }
     }
+
+    // ----- High quality entropy required, because this loop can get hammered. ----- //
+    /*       NOTE: use of Random will give the same result for a full second, 
+             no matter how many times it is queried (if the word selected is the 
+             wrong size, it re-queries until satisfied, so it's a bit thrashy to 
+             continue supplying it with the same number...) This is why we need 
+             an Entropy that can give us a new number every time we query it, 
+             even if we only asked it for a number a millisecond ago.                */
     FString sSelection;
     int32 iSelection;
     int32 iSelectionLength;
@@ -293,9 +307,10 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
         } while (!bIsIsogram(sSelection));
         iSelectionLength = sSelection.length();
     } while (iSelectionLength > iChallengeNum);
-    return sSelection; // Break and watch here to cheat.
+    return sSelection; // Break and watch this variable to cheat,^H^H^H^H^H^H^H^H^Herr for play-testing.
 }
 
+// Boolean test if string argument is an isogram.
 bool IsogramGame::bIsIsogram(FString sTestString)
 {
     sTestString = sStringToLower(sTestString);
@@ -307,6 +322,7 @@ bool IsogramGame::bIsIsogram(FString sTestString)
     } return true;
 }
 
+// Convert string argument to lower-case.
 FString IsogramGame::sStringToLower(FString sConvertString)
 {
     int32 iLength = sConvertString.length();
@@ -318,10 +334,13 @@ FString IsogramGame::sStringToLower(FString sConvertString)
 
 // ----- Letter-Box Methods ----- //
 
+// Return a string of any letters stored in the letterbox.
 FString LetterBox::sGetLetters() const      { return sBoxOfLetters; }
 
+// Reset (i.e.: empty) the letterbox contents.
 void LetterBox::Reset()                     { sBoxOfLetters = ""; return; }
 
+// Ensure that the character argument is in the letterbox. 
 void LetterBox::SubmitLetter(char cLetter)
 {
     if (sBoxOfLetters == "") { sBoxOfLetters += cLetter; }

@@ -15,6 +15,14 @@ Present content includes:
     - future features may include:
     // TODO think of some new features to program, i.e. scoreboard (total # of guesses & points with names? on cloud?)
  
+   - Feebback sought:
+     - Anything at all, really... 
+     - Think a word is too obscure for the game?
+     - Think you have a good word to add?
+     - Feel "Easy" is too hard, or "Hard" is too easy....
+     - Too many / too few guesses allowed for N-length words....
+     - What doesn't make sense?
+
 ###The Details
 Thanks to Ben Tristem (and Udemy.com) for opening some doors for me with the high quality coursework which is the basis for this work.
 

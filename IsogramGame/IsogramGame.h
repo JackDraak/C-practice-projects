@@ -10,6 +10,7 @@
 using FString = std::string;
 using int32 = int;
 
+// Detailed analysis comparing player guess vs. challenge word.
 struct Analysis
 {
     FString     sLetterHint = "";
@@ -37,7 +38,6 @@ public:
     int32   iGetRunningScore()      const;
     int32   iGetWinCount()          const;
     int32   iGetDifficulty()        const;
-    void    ValidateDictionary()    const;
 
     Analysis    AnalyzeGuess(FString);
     bool        bDisplayLetterbox;
