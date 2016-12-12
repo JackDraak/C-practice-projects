@@ -129,7 +129,7 @@ Analysis IsogramGame::AnalyzeGuess(FString sGuess)
                     zAnalysis.iLetterMatches++;
                     zAnalysis.sLetterHint[iGuessLetter] = sGuess[iGuessLetter];
                 }
-                // ----- Setup a score multiplier considering: difficulty, use of clues, use of letterbox ----- //
+                // Setup a score multiplier considering: difficulty, use of clues, use of letterbox/
                 int32 iClueMulti = 1;
                 int32 iLetterMulti = 1;
                 int32 iLetterScore = 0;
@@ -163,7 +163,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
 {
     if (iChallengeNum < 3) { iChallengeNum = 3; }
 
-    // ----- Dictionary of isogram challenge words ----- //
+    // Dictionary of isogram challenge words
     std::vector<FString> aDictionary = {
         // 2
         "as", "am", "an", "at", "be", "do", "go", "he", "id", "is", "it", "me", "no", "on", "so", "to", "we",
@@ -250,7 +250,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
         "ambidextrously", "computerizably", "dermatoglyphic", "hydromagnetics", "hydropneumatic", "pseudomythical", 
         "subformatively", "undiscoverably",
 
-        // 15 -- categories of one word are not very replayable.....  buuuut it's unlikely anyone will ever play this long, lol
+        // 15 -- categories of one word are not very replayable.....  buuuut it's unlikely anyone will ever play this long....
         "uncopyrightable",
 
         // 17
@@ -258,7 +258,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
     };
     int32 iNumberOfIsograms = size(aDictionary);
 
-    // ----- Validate dictionary ONCE ONLY ----- //
+    // Validate dictionary -- ONCE ONLY --
     if (!bValidated && !bValidDictionary)
     {
         bool bReportingMode = true;
@@ -288,8 +288,9 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
         }
     }
 
-    // ----- High quality entropy required, because this loop can get hammered. ----- //
-    /*       NOTE: use of Random will give the same result for a full second, 
+    // Select the challenge word raondomly
+    /*       High quality entropy required, because this loop can get hammered.
+             NOTE: use of Random will give the same result for a full second, 
              no matter how many times it is queried (if the word selected is the 
              wrong size, it re-queries until satisfied, so it's a bit thrashy to 
              continue supplying it with the same number...) This is why we need 

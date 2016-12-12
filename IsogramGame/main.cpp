@@ -10,10 +10,10 @@ utilizes 'IsogramGame.cpp' for game logic operations.
 Built with VisualStudio 2015, ostensibly for Windows, but it should be easy to port,
 assuming anyone would desire to do so.
 */
-
 #pragma once
 #include "IsogramGame.h"
 
+// Certificate for the validation of player submissions.
 enum class eGuessValidation
 {
     Invalid_Status,
@@ -24,8 +24,7 @@ enum class eGuessValidation
     Okay
 };
 
-// ----- Function prototypes ----- //
-
+// Function prototypes.
 bool                bContinuePlaying();
 bool                bIsAlpha(FString);
 eGuessValidation    eValidateGuess(FString);
@@ -41,8 +40,7 @@ void                PrintScoringHelp();
 IsogramGame     ActiveGame;
 LetterBox       ActiveLetterBox;
 
-// ----- Method implementations ----- //
-
+// The main loop.
 int main()
 {
     PrintIntro();
@@ -50,29 +48,29 @@ int main()
     return 0;
 }
 
+// Execute one complete game loop (round).
 void PlayGame()
 {
-    // ----- Setup for a new game or phase ----- //
     ActiveLetterBox.Reset();
     FString sGuess = "";
     int32 iMaxGuesses = ActiveGame.iGetMaxGuesses();
 
     for (int32 iGuessNum = 1; iGuessNum <= iMaxGuesses; iGuessNum++)
     {
-        // ----- Get a validated guess from the user ----- //
+        // Get player input.
         sGuess = sGetValidGuess(); 
         sGuess = ActiveGame.sStringToLower(sGuess);
         int32 iGuessLength = sGuess.length();
 
-        // ----- Update Letterbox ----- //
+        // Update the "letterbox" (store of played characters).
         for (int32 iIndex = 0; iIndex < iGuessLength; iIndex++ ) { ActiveLetterBox.SubmitLetter(sGuess[iIndex]); }
 
-        // ----- Process a turn ----- //
+        // Compare player input against challenge word.
         Analysis zAnalysis = ActiveGame.AnalyzeGuess(sGuess);
         if (ActiveGame.bIsGuessMatch()) { break; } // skip outputting turn results if the guess matches
         ActiveGame.IncrementGuess(); // this is why FudgeGuesses() is needed, it goes one too high in a lost-phase scenario
 
-        // ----- Output turn results ----- //
+        // Output turn results.
         if (ActiveGame.bDisplayLetterbox) 
         {
             PrintLetterBox(ActiveLetterBox.sGetLetters()); 
@@ -90,7 +88,7 @@ void PlayGame()
             std::cout << "       [hint: '" << zAnalysis.sPositionHint << "']";
         }
     }
-    // Player has won or run out of turns; output summary of the round (and the game so far).
+    // Player has matched the challenge word, or run out of turns; output summary of the round (and the game so far).
     PrintRoundSummary();
     return;
 }
@@ -103,7 +101,7 @@ bool bContinuePlaying()
         FString sResponce = "";
         int32 iMode = ActiveGame.iGetDifficulty();
 
-        // ----- Output 'options' list for the user ----- // 
+        // Output 'options' list for the user.
         std::cout << "\n\nPlease, choose one of the following: \n  (P)lay a round, \n  turn (C)lues ";
         if (ActiveGame.bDisplayClues) { std::cout << "off,"; } else { std::cout << "on,"; }
         std::cout << "\n  turn (L)etterbox ";
@@ -115,7 +113,7 @@ bool bContinuePlaying()
         std::cout << "\n  or (Q)uit.....";
         getline(std::cin, sResponce);
 
-        // ----- Process user input ----- //
+        // Process user input.
         if      ((sResponce[0] == 'c') || (sResponce[0] == 'C')) 
                 { ActiveGame.bDisplayClues = !ActiveGame.bDisplayClues; std::cout << "\n<selection: toggle clues>"; }
         else if ((sResponce[0] == 'l') || (sResponce[0] == 'L')) 
@@ -138,7 +136,7 @@ bool bContinuePlaying()
     if (bContinue) { return true; } else { return false; }
 }
 
-// Output a formatted "letterbox" to show the player which letters they've entered during the round.
+// Output a formatted "letterbox" to show the player which letters they've entered during the current round.
 void PrintLetterBox(FString sUsedLetters) {
     int32 iBoxSize = sUsedLetters.length();
 
@@ -197,7 +195,7 @@ FString sGetValidGuess()
         std::cout << " of " << ActiveGame.iGetMaxGuesses() << ") now: ";
         getline(std::cin, sGuess);
 
-        // Validate the guess and return it, or output why it's invalid.
+        // Validate the guess and return it, or output why it's invalid (and retry).
         zStatus = eValidateGuess(sGuess);
         switch (zStatus)
         {
@@ -212,11 +210,11 @@ FString sGetValidGuess()
             break;
         case eGuessValidation::Too_Long:
             std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too long. (" << sGuess.length() << " letters)";
-            std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
+            std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << "-letter word.";
             break;
         case eGuessValidation::Too_Short:
             std::cout << "\nERROR: Your guess, \"" << sGuess << "\" is too short. (" << sGuess.length() << " letters)";
-            std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << " - letter word.";
+            std::cout << "\nPlease use a " << ActiveGame.iGetIsogramLength() << "-letter word.";
             break;
         case eGuessValidation::Okay:
             break;
