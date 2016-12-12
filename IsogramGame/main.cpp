@@ -116,22 +116,22 @@ bool bContinuePlaying()
         // Process user input.
         if      ((sResponce[0] == 'c') || (sResponce[0] == 'C')) 
                 { ActiveGame.bDisplayClues = !ActiveGame.bDisplayClues; std::cout << "\n<selection: toggle clues>"; }
+        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) 
+                { std::cout << "\n<selection: easy mode>"; ActiveGame.SetEasy(); }
+        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) 
+                { std::cout << "\n<selection: hard mode>"; ActiveGame.SetHard(); }
         else if ((sResponce[0] == 'l') || (sResponce[0] == 'L')) 
                 { ActiveGame.bDisplayLetterbox = !ActiveGame.bDisplayLetterbox; std::cout << "\n<selection: toggle letterbox>"; }
-        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) 
-                { bContinue = false; std::cout << "\n<selection: quit>\n\n";  break; }
+        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) 
+                { std::cout << "\n<selection: normal mode>"; ActiveGame.SetNormal(); }
         else if ((sResponce[0] == 'p') || (sResponce[0] == 'P')) 
                 { ActiveGame.Reset(); std::cout << "\n<selection: play a round>"; break; }
+        else if ((sResponce[0] == 'q') || (sResponce[0] == 'Q')) 
+                { bContinue = false; std::cout << "\n<selection: quit>\n\n";  break; }
         else if ((sResponce[0] == 'r') || (sResponce[0] == 'R')) 
                 { std::cout << "\n<selection: show introduction>\n\n"; PrintIntro(); }
         else if ((sResponce[0] == 's') || (sResponce[0] == 'S')) 
                 { std::cout << "\n<selection: show how to score>\n"; PrintScoringHelp(); }
-        else if ((sResponce[0] == 'e') || (sResponce[0] == 'E')) 
-                { std::cout << "\n<selection: easy mode>"; ActiveGame.SetEasy(); }
-        else if ((sResponce[0] == 'n') || (sResponce[0] == 'N')) 
-                { std::cout << "\n<selection: normal mode>"; ActiveGame.SetNormal(); }
-        else if ((sResponce[0] == 'h') || (sResponce[0] == 'H')) 
-                { std::cout << "\n<selection: hard mode>"; ActiveGame.SetHard(); }
     } while (true);
     if (bContinue) { return true; } else { return false; }
 }
