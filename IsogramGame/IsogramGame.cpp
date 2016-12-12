@@ -288,7 +288,7 @@ FString IsogramGame::sSelectIsogram(int32 iChallengeNum)
         }
     }
 
-    // Select the challenge word raondomly
+    // Select the challenge word randomly.
     /*       High quality entropy required, because this loop can get hammered.
              NOTE: use of Random will give the same result for a full second, 
              no matter how many times it is queried (if the word selected is the 
